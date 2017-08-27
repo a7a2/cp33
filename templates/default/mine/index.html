@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <link rel="stylesheet" href="/wap/statics/css/jquery-ui.min.css?ver=4.7" type="text/css">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=4.7" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=4.7"></script>
+
+    <script src="/wap/statics/js/jquery-ui.min.js?ver=4.7"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=4.7"></script>
+	<script src="/wap/statics/js/iris-ws.js" type="text/javascript"></script>
+    <script>
+        isLogin = true;
+    </script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+    </script>
+    <!-- hide address bar -->
+    <title>个人中心</title>
+</head>
+<body class="login-bg" onload='loaded()'>
+<div class="header">
+    <div class="headerTop">
+        <div class="ui-toolbar-left">
+            <button id="reveal-left">reveal</button>
+        </div>
+        <h1 class="ui-toolbar-title">个人中心</h1>
+        <div class=" header-icon">
+            <a class="header-logout" href="javascript:;" id="indexlog_out"></a>
+        </div>
+    </div>
+</div>
+<div id="wrapper_1" class="scorllmain-content nobottom_bar">
+    <div class="sub_ScorllCont">
+        <div class="mine-top">
+            <div class="mine-head">
+                <div class="mine-img"><img src="/wap/statics/images/message/geren_tou.png" alt=""></div>
+                <div class="mine-name"><span id="username"></span></div>
+                
+            </div>
+            <div class="mine-info">
+                <ul>
+                    <li>
+                        <div class="mine-tit">￥<span id="balance"></span></div>
+                        <p><a href="/mine/accountDetail.html">余额</a></p>
+                    </li>
+                  
+                    <li>
+                        <a class="mine-refresh1" href="javascript:;">刷新金额</a>
+                    </li>
+                    <!--<li>
+                        <div class="mine-tit">￥<span id="wintotal">0</span></div>
+                        <p><a href="/mine/betList.html?onlyWin=1">最近中奖金额</a></p>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+
+                    <div class="mine-but">
+                <a href="/deposit/index.html" class="recharge"><img src="/wap/statics/images/message/geren_cz_01.png"></a>
+                <a href="javascript:setUnReadTimer('/mine/withdraw.html');" class="withdraw"><img src="/wap/statics/images/message/geren_tixian_01.png" alt=""></a>
+            </div>
+        
+        <div class="mine-list">
+            <ul>
+                <!--<li>
+                    <a href="/luckymoney/myList.html">
+                        <img src="/images/message/geren_tubiao_58.png" alt="">我的红包
+                    </a>
+                </li>-->
+                <li>
+                    <a href="/mine/betList.html">
+                        <img src="/wap/statics/images/message/geren_tubiao_13.png" alt="">投注记录
+                    </a>
+                </li>
+                <li>
+                    <a href="/mine/betList.html?onlyWin=1">
+                        <img src="/wap/statics/images/message/geren_tubiao_24.png" alt="">中奖记录
+                    </a>
+                </li>
+                <li>
+                    <a href="/mine/accountDetail.html">
+                        <img src="/wap/statics/images/message/geren_tubiao_26.png" alt="">账户明细
+                    </a>
+                </li>
+                <li>
+                    <a href="/mine/depositList.html">
+                        <img src="/wap/statics/images/message/geren_tubiao_04.png" alt="">充值记录
+                    </a>
+                </li>
+                <li>
+                    <a href="/mine/withdrawals.html">
+                        <img src="/wap/statics/images/message/geren_tubiao_13.png" alt="">提款记录
+                    </a>
+                </li>
+                                <li>
+                    <a onclick="gotoMsgList(this)" data-url="/mine/message.html">
+                        <img src="/wap/statics/images/message/geren_tubiao_06.png" alt="">个人消息<span id="count_unread"></span> <i class="red-icon" id="flag_unread" style="display:none;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mine/set.html">
+                        <img src="/wap/statics/images/message/geren_tubiao_30.png" alt="">更多
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="menu" id="fixnav">
+    <ul>
+        <li><a class="menu-home" href="javascript:goUrl('/')"><img src="/wap/statics/homeStyle2/images/index-img/nav_1.png"></a></li>
+        <li><a class="menu-color" href="javascript:goUrl('/lobby/index.html')"><img src="/wap/statics/homeStyle2/images/index-img/nav_2.png"></a></li>
+        <li><a class="menu-lot" href="javascript:goUrl('/draw/index.html')"><img src="/wap/statics/homeStyle2/images/index-img/nav_3.png"></a></li>
+        <li><a class="menu-news" href="javascript:goUrl('/trend/index.html')"><img src="/wap/statics/homeStyle2/images/index-img/nav_4.png"></a></li>
+        <li><a class="menu-my" href="javascript:goUrl('/mine/index.html')"><img src="/wap/statics/homeStyle2/images/index-img/nav_05.png"></a></li>
+    </ul>
+</div>
+<input type="hidden" id="refresh_unread" value="0"/>
+
+
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+<div class="beet-odds-tips round" id="confirm_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="confirm_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que btn-que-no" onclick="confirmCancel()"><span id="confirm_pop_cancel">取消</span></button>
+        <button class="btn-que" style="width: 50%;" onclick="confirmOk()"><span id="confirm_pop_ok">确定</span></button>
+    </div>
+</div>
+
+<div id="confirm_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var confirmFunc;
+    function confirmOk() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(confirmFunc) == "function"){
+            confirmFunc();
+            confirmFunc = "";
+        }else{
+            if (typeof(doConfirmOk) == "function") {
+                doConfirmOk();
+            }
+        }
+    }
+    function confirmCancel() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(doConfirmCancel) == "function") {
+            doConfirmCancel();
+        }
+    }
+    function msgConfirm (msg,funcParm,textConfirm,textCancel) {
+        textConfirm = (textConfirm == undefined) ? '' : textConfirm;
+        textCancel = (textCancel == undefined) ? '' : textCancel;
+        if (textConfirm != '') {
+            $('span#confirm_pop_ok').text(textConfirm);
+        }
+        if (textCancel != '') {
+            $('span#confirm_pop_cancel').text(textCancel);
+        }
+        $('div#confirm_pop_content').text(msg);
+        $('div#confirm_pop_cancel').html(textCancel);
+        $('div#confirm_pop').show();
+        $('div#confirm_bg').show();
+        confirmFunc = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+</body>
+</html>
+
+<script>
+
+//$('span#username').text(username); 
+	$(function () {
+	w = new Ws("ws://" + host + "/my_endpoint");
+	w.OnConnect(function () {
+		w.Emit("validate", uvData);
+		//console.log("Websocket connection established");
+	});
+
+	w.OnDisconnect(function () {
+		setTimeout(function(){top.document.location.reload();},5000);  
+	});
+
+	w.On("validate", function (message) {
+		if (message=="ok"){
+			$('span#username').text(username); 
+			w.Emit("balance","get");
+		}else{
+			w.Emit("balance","get");
+			//location.href = '/index/login.html?platform='+platform;
+		}
+	});
+	
+	w.On("balance", function (message) {
+		console.log(message);
+		$('span#balance').text(message);
+	});
+})
+    $('#indexlog_out').click(function() {
+        msgConfirm("您确定退出登录么？");
+    });
+	
+    function doConfirmOk() {
+		w.Emit("logout","Why is evenything so wrong!");
+		location.href = '/index/login.html?platform='+platform;
+	}
+
+    $('a.mine-refresh1').click(function() {
+		//$('span#balance').text("0");
+		w.Emit("balance","get");
+    });
+
+    $("div.mine-img").click(function() {
+        location.href = "/mine/set.html?platform="+platform+"&username="+username+"&enClientPassWd"+enclientpasswd;
+    });
+	
+	
+	function goUrl(str) {
+        location.href = str+"?"+uvData;
+    }
+	
+    //未读消息数量
+    function getUnReadCount() {
+        $.ajax({
+            url: '/mine/ajaxUnReadCount.html',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+            },
+            timeout: 30000,
+            success: function (data) {
+                if (data.Result == false) {
+                    msgAlert(data.Desc);
+                    reLogin(data.Desc);
+                    return;
+                }
+                if (data.Result && data.iUnReadCount > 0) {
+                    $('span#count_unread').text('('+data.iUnReadCount+')');
+                    $('i#flag_unread').show();
+                } else {
+                    $('span#count_unread').text('');
+                    $('i#flag_unread').hide();
+                }
+            }
+        });
+    }
+</script>
+
+<script>
+    function gotoMsgList(obj) {
+        //启动定时器
+        var unReadCount = $('span#count_unread').text();
+        if ($('span#count_unread').text().trim() != '') {//有未读
+            $('#refresh_unread').val(1);//需要刷新未读信息数量
+            setUnReadTimer($(obj).data('url'));
+        } else {
+            location.href = $(obj).data('url');
+        }
+    }
+</script>
+
+<script>
+    var timernounread = '';
+    function setUnReadTimer(url) {
+        clearInterval(timernounread);//删除定时器
+        localTimeUnread = 0;
+        tmpLocalTime = new Date().getTime() + 0;//本机毫秒数
+        timernounread = window.setInterval(function () {
+            tmpLocalTime = new Date().getTime() + 0;//本机毫秒数
+            if ((tmpLocalTime-localTimeUnread) > 500) {//倒计时已不准确，重新获取倒计时
+                clearInterval(timernounread);//删除定时器
+                getCurBalance();
+                getWinAmount();
+                if ($('#refresh_unread').val() == 1) {
+                    getUnReadCount();
+                    $('#refresh_unread').val(0);
+                }
+            }
+            localTimeUnread = tmpLocalTime;
+        }, 300);
+        location.href = url;//跳转前，启动了定时器
+    }
+
+	
+//window.setInterval(checkmine, 7000);
+// function checkmine() {
+//		w.send("setAll");
+//	}
+</script>
+

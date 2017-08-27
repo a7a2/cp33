@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta name=format-detection content="telphone=no"/>
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=4.7" type="text/css">
+    <link rel="stylesheet" href="/wap/statics/homeStyle2/css/index.css?ver=4.7" type="text/css">
+    <style>
+        body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-scrolling:touch;}/*解决苹果滚动条卡顿的问题*/
+        #wrapper_1{overflow-y:visible!important;}
+        .lott-menu{position:fixed;top:44px;left:0;margin-top:0!important;}
+    </style>
+    <style>
+        .gray {
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+            filter: gray;
+        }
+    </style>
+    <style>
+        span.timer {
+            display: block;
+        }
+        span.maint {
+            display: none;
+        }
+                .game_23 {
+            display: none;
+        }
+                .game_10 img,.game_17 img,.game_23 img {
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+            filter: gray;
+        }
+        .game_10 span.timer,.game_17 span.timer,.game_23 span.timer {
+            display: none;
+        }
+        .game_10 span.maint,.game_17 span.maint,.game_23 span.maint {
+            display: block;
+        }
+    </style>
+    <script>
+        gameStopCls = '.game_23';
+        gameMaintCls = '.game_10 img,.game_17 img,.game_23 img';
+        nowIds = ',1,3,4,5,7,9,12,15,18,41,42,51,52,';
+    </script>
+    <script src="/wap/statics/js/jquery.min.js?ver=4.7"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=4.7"></script>
+    <script src="/wap/statics/js/lobby.js?ver=4.7"></script>
+    <script src="/wap/statics/js/index.js?ver=4.7"></script>
+
+    <script>
+        //document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); //uc浏览器滑动
+        function loaded(){}//空实现
+        firstPage = 1;
+    </script>
+    <script>
+        $(function(){
+            setTimeout(function()
+            {
+                try{
+                    var l = $("body>.header").height();
+                    if($("body>.lott-menu").length>0)
+                    {
+                        l += $("body>.lott-menu").height();
+                    }
+                    $("#wrapper_1").css("paddingTop",l+"px");
+                }catch(e){}
+                try{
+                    if($("body>.menu").length>0)
+                    {
+                        var l = $("body>.menu").height();
+                    }
+                    $("#wrapper_1").css("paddingBottom",l+"px");
+                }catch(e){}
+            },500);
+        });
+    </script>
+    <title>首页</title>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="headerTop header-logo">
+        <div class="ui-toolbar-left" id="ui-toolbar-left">
+              	<a class="login" href="/index/login.html"></a>
+        </div>
+        <div class="ui-betting-title  header-center">
+               	<div class="header-title" style="background: url(/wap/statics/images/cacheLogo/logo_top_cai33.png); no-repeat; background-size:70px 20px; width: 70px; height: 20px; ">
+               	<span class="header-tit"></span>
+            	</div>
+        </div>
+        <div class="header-icon">
+                <a class="header-head" id="header-head" href="/index/register.html"></a>
+        </div>
+  	</div>
+</div>
+
+<div id="wrapper_1" class="scorllmain-content nobottom_bar" >
+    <div class="sub_ScorllCont">
+        <div class="header-banner" style="height: 123px; overflow: hidden; ">
+                                                        <img class="banner" style="width: 100%; display: block;" src="/wap/statics/promo/a.jpg">
+                                                        <img class="banner" style="width: 100%; display: none;" src="/wap/statics/promo/b.jpg">
+                                                        <img class="banner" style="width: 100%; display: none;" src="/wap/statics/promo/c.jpg">
+                                                        <img class="banner" style="width: 100%; display: none;" src="/wap/statics/promo/d.jpg">
+                                                        <img class="banner" style="width: 100%; display: none;" src="/wap/statics/promo/e.jpg">
+                                                        <img class="banner" style="width: 100%; display: none;" src="/wap/statics/promo/f.jpg">
+                                            </div>
+        <div class="bulletin" onclick="location.href='/help/notice.html'">
+            <i class="bull-ila"></i>
+            <marquee behavior="scroll"><span id="horse"></span></marquee>
+            <!--<div class="bull-text" id="horse">欢迎您的加入。</div>-->
+            <i class="bull-arrow"></i>
+        </div>
+        <div class="index-menu">
+            <ul>
+                <li><a href="/mine/index.html"><img src="/wap/statics/homeStyle2/images/index-img/index_zoushi.png"></a></li>
+                <li><a href="/mine/betList.html"><img src="/wap/statics/homeStyle2/images/index-img/index_goucai.png"></a></li>
+                <li><a href="/help/promotion.html"><img src="/wap/statics/homeStyle2/images/index-img/index_youhui.png"></a></li>
+                <li><a href="http://www.cp33kf.com/" target="_blank"><img src="/wap/statics/homeStyle2/images/index-img/index_kefu.png"></a></li>
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+        <div class="null-top "></div>
+        <div class="hot-new-tit"><span class="hot-tit-img"></span><a class="hot-tit-text" href="javascript:;"/>热门彩种</a></span></div>
+        <div class="host-list-erect">
+            <ul>
+                                <!--<li class="game_category_2 game_1001">
+                    <a href="javascript:goUrl(1001)">
+                        <div class="hot-icon new-list-img">
+                            <img src="/wap/statics/images/icon/1001.png">
+                        </div>
+                        <div class="hot-list-text border-right" data-gid="1001">
+                            <p class="hot-text list-text">新春抢红包</p>
+                            <span class="list-text-2 maint">正在维护中...</span>
+                            <span class="time_show_1_1001 timer list-text-2" data-gid="1001">2017开门红</span>
+                        </div>
+                    </a>
+                </li>-->
+                <li class="game_category_2 game_51">
+                    <a href="javascript:goUrl(51)">
+                        <div class="hot-icon new-list-img">
+                            <img src="/wap/statics/images/icon/51.png">
+                        </div>
+                        <div class="hot-list-text border-right" data-gid="51">
+                            <p class="hot-text list-text">三分时时彩</p>
+                            <span class="list-text-2 maint">正在维护中...</span>
+                            <span class="time_show_1_51 timer list-text-2" data-gid="51">00:00:00</span>
+                        </div>
+                    </a>
+                 </li>
+                 <li class="game_category_2 game_5">
+                    <a href="javascript:goUrl(5)">
+                        <div class="hot-icon new-list-img">
+                            <img src="/wap/statics/images/icon/5.png">
+                        </div>
+                        <div class="hot-list-text " data-gid="5">
+                             <p class="hot-text list-text">重庆时时彩</p>
+                            <span class="list-text-2 maint">正在维护中...</span>
+                             <span class="time_show_1_5 timer list-text-2" data-gid="1">00:00:00</span>
+                        </div>
+                    </a>
+                 </li>
+                 <li class="game_category_2 game_9">
+                       <a href="javascript:goUrl(9)">
+                           <div class="hot-icon new-list-img">
+                               <img src="/wap/statics/images/icon/9.png">
+                           </div>
+                           <div class="hot-list-text border-right" data-gid="9">
+                               <p class="hot-text list-text">北京PK拾</p>
+                               <span class="list-text-2 maint">正在维护中...</span>
+                               <span class="time_show_1_9 timer list-text-2" data-gid="1">00:00:00</span>
+                           </div>
+                       </a>
+                 </li>
+                 <li class="game_category_2 game_42">
+                        <a href="javascript:goUrl(42)">
+                            <div class="hot-icon new-list-img">
+                                <img src="/wap/statics/images/icon/pcdd.png">
+                            </div>
+                            <div class="hot-list-text  " data-gid="42">
+                                <p class="hot-text list-text">PC蛋蛋</p>
+                                <span class="list-text-2 maint">正在维护中...</span>
+                                <span class="time_show_1_42 timer list-text-2" data-gid="42">00:00:00</span>
+                            </div>
+                        </a>
+                 </li>
+                 <li class="game_category_2 game_52">
+                       <a href="javascript:goUrl(52)">
+                           <div class="hot-icon new-list-img">
+                               <img src="/wap/statics/images/icon/52.png">
+                           </div>
+                           <div class="hot-list-text " data-gid="52">
+                               <p class="hot-text list-text">三分PK拾</p>
+                               <span class="list-text-2 maint">正在维护中...</span>
+                               <span class="time_show_1_52 timer list-text-2" data-gid="52">00:00:00</span>
+                           </div>
+                       </a>
+                 </li>
+                 <li class="game_category_2 game_18">
+                       <a href="javascript:goUrl(18)">
+                           <div class="hot-icon new-list-img">
+                               <img src="/wap/statics/images/icon/18.png">
+                           </div>
+                           <div class="hot-list-text border-right" data-gid="18">
+                               <p class="hot-text list-text">香港⑥合彩</p>
+                               <span class="list-text-2 maint">正在维护中...</span>
+                               <span class="time_show_1_18 timer list-text-2" data-gid="1">00:00:00</span>
+                           </div>
+                       </a>
+                 </li>
+                <li class="game_category_2 game_15">
+                    <a href="javascript:goUrl(15)">
+                        <div class="hot-icon new-list-img">
+                            <img src="/wap/statics/images/icon/15.png">
+                        </div>
+                        <div class="hot-list-text" data-gid="15">
+                            <p class="hot-text list-text">广东11选五</p>
+                            <span class="list-text-2 maint">正在维护中...</span>
+                            <span class="time_show_1_15 timer list-text-2" data-gid="1">00:00:00</span>
+                        </div>
+                    </a>
+                </li>
+                 <li class="game_category_2 game_7">
+                       <a href="javascript:goUrl(7)">
+                           <div class="hot-icon new-list-img">
+                               <img src="/wap/statics/images/icon/7.png">
+                           </div>
+                           <div class="hot-list-text border-right" data-gid="7">
+                               <p class="hot-text list-text">新疆时时彩</p>
+                               <span class="list-text-2 maint">正在维护中...</span>
+                               <span class="time_show_1_7 timer list-text-2" data-gid="1">00:00:00</span>
+                           </div>
+                       </a>
+                 </li>
+                <li class="game_category_2 game_12">
+                    <a href="javascript:goUrl(12)">
+                        <div class="hot-icon new-list-img">
+                            <img src="/wap/statics/images/icon/12.png">
+                        </div>
+                        <div class="hot-list-text border-right" data-gid="12">
+                            <p class="hot-text list-text">山东11选5</p>
+                            <span class="list-text-2 maint">正在维护中...</span>
+                            <span class="time_show_1_12 timer list-text-2" data-gid="1">00:00:00</span>
+                        </div>
+                    </a>
+                </li>
+                <!--<li class="game_category_2 game_4">
+                    <a href="javascript:goUrl(4)">
+                        <div class="hot-icon new-list-img">
+                            <img src="/wap/statics/images/icon/4.png">
+                        </div>
+                        <div class="hot-list-text" data-gid="4">
+                            <p class="hot-text list-text">天津时时彩</p>
+                            <span class="list-text-2 maint">正在维护中...</span>
+                            <span class="time_show_1_4 timer list-text-2" data-gid="1">00:00:00</span>
+                        </div>
+                    </a>
+                </li>-->
+                 <!--<li class="game_category_2 game_3">
+                       <a href="javascript:goUrl(3)">
+                           <div class="hot-icon new-list-img">
+                               <img src="/wap/statics/images/icon/3.png">
+                           </div>
+                           <div class="hot-list-text border-right" data-gid="3">
+                               <p class="hot-text list-text">上海时时乐</p>
+                               <span class="list-text-2 maint">正在维护中...</span>
+                               <span class="time_show_1_3 timer list-text-2" data-gid="1">00:00:00</span>
+                           </div>
+                       </a>
+                 </li>-->
+                 <li class="game_category_2 border-none">
+                       <a href="/lobby/index.html">
+                           <div class="hot-icon new-list-img">
+                               <img src="/wap/statics/images/icon/logo_more.png">
+                           </div>
+                           <div class="hot-list-text ">
+                               <p class="hot-text list-text">更多彩种</p>
+                               <span class="list-text-2" data-gid="1"></span>
+                           </div>
+                       </a>
+                 </li>
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+        <div class="null-bg"></div>
+        <div class="hot-new-tit border-none"><span class="hot-tit-img"></span><a class="hot-tit-text" href="javascript:;">最新中奖榜</a></div>
+        <div id="win_list" direction="up">
+            <div class="news-info" style="position:relative;max-height:120px;overflow:hidden;">
+                <ul style="position:absolute;width:100%;padding-left:1%;padding-right:2%;box-sizing: border-box;">
+                                                            <li>
+                        <div class="news-left"><span class="pol-icon"></span>az3****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中2940元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>lxz****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中294元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>353****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中211.68元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>188****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中196元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>071****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中470.4元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>cch****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中108.9元</a></div>
+                        <div class="news-right fr">购买幸运28</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>skl****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中137.2元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>avl****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中176.4元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>a13****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中147元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>hrx****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中1470元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>668****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中980元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>yib****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中333.2元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>gyh****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中490元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>158****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中784元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>yyh****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中506.88元</a></div>
+                        <div class="news-right fr">购买幸运28</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>a86****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中245元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>aa6****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中588元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>xuy****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中205.8元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>176****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中147元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                        <li>
+                        <div class="news-left"><span class="pol-icon"></span>lgf****</div>
+                                                <div class="news-center c-red"><a href="javascript:void(0);">喜中980元</a></div>
+                        <div class="news-right fr">购买北京PK拾</div>
+                    </li>
+                                    </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="menu" id="fixnav">
+    <ul>
+        <li><a class="menu-home" href="/"><img src="/wap/statics/homeStyle2/images/index-img/nav_01.png"></a></li>
+        <li><a class="menu-color" href="/lobby/index.html"><img src="/wap/statics/homeStyle2/images/index-img/nav_2.png"></a></li>
+        <li><a class="menu-lot" href="/draw/index.html"><img src="/wap/statics/homeStyle2/images/index-img/nav_3.png"></a></li>
+        <li><a class="menu-news" href="/trend/index.html"><img src="/wap/statics/homeStyle2/images/index-img/nav_4.png"></a></li>
+        <li><a class="menu-my" href="/mine/index.html"><img src="/wap/statics/homeStyle2/images/index-img/nav_5.png"></a></li>
+    </ul>
+</div>
+
+
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+function removeElementsByClass(className){
+    var elements = document.getElementsByClassName(className);
+    while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+}
+
+var toolbar=document.getElementById('ui-toolbar-left');
+toolbar.innerHTML="<button id=\"header-left\" onclick=\"location.href='/mine/index.html';return false;\">reveal</button>";
+removeElementsByClass("header-head");
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+
+</body>
+</html>
+
+<script>
+    $('#win_list').click(function() {
+        location.href = '/index/winList.html';
+    });
+
+    $('div.header-banner').click(function() {
+        location.href = '/help/promotion.html';
+    });
+
+    //首页tips
+    $('.home-close').click(function(){
+        $(this).parents('.home-tips').hide();
+        $('.loading-bg').hide();
+    });
+    /*$('.loading-bg').click(function(){
+     $('.home-tips').hide();
+     $('.loading-bg').hide();
+     });*/
+</script>
+
+<script>
+    srcPath = '/wap/statics';
+    gameOpArr = {1:'fcsd',2:'tcps',3:'ssl',4:'tjssc',5:'cqssc',6:'jxssc',7:'xjssc',9:'pk10'
+        ,10:'jsks',11:'ahks',12:'elevensd',13:'elevensh',14:'elevenjx',15:'elevengd'
+        ,16:'jlks',17:'gxks',18:'six',28:'xync',51:'sfc',52:'twpk10'};
+    gameNameArr = {1:'福彩3D',2:'排列三',3:'时时乐',4:'天津时时彩',5:'重庆时时彩',6:'江西时时彩'
+        ,7:'新疆时时彩',9:'北京PK拾',10:'江苏快三',11:'安徽快三',12:'山东11选5',13:'上海11选5'
+        ,14:'江西11选5',15:'广东11选5',16:'吉林快三',17:'广西快三',18:'香港⑥合彩',28:'幸运农场',41:'北京28',42:'幸运28',51:'三分时时彩',52:'三分PK拾'};
+    //gameList = '';
+</script>
+
+<script>
+    //调用函数刷新倒计时
+    function showLeaveTime(gid, time) {
+        $('span.time_show_1_'+gid).text(time);
+    }
+</script>
+
+<script>
+    function goUrl(gid) {
+        //if ($('li.game_'+gid+' img').css('filter') != 'none') {
+        if (gameMaintCls.indexOf('.game_'+gid+' img') > -1) {
+            msgAlert('该彩种正在维护中');
+            return;
+        }
+        var url = '/bet/'+gameOpArr[gid]+'.html';
+        if (gid == 18) {
+            url = '/betSix/index.html';
+        } else if (gid == 42) {
+            url = '/lobby/pcdd.html';
+        } else if (gid == 1001) {
+            url = '/luckymoney/qhb.html';
+        }
+        location.href = url;
+    }
+</script>

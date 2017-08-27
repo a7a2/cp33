@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <link rel="stylesheet" href="/wap/statics/css/jquery-ui.min.css?ver=5.0_6" type="text/css">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=5.0_6" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=5.0_6"></script>
+    <script src="/wap/statics/js/jquery-ui.min.js?ver=5.0_6"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=5.0_6"></script>
+
+    <script>
+        isLogin = true;
+    </script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+    </script>
+    <!-- hide address bar -->
+        <script src="/wap/statics/js/game/face.4.js?ver=5.0_6"></script>
+    <title>订单详情</title>
+</head>
+<body class="" onload='loaded()'>
+<div class="header">
+    <div class="header">
+        <div class="headerTop">
+            <div class="ui-toolbar-left">
+                <button id="reveal-left">reveal</button>
+            </div>
+            <h1 class="ui-toolbar-title">详情</h1>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper_1" class="scorllmain-content scorll-order nobottom_bar">
+    <div class="sub_ScorllCont">
+
+        <div class="order-box">
+            <div class="order-tit">
+                <div class="order-icon" style="height: 55px;"><img src="/wap/statics/images/icon/1.png" alt=""></div>
+                <div class="order-top-right">
+                    <span class="order-name f120"></span> <span class="grey f80">第期</span>
+                    <div class="lot-number">
+                        <span class="grey fl">开奖号码：</span>
+                        <div class="red ">
+                            未开奖                        </div>
+                    </div>
+                                    </div>
+            </div>
+            <div class="order-info">
+                <h3>订单内容</h3>
+                <ul>
+                    <li><span class="grey">订单号</span></li>
+                    <li><span class="grey">投注金额</span></li>
+                    <li><span class="grey">投注注数</span></li>
+                    <li><span class="grey">投注返点</span>0%</li>
+                    <li><span class="grey">投注赔率</span></li>
+                    <li><span class="grey">投注时间</span></li>
+                    <li><span class="grey">是否中奖</span><span id="win_state">未开奖</span></li>
+                    <li><span class="grey">是否关盘</span>否</li>
+                    <li><span class="grey">玩法名称</span></li>
+                </ul>
+            </div>
+            <div class="order-info order-kit">
+                <h3>投注号码</h3>
+                <ul id="code" class="grey">
+                                    </ul>
+            </div>
+        </div>
+
+                    <button class="order-btn" data-gid="">再来一注</button>
+                    <!--<button class="order-btn" onclick="doRevoke(this)" data-key="">取消投注</button>-->
+        
+    </div>
+</div>
+<input type="hidden" id="gameid" value=""/>
+<input type="hidden" id="subid" value=""/>
+<input type="hidden" id="betcode" value=""/>
+<input type="hidden" id="revokeKey" value=""/>
+
+
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+<div class="beet-odds-tips round" id="confirm_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="confirm_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que btn-que-no" onclick="confirmCancel()"><span id="confirm_pop_cancel">取消</span></button>
+        <button class="btn-que" style="width: 50%;" onclick="confirmOk()"><span id="confirm_pop_ok">确定</span></button>
+    </div>
+</div>
+
+<div id="confirm_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var confirmFunc;
+    function confirmOk() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(confirmFunc) == "function"){
+            confirmFunc();
+            confirmFunc = "";
+        }else{
+            if (typeof(doConfirmOk) == "function") {
+                doConfirmOk();
+            }
+        }
+    }
+    function confirmCancel() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(doConfirmCancel) == "function") {
+            doConfirmCancel();
+        }
+    }
+    function msgConfirm (msg,funcParm,textConfirm,textCancel) {
+        textConfirm = (textConfirm == undefined) ? '' : textConfirm;
+        textCancel = (textCancel == undefined) ? '' : textCancel;
+        if (textConfirm != '') {
+            $('span#confirm_pop_ok').text(textConfirm);
+        }
+        if (textCancel != '') {
+            $('span#confirm_pop_cancel').text(textCancel);
+        }
+        $('div#confirm_pop_content').text(msg);
+        $('div#confirm_pop_cancel').html(textCancel);
+        $('div#confirm_pop').show();
+        $('div#confirm_bg').show();
+        confirmFunc = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+</body>
+</html>
+
+<script>
+    $('button.order-btn').click(function() {
+        var gArr = {1:'fcsd',2:'tcps',3:'ssl',4:'tjssc',5:'cqssc'
+            ,6:'jxssc',7:'xjssc',8:'',9:'pk10',10:'jsks'
+            ,11:'ahks',12:'elevensd',13:'elevensh',14:'elevenjx',15:'elevengd'
+            ,16:'jlks',17:'gxks',28:'xync',41:'xy28',42:'xjp28',51:'sfc',52:'twpk10'};
+        var op = gArr[$(this).data('gid')];
+        var url = '/bet/'+op+'.html';
+        if ($(this).data('gid') == 18) {
+            url = '/betSix/index.html';
+        }
+        if (op == undefined && $(this).data('gid') != 18) {
+            return;
+        }
+        location.href = url;
+    });
+</script>
+
+<script>
+    function doRevoke(obj) {
+        $('#revokeKey').val($(obj).data('key'));
+        msgConfirm('是否确认要撤单？');
+    }
+    function doConfirmOk(obj) {
+        $.ajax({
+            url: '/mine/ajaxRevoke.html',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'key' : $('#revokeKey').val()
+            },
+            timeout: 30000,
+            success: function (data) {
+                $('#revokeKey').val('');
+                if (data.Result == false) {
+                    msgAlert(data.Desc);
+                    reLogin(data.Desc);
+                    return;
+                }
+                $('span#win_state').text('手动退码');
+                location.href = '/doBet/ok.html?type=revoke';
+            }
+        });
+    }
+</script>
+
+<script>
+    var posText = '';
+    $(function() {
+        if (/undefined/g.test(posText)) {
+            posText = '';
+        }
+        var weiArr = {0:'万位',1:'千位',2:'百位',3:'十位',4:'个位'};//时时彩
+        var gameid = $('#gameid').val();
+        if (gameid == 18) {
+            return;
+        }
+        if (',1,2,3,10,11,16,17,'.indexOf(','+gameid+',') > -1) {
+            weiArr = {0: '百位', 1: '十位', 2: '个位'};//快三、福体彩
+        } else if (',12,13,14,15,28,'.indexOf(','+gameid+',') > -1) {
+            weiArr = {0: '第一位', 1: '第二位', 2: '第三位', 3: '第四位', 4: '第五位'};//11选5、幸运农场
+        } else if (',9,52,'.indexOf(','+gameid+',') > -1) {
+            weiArr = {0: '冠军', 1: '亚军', 2: '季军', 3: '第四位', 4: '第五位'};//pk10
+        }
+        var subid = $('#subid').val();
+        if (subid >= 145 && subid <= 160) {
+            subid = 145;
+        } else if (subid >= 41000 && subid <= 41027) {//北京28特码
+            subid = 41000;
+        } else if (subid >= 41201 && subid <= 41210) {//北京28混合
+            subid = 41201;
+        } else if (subid >= 41301 && subid <= 41303) {//北京28波色
+            subid = 41301;
+        }
+        var titleArr = face[subid]['title'];
+        titleArr = (typeof (titleArr) == 'string') ? new Array(titleArr) : titleArr;
+        var codeArr = $('#betcode').val().split('or');
+        var placeArr = face[subid]['place'].split('|');
+        var txtHtml = '';
+        for (var i = 0; i < placeArr.length; i++) {
+            var tmpWei = (titleArr != undefined && titleArr[i] != undefined) ? titleArr[i] : weiArr[placeArr[i]];
+            if (gameid == 41 || gameid == 42) tmpWei = "选码";
+            if (codeArr[i] == undefined || codeArr[i] == '') {
+                continue;
+            }
+            txtHtml += '<li><div>'+tmpWei+'：'+posText+codeArr[i].replace(/and/g, ',')+'</div></li>';
+        }
+        $('ul#code').html(txtHtml);
+    });
+</script>

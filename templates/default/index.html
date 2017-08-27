@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta name=format-detection content="telphone=no"/>
+<meta name=apple-mobile-web-app-capable content=yes />
+<title>首页</title>
+<style>
+/*-- 清除原属性 --*/
+html, body, div, p { box-sizing: border-box; }
+html, body { height: 100%; }
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video, input { margin: 0; padding: 0; border: none; outline: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 { -webkit-text-size-adjust: none; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+body { font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif; -webkit-touch-callout: none;-webkit-text-size-adjust: none; -moz-text-size-adjust: none; -ms-text-size-adjust: none; -o-text-size-adjust: none; text-size-adjust: none }
+a { color: #666; text-decoration: none; }
+a:hover { color: #666; text-decoration: none;}
+input { outline: none}
+img { max-width: 100%; }
+.wrap { height: 100%; overflow: auto; color: #999 }
+.logo { width:214px; height: 47px; margin:47px auto 18px; text-align: center; }
+.btn { width:239px; height:45px; margin:0 auto;   }
+.btn a { display: block; }
+.tit { font-size: 80%; text-align: center; padding-top: 10px; }
+.wap-text { text-align: center; margin-top: 50px; font-size: 80%; padding-bottom: 10px; }
+.wap-text i { width:10px; height: 10px; display: inline-block; margin-left: 5px }
+.min-btn { margin-bottom:20px;  }
+.wap-foot { position: fixed; bottom:20px; width: 100%; text-align: center; }
+</style>
+    <script src="/wap/statics/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="logo">
+					<img src="/wap/statics/homeStyle2/images/wap_logo_cai33.png?ver=4.7">
+		</div>
+		<div class="btn go-btn"><a onclick="gotoUrl(this)" data-url="/index/index.html?wap=page"><img src="/wap/statics/images/go_btn.png"></a></div>
+		<p class="tit">温馨提示：WAP手机端直接点击链接按钮访问</p>
+
+		<div class="wap-text">推荐您使用手机APP购彩,请选择下载<i><img src="/wap/statics/images/wap_icon.png" alt=""></i></div>
+		<div class="btn min-btn"><a href="https://itunes.apple.com/cn/app/id1237561589?mt=8"><img src="/wap/statics/images/store_btn.png"></a></div>
+		<div class="btn min-btn"><a href="http://update.juw37xqo3x.com/apk/cai33.apk"><img src="/wap/statics/images/android_btn.png"></a></div>
+							<p class="tit wap-foot">版权所有：2009-2017©彩票33</p>
+	</div>
+	
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+</body>
+</html>
+
+<script>
+    function gotoUrl(obj) {
+        setVisitTimer($(obj).data('url'));
+    }
+</script>
+
+<script>
+    var timernounread = '';
+    function setVisitTimer(url) {
+        clearInterval(timernounread);//删除定时器
+        localTimeUnread = 0;
+        tmpLocalTime = new Date().getTime() + 0;//本机毫秒数
+        timernounread = window.setInterval(function () {
+            tmpLocalTime = new Date().getTime() + 0;//本机毫秒数
+            if (localTimeUnread > 0 && (tmpLocalTime-localTimeUnread) > 1000) {//倒计时已不准确，重新获取倒计时
+                clearInterval(timernounread);//删除定时器
+                location.href = '/';
+            }
+            localTimeUnread = tmpLocalTime;
+        }, 300);
+        location.href = url;//跳转前，启动了定时器
+    }
+</script>

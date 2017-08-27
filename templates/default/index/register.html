@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <link rel="stylesheet" href="/wap/statics/css/jquery-ui.min.css?ver=4.7" type="text/css">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=4.7" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=4.7"></script>
+    <script src="/wap/statics/js/jquery-ui.min.js?ver=4.7"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=4.7"></script>
+
+    <script>
+        isLogin = false;
+    </script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+    </script>
+    <!-- hide address bar -->
+    <style>
+        body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-scrolling:touch;}/*解决苹果滚动条卡顿的问题*/
+        #wrapper_1{overflow-y:visible!important;}
+        body.login-bg{padding-top:0px!important;}
+    </style>
+    <style>
+        .gray {
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+            filter: gray;
+        }
+    </style>
+    <script>
+        //uc浏览器滑动
+        //document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+        function loaded(){}//空实现
+    </script>
+    <title>注册账号</title>
+</head>
+<body class="login-bg" onload='loaded()'>
+<div class="header">
+    <div class="headerTop">
+        <div class="ui-toolbar-left">
+            <button id="reveal-left">reveal</button>
+        </div>
+        <h1 class="ui-toolbar-title">快速注册</h1>
+    </div>
+</div>
+    <div class="login">
+        <form id="register_form">
+        <ul>
+            <li>
+                <span class="logi">用户账号</span><input type="text" id="username" name="username" placeholder="请输入用户名">
+            </li>
+            <li>
+                <span class="logi">登录密码</span><input type="password" id="pwd" name="pwd" placeholder="请输入密码">
+            </li>
+            <li>
+                <span class="logi">重复密码</span><input type="password" id="repwd" placeholder="请再次输入密码">
+            </li>
+            <li>
+                <span class="logi">验&nbsp;&nbsp;证&nbsp;&nbsp;码</span>
+                <input type="text" id="captcha" name="captcha" placeholder="请输入验证码">
+                <img id="captcha_img" width="90" height="35" title="重新获取验证码" style="cursor:pointer;" src="/index/captcha.html?nchash=">
+            </li>
+            <!--<li>
+                <span class="logi">代理账号</span><input type="text" name="upid" placeholder="选填，请输入代理人账号">
+            </li>-->
+        </ul>
+        </form>
+        <div class="login-p" style="color: #fe0103;">
+            <label>
+            <input type="checkbox" id="is_read" checked="checked" />
+            <span style="color:#666;">我已年满18周岁，并且同意接受</span></label><a href="/help/readme.html" style="color: #fe0103;">《法律声明》</a>
+        </div>
+		<input type="hidden" id="platform" value=""/>
+        <input type="hidden" id="uuid" value=""/>
+		
+        <button class="login-btn login-btn-no" id="register_btn">立即注册</button>
+        <a href="/index/loginDemo.html" class="reg-btn" id="login_demo" style="margin-top: 12px; font-size:16px;">免费试玩</a>
+        <br/>
+        <div class="login-p"><a class="fl" href="" target="_blank">在线客服</a><a class="fr"  onclick=gotologin();>已有帐号，直接登录</a></div>
+        <div class="login-p" style="color: #fe0103;">1.用户帐号请输入4-16个英文字母或数字，不能用中文。</div>
+        <div class="login-p" style="color: #fe0103;">2.登录密码请输入6-12个英文字母或数字。</div>
+    </div>
+
+    
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+<script src="/wap/statics/js/sha3.js?ver=4.7"></script>
+<script src="/wap/statics/js/ripemd160.js?ver=4.7"></script>
+<script>
+
+
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+</body>
+</html>
+
+<script>
+function getCookie(name)
+{
+var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+if(arr=document.cookie.match(reg))
+return unescape(arr[2]);
+else
+return null;
+}
+
+function getParameterByName(name) {  
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);  
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));  
+} 
+document.getElementById("platform").value=getParameterByName("platform");
+document.getElementById("uuid").value=getParameterByName("uuid");
+
+var username=getParameterByName("username");
+var platform=getParameterByName("platform");
+var enClientPassWd=getParameterByName("enClientPassWd");
+
+if (platform==""){
+	platform=getCookie("platform");
+}
+if (enClientPassWd=="") {
+	enClientPassWd=getCookie("enClientPassWd");
+}
+if (username=="") {
+	username=getCookie("username");
+}
+
+function getParameterByName(name) {  
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);  
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));  
+}  
+
+function gotologin(){
+	 location.href = '/index/login.html?platform='+platform;
+	return
+}
+
+    $('#register_btn').click(function(event) {
+        var username = $('#username').val();
+        var pwd = $('#pwd').val();
+        var repwd = $('#repwd').val();
+        if (username == '') {
+            msgAlert('用户名密码不能为空！');
+            return;
+        }
+        if (pwd == '') {
+            msgAlert('用户名密码不能为空！');
+            return;
+        }
+        if (!/^[A-Za-z0-9]{6,12}$/g.test(pwd) || /^[A-Za-z]{1,12}$/g.test(pwd) || /^[0-9]{1,12}$/g.test(pwd)) {
+            msgAlert('密码需6-12个字符，且为英数字符组合!');
+            $('img#captcha_img').click();
+            return;
+        }
+        if (pwd != '' && pwd != repwd) {
+            msgAlert('两次密码不一致！');
+            return;
+        }
+        var captcha = $('#captcha').val();
+        if (captcha == '') {
+            msgAlert('请输入验证码！');
+            return;
+        }
+		var shaObj = new jsSHA("SHA3-512", "TEXT");
+		shaObj.update(pwd);
+		var sha3512Hash = shaObj.getHash("HEX");
+		var RMD160 = new Hashes.RMD160
+		var passwd = RMD160.hex(sha3512Hash);
+        $.ajax({
+            url: '/index/ajaxRegister.html',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+				'platform' : $('#platform').val(),
+                'username' : username,
+                'password' : passwd,
+                'uuid' : $('#uuid').val(),
+                'captcha' : captcha
+            },
+            timeout: 8000,
+            success: function (data) {
+				console.log(data);
+				msgAlert(data.message);
+				if (data.code == 200) {
+                    //location.href = '/index/registerOk.html?username='+username;
+                    location.href = '/mine/index.html?platform='+$('#platform').val()+'&username='+username+'&enClientPassWd='+data.data.Enclientpasswd;
+                }
+                if (data.code !== 200) {
+                    return false;
+                }
+                if (data == null || data == undefined || data == '') {
+                    $('img#captcha_img').click();
+                    return false;
+                } else {
+                    msgAlert('注册失败！'+data.Desc);
+                    $('img#captcha_img').click();
+                }
+            }
+        });
+    });
+
+    //是否已阅读法律声明
+    $('#is_read').change(function() {
+        if ($('#is_read:checked').val() == 'on') {//选中
+            $('#register_btn').removeAttr('disabled');
+            $('#register_btn').removeClass('gray');
+        } else {
+            $('#register_btn').attr('disabled', 'disabled');
+            $('#register_btn').addClass('gray');
+        }
+    });
+
+    //换验证码
+    $('img#captcha_img').click(function() {
+        $(this).attr('src','/index/captcha.html?nchash=&t='+Math.random());
+    });
+</script>

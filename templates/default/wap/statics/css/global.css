@@ -1,0 +1,1217 @@
+/*-- 清除原属性 --*/
+html, body, div, p { box-sizing: border-box;margin:0;padding:0;}
+div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video, input { margin: 0; padding: 0; border: none; outline: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0;}
+body,button { font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif;}
+a { color: #666; text-decoration: none; }
+a:hover { color: #666; text-decoration: none;}
+input { outline: none}
+img { max-width: 100% }
+
+input:-webkit-autofill {-webkit-box-shadow:0 0 0 1000px #fff inset;-webkit-text-fill-color:#999;}
+.fl { float: left; }
+.fr { float: right; }
+.clear { width: 100%; height: 0; overflow: hidden; clear: both; }
+.grey { color: #999; }
+.red { color: #eb2929 }
+.green { color: #1b6123 } 
+.dis { display: block; }
+.text-center { text-align: center; }
+.f80 { font-size: 80% }
+.f100 { font-size: 100% }
+.f120 { font-size: 120% }
+
+/*公用样式*/
+.c-red { color: #ec282a }
+.lottery-list-erect{}
+.scorllmain-Beet,.scorllmain-Beet-list,.scorll-order,
+ .sixmain-Beet,.sixmain-Beet2
+ { width: 100%; height:auto; padding: 0; display: block;z-index: 2;
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;} 
+   .scorllmain-content{width: 100%; padding: 0; display: block;overflow:visible;}
+  .lott_bar 
+ { width: 100%; height:auto; padding: 0; display: block;
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;}
+.scorllmain-Beet { bottom:45px;  }
+.scorll-order { bottom:0; padding-bottom: 0 !important; } 
+.sixmain-Beet { bottom:86px; }
+.sixmain-Beet2 { bottom:100px; }
+.scorllmain-Beet-list { bottom:120px;}
+/*#wrapper_1 .sub_ScorllCont,#wrapper_2 .sub_ScorllCont{ position: absolute; z-index: 2; -webkit-tap-highlight-color: rgba(0,0,0,0); width: 100%; -webkit-transform: translateZ(0); -moz-transform: translateZ(0); -ms-transform: translateZ(0); -o-transform: translateZ(0); transform: translateZ(0);}
+*/
+
+/*菜单*/
+.menu { position: fixed; width: 100%; bottom: 0; left: 0; right: 0; z-index: 6; /*transform: translate3d(0, 0, 0);*/ margin:auto; background: #171719 }
+.menu ul { margin:auto; overflow: hidden; background: #171719; }
+.menu ul li { width:20%; float: left;}
+.menu a img { max-width: 100%; height: auto; }
+body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-y:visible!important;overflow-scrolling:touch;}/*解决苹果滚动条卡顿的问题*/
+
+/*-- 头部 --*/
+.header { background: #ec2829; width: 100%; height: 44px; position:fixed; z-index: 100; top: 0; left: 0; right: 0; }
+.header #reveal-left, .header .reveal-left, .header #reveal-right { color: #fff; width: 36px; height: 36px; display: block; text-indent: -99999px; border: none; position: absolute; cursor: pointer; outline: none; }
+.ui-toolbar-left, .ui-toolbar-right { position: absolute; z-index: 2 }
+.ui-toolbar-right { right:10px; background: url(../images/goucai_qiehua_07.png) no-repeat; top: 7px; width: 65px; background-size: 65px 30px; height: 30px;}
+.ui-toolbar-left {background: url(../images/goucai_qiehua_07.png) no-repeat;}
+.ui-head { background: url(../images/goucai_qiehua_03.png) no-repeat; width: 65px; background-size: 65px 30px; height: 30px;}
+.ui-toolbar-right a {width:32.5px; height: 30px; display: block; float: left;}
+.header #reveal-left, .header .reveal-left { background: url(../images/blank_01.png) no-repeat; background-size: 42.5px; height: 44px; width:42.5px; height:44px; display: block;}
+.header h1 { width: 100%; text-align: center; font-size: 22px; line-height: 44px; color: #fff; }
+.header-logout { background: url(../images/logout.png) no-repeat; line-height: 44px;  width: 70px; height:25px;  background-size: 70px 25px;  position: absolute; right: 10px;  top: 8px;  z-index: 9;}
+/*.bett-top-box { width:320px; position: absolute; left: 50%; margin-left: -160px;}*/
+.bett-top-box { position: relative;display: flex;flex-wrap: wrap;justify-content: center;align-items: center;}
+.bett-top-box div {margin: 0 5px;float: left;}
+.header .ui-betting-title { position: absolute; left: 0; top: 5px; z-index: 1; width: 100%; text-align: center;}
+/*.header .ui-betting-title .bett-top { margin-left: -50%; }*/
+.bett-top-box  {display: inline-table;}
+.header .ui-betting-title .bett-play { font-size:12px; line-height: 14px; width:12px; height: 34px; display: inline-block; padding-top: 5px; padding-right: 8px; }
+.bett-attr { background: url(../images/betting/top_zhong_sanjiao.png) no-repeat right center; width: 12.5px; height: 8.5px; background-size:12.5px 8.5px; display: inline-block; padding-right: 5px; }
+.bett-tit { border:1px solid #fff; border-radius: 5px; height: 28px; line-height: 22px; padding: 0 10px; font-size:90%; display: inline-block; margin-top: 4px !important;}
+.bett-top .bett-tit {position: relative;top: -4px;}
+.ui-text-right { position: absolute; right:10px; top: 0; line-height: 44px; }
+.ui-text-right a { color: #fff; }
+
+.news-tit {  padding: 10px;background: #f5f5f5;border-bottom:1px solid #e8e8e8;}
+.news-tit a{ max-width: 100%;color: #000;min-font-size:30px; }
+.pol-icon { background: url(../images/index_jiangzhang.png) no-repeat; background-size:12px 12px; width:12px; height: 12px; float: left; margin:6px 5px; }
+.news-info ul li { position: relative; overflow: hidden; line-height: 24px; }
+.news-info ul { padding:0 10px; color: #666; font-size: 80%; }
+.news-left { float: left; width:33.33%; }
+.news-center { position: absolute; left: 33.33%; width: 33.33%; }
+.news-right { width:33.33%; }
+.news-center a { color:#ec282a; }
+.news-tit-ul { height: 32px; line-height: 32px; padding:0 10px; box-sizing: border-box; background: #eaeaea; overflow: hidden; }
+.news-info-list ul li { border-bottom: 1px solid #ddd; height: 30px; line-height: 30px; color: #555; }
+.news-info-list ul li .pol-icon { margin-top: 9px; }
+
+.tow-ball-cont{height: 30px; line-height: 40px; font-size: 1.4rem !important; color:red;}
+.two-lottery { margin-top: 5px; font-size:140%; }
+.k3-lottery { text-align:center; color:#fff; line-height: 25px; }
+.k3-lot { font-size: 110%; }
+
+/*--新加即将开盘标签样式 --*/
+.hot_start{color: #fff; background:#9e9e9e;width: 35%; padding:2px 1px; margin:0 auto;border-radius:2px;}
+
+/* 首页ipad 文字大小 */
+.@media screen and (min-width: 768px) {
+    .list-text {
+      font-size:120%;
+    }
+    .hot_start{font-size: 100%;width: 35%;}
+}
+
+.charge-bank ul li textarea { width: 80%; margin-left: 5%; padding: 14px; font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif}
+
+ 
+@media screen and (max-width: 414px) {
+	.lott_bar {  padding: 107px 0 64px !important; overflow: hidden; }
+  .erect-right div .red { padding-top: 5px; margin-right: 0.6rem; font-size: 0.5rem;}
+  .erect-right p { padding-top: 3px; }
+  .hot_start{font-size: 80%;width: 48%;}
+}
+@media screen and (max-width: 375px) {
+	.lott_bar { padding: 102px 0 61px !important; overflow: hidden;  }
+  .hot_start{font-size: 79%;width: 54%;}
+}
+@media screen and (max-width: 320px) {
+	.lott_bar { padding: 94px 0 61px !important; }
+  .erect-right div .red { padding-top: 0px; font-size: 0.5rem; margin-right: 0.48rem; line-height: 1.5rem; display: block;}
+  .erect-right p { padding-top: 0px; font-size: 0.85rem; line-height: 23px; }
+
+  table { border-collapse: collapse; border-spacing: 0; width: 100%;}
+  table tr td img { padding: 8px 0px; }
+  .hot_start{font-size: 79%;width: 60%;}
+  .erect-right .last-time-fuz { font-size: 0.5rem; float: left;}
+  .erect-right .price { font-size:0.8rem !important;}
+}
+
+.lott-menu {position: fixed; top: 44px; left: 0; z-index: 999;width: 100%;height: auto;}
+.lott-menu ul { display: -webkit-box; display: flex;position: relative;}
+.lott-menu ul li { width: 33.33%;}
+
+
+.lottery-list ul li { width: 33.33%; float: left; text-align: center;}
+.lottery-list ul li a { display: block; font-size:95%; padding: 5px 0;}
+.lottery-list ul li .hot-icon img { max-width: 100%; padding:10px 25px 0; box-sizing: border-box;}
+.lottery-list ul li a { border-bottom: 1px solid #dcdcdc; border-right: 1px solid #ececea;}
+
+/*-- 竖版 --*/
+.lottery-list-erect ul li { overflow: hidden; padding-right: 15px; }
+.lottery-list-erect ul li a { background: url(../images/goucai_hp_more.png) no-repeat center right; background-size:7.5px 13.5px; border-bottom: 1px solid #dcdcdc; display: block; overflow: hidden;}
+.lottery-list-erect ul li .hot-icon { float: left; padding:13px; width: 25%}
+.lottery-list-erect ul li .hot-icon img { max-width: 100% }
+.erect-right { float: left; margin-top: 6px; width: 75% }
+.erect-right .last-time { color:#eb2929; line-height: 24px;}
+.erect-right .last-time span { font-size: 0.8rem;}
+.erect-right .last-time span.fr{ margin-right: 4%;}
+.erect-right .hot-text { color: #000 }
+.erect-right .price { font-size: 1.2rem; color: #eb2929; margin-left: 0.3rem; padding-top: 0.2rem; float: left; display: block;}
+.erect-right .last-time-fuz { font-size: 0.5rem; float: left;}
+  /*新增开盘标签*/
+.erect-right .start_period{color:#fff;background:#9e9e9e;padding:2px 5px;border-radius:2px;padding-top: 2px !important;font-size: 80%;}
+
+
+
+
+/*-- 登录 注册 --*/
+.login-bg { background: #f5f5f5; }
+.login ul,.login-suc ul { padding-left:10px; background: #fff; border-top:1px solid #ddd; border-bottom: 1px solid #ddd; margin:44px 0 20px; }
+#wrapper_1 .login ul { padding-left:10px; background: #fff; border-top:1px solid #ddd; border-bottom: 1px solid #ddd; margin:0px 0 20px; }
+.login ul li { border-bottom: 1px solid #ddd; height: 50px; width: 100%; line-height: 50px; }
+.login ul li:last-child { border-bottom: 0; }
+.login .login-peo,.login .login-pass { background: url(../images/login/login_peo.png) no-repeat; width:17px; height: 20px; background-size: 17px 20px; display: block; float: left; margin-top: 13px; }
+.login .login-pass { background:url(../images/login/login_pass.png) no-repeat; background-size: 17px 20px;  }
+.login ul li input { padding-left: 10px; color: #999; width:65%; line-height:25px;height:50px; font-weight: normal; }
+.login-p { margin:0 auto 20px; width:96%; overflow: hidden; font-size: 80% }
+
+.login-btn,.reg-btn,.login-btn-no { background: #f13031; margin:0 auto; width: 96%; font-size:18px; height: 40px; line-height: 40px;  color: #fff; border:0; border-radius:3px; display: block; outline: none; font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif;}
+.login-btn-no{ background: #ccc}
+.reg-btn { margin-top: 20px; background: #fff; border:1px solid #ddd; color: #f13031 }
+
+.reg-text { margin:40px 0 0 100px; line-height: 30px; }
+.reg-correct { background: url(../images/gou_wancheng.png) no-repeat; width:30px; height: 30px; background-size:30px 30px; float: left; margin-right: 10px; }
+.login-suc ul { padding: 10px 20px; line-height: 30px; }
+.login-suc p { width:96%; margin:0 auto; font-size: 80%; line-height: 40px; }
+
+.logi { float: left;}
+#captcha { float: left; width:120px;}
+#captcha_img { float: left; margin-top: 8px;}
+
+.login ul li #pwd1 { margin-left: 10px}
+
+/* 登录之后保存历史账号 */
+.login-gli { background: url(../images/index_pic_08.png) no-repeat; position: relative; width: 10px; height: 17px; float:right;transform:rotate(90deg);top: 15px; right: 15px;}
+.login-cont-value { position: absolute; width: 100%; left: 0px; top: 96px;}
+.login-cont {border-bottom: 1px solid #ddd; height: 2.5rem; line-height: 2.5rem; background-color: #fff; text-align: center; cursor: pointer;}
+/*.login-cont-value input { width: 96.87% !important;}*/
+
+/*-- 个人中心 --*/
+.message-box { border:1px solid #ddd; border-radius:5px; background: #fff; padding: 10px; width:96%; margin:20px auto 0; }
+.mess-top { line-height: 30px; font-size: 80% }
+.mess-top h3 { font-size: 18px; }
+.unread { color: #ec2a2a }  
+.haread { color: #999 }
+.dot-icon { background: #ec2a2a; border-radius:50%; width:8px; height: 8px; display: block; float: left; margin:10px 5px 0 0; }
+.mess-date { color: #999; margin-bottom: 10px; }
+.mess-txt { font-size:80%; color: #666; }
+
+.mine-top { background: url(../images/message/touxiang_beijing.png) no-repeat; background-size:100% 100%;  height: 124px; overflow: hidden; }
+.mine-head { height: 69px; line-height: 69px; color: #fff; position: relative; }
+.mine-refresh { font-size: 80%; color: #fff; height: 20px; position: absolute; right: 20px; bottom:10px; z-index: 9; line-height: 20px; }
+.mine-img { width:52px; height: 52px; float: left; margin:10px 10px 0 20px;cursor: pointer;}
+.mine-img img { max-width: 100%; border-radius: 50%; }
+.mine-tit { color: #feb501 }
+.mine-info ul { display: -webkit-box; display: flex; text-align: center; padding-top:7px; }
+/*.mine-info ul li { width:33.33%; color: #eee; }*/
+.mine-info ul li { width:60%; color: #eee; }
+.mine-refresh1 { line-height: 44px; display: block; }
+.mine-info ul li p { font-size: 80% }
+.mine-but { overflow: hidden; }
+.mine-info a { color:#fff;}
+.mine-but a { display: block; width:50%; float: left; }
+.mine-but a img { max-width: 100%; }
+@media screen and (min-width: 768px) {
+    .mine-but a img {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+
+.mine-list ul { background: #fff; border-top:1px solid #dfdfdf; border-bottom: 1px solid #dfdfdf; padding:0 10px; margin: 10px 0 }
+.mine-list ul li { background:url(../images/goucai_hp_more.png) no-repeat center right; background-size: 12px 12px;  border-bottom:1px solid #dfdfdf; line-height: 40px; height: 40px; }
+.mine-list ul li a { display: block; }
+.mine-list ul li:last-child { border-bottom: none; }
+.mine-list ul li a img { width: 24px; height: 24px; float: left; margin:7px 5px 0 0;  }
+.red-icon { background: #ec2829; width:9px; height: 9px; border-radius: 50%; float: right; margin:15px 30px 0 0; }
+
+.mine-message { text-align: center; margin-top: 20px; padding-top:104px; }
+.mine-mess img { max-width: 100%; margin-bottom: 10px; height: auto; }
+
+/*-- 活动页面 --*/
+.activity { width: 94%; margin:10px auto; }
+.list-tit p { font-size: 80%; color: #666; line-height: 26px; }
+.list-pic { overflow: hidden; }
+.list-pic a { display: block; margin:3px 0; }
+.list-pic img { max-width: 100%; height: auto; }
+.list-pic p { font-size: 80%; color: #666; line-height: 22px;}
+
+.hd_cont_txtarea {border: 1px dashed #eee; box-sizing: border-box; font-size: 14px; line-height: 20px; border-radius: 5px; color: #eee; text-justify: distribute; text-align: justify; color: #666}
+.tab_fxgz{width:100%;margin:10px auto;}
+.tab_fxgz th{background:#faf6dd; text-align:center; border:1px solid #ddd; line-height:30px; color: #000}
+.tab_fxgz td{background:#fff; text-align:center; border:1px solid #ddd; line-height:25px; color: #666}
+
+.wrap { height: 100%; min-height: 100%; overflow: auto !important; padding-bottom: 15px; background-size:cover  }
+.bull-box { position: relative; }
+.bull-line { background: #ddd; width:2px; height: 200% !important;position: fixed !important;left: 8%; bottom: 0 !important; }
+.bull-icon { background:url(../images/new_icon.png) #fff no-repeat center; width:15px; height: 16px; background-size:15px 16px;  border:2px solid #ddd; border-radius: 50%; padding:15px!important; display: block; position: absolute; left: 8%; top:5px; margin-left: -16px;}
+.bulletin-right { border:1px solid #e7e7e7; box-shadow: 1px 2px 1px #e7e7e7; width:73%; background: #fff; position: relative; left: 18%;  font-size: 80%; margin-top: 20px; border-radius:3px; padding: 10px; color: #333; }
+.bulletin-right h3 { color: #ec2929; font-size: 16px; }
+.san-icon { background: url(../images/san_icon.png) no-repeat; background-size: 12px 19px;  width:12px; height: 19px; position: absolute; left: -12px; top:10px;  }
+.bull-txt { margin:5px 0  }
+.bull-bot { border-top:1px solid #ddd; color: #999; text-indent: 1em; padding-top: 5px; }
+
+.app-list { margin-top: 10px; }
+.app-list-box { background: #fff; border:1px solid #ddd; width: 94%; margin:0px auto 10px; box-sizing: border-box; padding:10px 15px 0; border-radius:5px;  }
+.list-tit p { font-size: 80%; color: #666; line-height: 26px; }
+.join { border-top:1px solid #ddd; margin-top: 5px; }
+.join a { color: #000; line-height: 34px; display: block; }
+.join-icon { background: url(../images/join-icon.png) no-repeat; width: 16px; height: 27px; background-size: 8px 13px; float: right; display: block; margin-top: 10px; }
+
+
+/*-- 开奖公告 --*/
+.lottery-info ul li,.lott-list ul li.list-k3,.lott-list ul li.lott-k3-list { border-bottom: 1px solid #dfdfdd;  padding:10px 15px; overflow: hidden;}
+.lottery-info ul li a,.lott-list ul li.list-k3 a { background: url(../images/goucai_hp_more.png) no-repeat center right; background-size:7.5px 13.5px; height: 70px; display: block;}
+.lot-num-list i.lot-number,i.lot-number-blue { background: #c91b1c; width:30px; height: 30px; border-radius: 50%; color: #fff; line-height: 30px; text-align: center; display: block; float: left; margin:5px 10px 0 0; }
+.lot-num-list i.lot-number-blue { background: #1c85c9}
+
+.lot-num-list i.lot,i.lot-blue,.two-ball i { width:30px; height: 30px; line-height: 30px; text-align: center; display: block; float: left; margin:5px 10px 0 0;  color: #ca1a1a}
+.lot-num-list i.lot-blue { color: #1c85c9 }
+
+.lott-list-tit { font-size: 80%; color: #666 }
+.lott-list-tit span { font-size: 120%; color: #c91b1c; padding-right: 5px; }
+.lott-list-tit span.gray { color:#666; }
+.lott-k3 { line-height: 35px; }
+.lott-list ul li.list-k3,.lott-list ul li.lott-klpk3 { overflow: hidden; padding-bottom: 10px; }
+.k3-number { float: left; margin-right: 10px; margin-top: 5px; }
+.klpk3-number { float: left; margin-left: -10px; }
+.k3-number ul,.klpk3-number ul  { font-size: 1.2rem; background: url(../images/lottery/kaijiang_kuaisan.png) no-repeat; width:127px; height: 35px; background-size:127px 35px; padding:5px 0px 0 0px;box-sizing: border-box;  }
+.klpk3-number ul { background: url(../images/lottery/kaijiang_kuaisans.png) no-repeat; background-size:127px 35px; }
+.k3-number ul li { width:23%; float: left; margin-left:10px;  }
+.k3-number ul li img { max-width:100%; height: auto; display: block;}
+
+.two-ball i { background: #c91b1c; border-radius: 50%; color: #fff; }
+.two-ball i.two-ball-blue { background: #1c85c9 }
+.kl8-ball { margin-top: 5px; }
+.kl8-ball-number { color: #c81c1a; float: left }
+.kl8-te { float: left; margin:15px 0 0 5px; color: #000; font-size: 90% }
+.klpk3-number ul li { float: left; margin-left:-10px; width: 26px; height: 29px; background: #fff; border-radius: 3px 3px 0 0; box-shadow: 0px 0px 0px 1px #ccc;  }
+.klpk-lot ul li { float: left; width: 26px; height: 30px; background: #fff; border-radius: 3px 3px 0 0; box-shadow: 0px 0px 0px 1px #ccc; }
+.klpk-lot ul li span { float: left; }
+.klpk-lot ul li i { clear: both; }
+.klpk3-number ul { padding-left:35px; margin-left: 10px;  }
+.klpk3-heart,.klpk3-black,.klpk3-flower,.klpk3-box { color: #d13b3a; padding:3px; box-sizing: border-box; font-size: 80%  }
+.klpk3-black,.klpk3-flower { color: #000; }
+.klpk3-heart i,.klpk3-black i,.klpk3-flower i,.klpk3-box i { background: url(../images/lottery/kaijiang_17.png) no-repeat; width:8px; height: 8px; background-size:8px 8px; display: block;  }
+.klpk3-black i { background: url(../images/lottery/kaijiang_10.png) no-repeat; background-size:8px 8px;  }
+.klpk3-flower i { background: url(../images/lottery/kaijiang_14.png) no-repeat; background-size:8px 8px;  }
+.klpk3-box i { background: url(../images/lottery/kaijiang_11.png) no-repeat; background-size:8px 8px;  }
+
+.two-ball-btn { background: #252525; height: 44px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 99; padding: 5px 0; box-sizing: border-box; }
+.two-ball-btn .ball-btn { background: #ffb400; margin:0 auto; width: 92%; font-size:18px; height: 33px; line-height: 33px;  color: #262427; border:0; border-radius:3px; display: block; outline: none; font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif; }
+
+/*-- 投注大厅 --*/
+.bett-buy { position: fixed; bottom: 45px; left: 0; right: 0; z-index: 99; background: #fff; border-top:1px solid #ddd; height: 75px; }
+.ui-bett-right { background: url(../images/betting/top_you_anniu_01.png) no-repeat; width:51px; height: 44px; background-size:51px 44px; position: absolute; right: 5px; top: 0; z-index: 9; }
+.ui-bett-with { height: 44px;  position: absolute; right: 10px; top: 0; z-index: 9; font-size:80%; }
+.ui-bett-with a { color: #fff; line-height: 44px; }
+.ui-bett-refresh { background: url(../images/shuaxin_01.png) no-repeat; width:51px; height: 44px; background-size:51px 44px; position: absolute; right: 0; top: 0; z-index: 9; }
+.bett-head { display: block; width: 51px; height: 44px;}
+
+.lot-time,.dat-time { width:50%; background: #fff; border-right:1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; float: left; height:60px; text-align: center; padding:5px; box-sizing: border-box; font-size:80%; overflow: hidden; }
+
+.time-ico { background: url(../images/betting/touzhu_pic_18.png) no-repeat center; margin-left: -15px; height: 16px; width:16px; background-size:16px 16px; padding:0px 25px 0 0;}
+.wait-lot {  font-size:120%; margin-top: 8px;}
+.wait-lot10 { margin-top: 8px;   }
+.wait-lot11 { margin-top: 0px; text-align: left; }
+.lot-tip { overflow: hidden; }
+
+.time-late { background: url(../images/betting/shijian_bg.png) no-repeat; width:121px; height: 25px; background-size:121px 25px; margin:5px auto 0;  }
+.time-late span { width:17px; height: 25px; float: left; display: block; line-height: 25px; color: #eb2b2a; font-size:110%; }
+.time-late span.time-kong { width:9px; }
+.lot-up { margin: 10px 0 0; overflow: hidden; }
+.lot-up-left { width:35%; float: left; }
+.lot-up-left img,a{max-width: 100%; }
+.lot-up-left a{display:inline-block; -height:35px;}
+.lot-up-right { float: right; line-height: 40px; padding-right: 10px; color: #666; font-size:96%; }
+
+.go-back { background: url(../images/back.png) no-repeat; background-size: 115px 28px; float: right; margin-right: 10px; color: #666; font-size: 80%; position: relative; line-height: 28px; padding-left: 25px; width: 115px; margin-top: 2%; }
+.go-back i { background: #ffd200; width:18px; height: 18px; position: absolute; right:-5px; top:-5px; z-index: 9; color: #ff3200; border-radius: 50%; display: block; text-align: center; line-height: 18px; font-size: 80%}
+
+.lot-number-top { border-bottom: 1px solid #ddd; padding-bottom: 40px; }
+.lot-number-tip { border-bottom:1px solid #ddd; color:#eb2b2a; text-align:center; line-height: 24px; overflow: hidden;}
+.lot-number-tip .gray { color:#666; font-size:80%; }
+
+.lot-te { float: left; color:red; margin-left: 15px; }
+.lot-pei { font-size:80%; color:#666; float: left; margin-left: 45px; }
+.lot-number-bottom { padding-bottom: 30px; }
+.lot-number-left { width:20%; float: left; padding:25px 0 0 10px; box-sizing: border-box; }
+.lot-number-right { width:80%; float: right; }
+.lot-txt { background: url(../images/betting/touzhu_qian_bg.png) no-repeat; width: 52px; height: 20px; background-size:52px 20px; line-height: 20px; padding-left:5px; box-sizing: border-box; font-size: 80%; margin-bottom: 10px; color: #333; }
+
+.ch_numball { float: left; width: 100%; }
+.ch_numball ul { width: 100%; }
+.ch_numball ul li,.six_numball ul li,.three-numball ul li { float: left; width: 20%; text-align: center; height: 30px; margin-top: 15px; position: relative; }
+.six_numball ul li { height: 50px; }
+.three-numball ul li { width: 33.33%; }
+.three-numball ul li .lot-odds { font-size: 80%; margin-left: -20px; }
+.ball-red span,.ball-blue span,.ball-green span { width: 33px; height: 33px; display: inline-block; text-align: center; line-height: 33px; background: #fff; border: 1px solid #bdbdbd; color: #ca1a1a; border-radius: 50%; font-size: 22px; cursor: pointer; margin: 0 auto; overflow: hidden; }
+.three-numball ul li span { display: inline-block; text-align: center; line-height: 33px; background: #fff; border: 1px solid #bdbdbd; color: #ca1a1a; font-size: 14px; cursor: pointer; margin: 0 auto; overflow: hidden; padding:0 5px; }
+.three-numball ul li .ball-active { background: #c91b1c; border:1px solid #c91b1c; color: #fff; }
+
+.ball-red span:active,.ball-blue span:active { width: 60px; height: 95px; line-height: 60px; font-size: 20px; background: url(../images/betting/anjian_hong.png); border: none; color: #fff; position: absolute; top:-55px; left: 50%; margin-left: -30px; background-size:60px 95px; z-index: 10;}
+.ball-blue span { color: #1b87c8; }
+.ball-blue span:active {background: url(../images/betting/anjian_lan.png); background-size:60px 95px;}
+.ball-green span { color:green;}
+.lot-odds { position: absolute; width: 100%; text-align: center; bottom: -10px; z-index: 5; color: #a9a9a9 }
+
+.ball-red span.ball-active { background: #c91b1c; border:1px solid #c91b1c; color: #fff; }
+.ball-blue span.ball-active { background: #1c85c9; border:1px solid #1c85c9; color: #fff; }
+.ball-green span.ball-active { background: #00bf16; border:1px solid #00bf16; color: #fff; }
+
+.code_numball ul li { width:25%; margin-top: 20px; height: 50px; }
+.code_numball ul li span { background: url(../images/liuhecai_btn_xiao.png) no-repeat; background-size: 55px 35px; width:55px; height: 35px; display: inline-block; line-height: 35px; font-size: 80%;  }
+.code_numball ul li span.ball-active { background: url(../images/liuhecai_btn_xuanzhong_02.png) #fff no-repeat; background-size: 55px 35px; width:55px; height: 35px; }
+
+.bett-number { width:250px; margin:10px auto;}
+.bett-number2 { text-align: center; padding:5px 0; }
+.bett-number label {}
+.bett-foot { background: #252525; height: 45px; padding:5px 10px; box-sizing: border-box; position: fixed; bottom: 0; left: 0; right: 0; z-index: 5; }
+.btn-none,.btn-add { background: #363636; border-radius: 3px; color: #bbb; width:60px; height: 33px; line-height: 33px; border:none; outline: none; float: left; font-size: 85%; position: relative; z-index: 99; }
+.btn-add { background: #ffb400; float: right; color: #242625 }
+
+
+.beet-foot-txt { position: absolute; text-align: center; left: 0; right: 0; color: #fff; line-height: 18px; }
+.beet-foot-txt .beet-note { color: #ffb400; line-height: 36px; }
+.beet-foot-txt p { font-size:80%; line-height: 36px; }
+
+.bett-top-btn { width:90%; margin:10px auto; overflow: hidden; }
+.bett-top-btn .btn-add1,.bett-top-btn .btn-add2 { background: url(../images/betting/touzhu_tianjia_01.png) no-repeat; width: 138px; height: 35px; background-size:138px 35px; border:0; float: left; outline: none;  }
+.bett-top-btn .btn-add2 { background: url(../images/betting/touzhu_tianjia_02.png) no-repeat; background-size:138px 35px; float: right;}
+.betting-info-box { width: 100% }
+.bet-top { background: url(../images/betting/touzhus_anniu_top_01.png) no-repeat; width:90%; height: 14px; background-size:100% 14px; margin:auto;   }
+.bet-info { background: url(../images/betting/touzhus_anniu_bg.png) repeat-y; width:90%; background-size: 100% 100%; margin:auto; }
+.bet-foot { background: url(../images/betting/touzhus_anniu_ft.png) no-repeat; width:90%; height: 10px; background-size: 100% 10px; margin:auto; }
+.bet-info ul { margin:0 2%; }
+.bet-info ul li { overflow: hidden; border-top: 1px dashed #d8d8d8; padding:5px 15px; position: relative;  }
+.bet-close { background: url(../images/betting/touzhu_close_02.png) no-repeat; width:30px; height: 30px; background-size: 30px 30px; display: block; float: left; margin:10px 8px 0 0;}
+.bet-info-li { float: left; }
+.bet-number { color: #bb0102; font-size:100%; }
+.bet-info ul p { font-size:80%;margin: 8px 0; }
+.bet-tall,.bet-low { background: url(../images/betting/alarm_gao.png) no-repeat; width:55px; height: 24px; background-size: 55px 24px; position: absolute; top: 12px; right:8px; }
+.bet-inp{position: absolute;bottom: 32px;right: 8px;}
+.bet-inp span{font-size: 80%;}
+.bet-inp input{width:62px;height: 16px;border: 1px solid #999;border-radius: 2px;font-size: 75%;}
+
+.bet-low { background: url(../images/betting/alarm_di.png) no-repeat; background-size: 55px 24px;  }
+.bet-bot { text-align: center; margin:20px 0; font-size:85%;}
+.bet-bot a { color: #118bce }
+
+.bett-buy-top ul { display: -webkit-box; display: flex; margin:8px 0; }
+.bett-buy-top ul li { width:50%; padding:0 15px 0 25px; box-sizing:border-box;}
+.bett-buy-top ul li.fr { float: right; }
+.bett-buy-top .fl { margin-top: 3px;}
+.buy-int { width:50%; border:1px solid #ccc; border-radius: 3px; background: #f3f3f3; height:28px; text-align: center; line-height: 14px;  }
+.bett-input { margin:0 20px; }
+
+/*-- 玩法弹窗 --*/
+.beet-tips { position: fixed; left: 0; top: 44px; right: 0; background: #f3f3f3; border-bottom: 2px solid #eb2929; z-index: 999; }
+.beet-tips-tit { border-bottom: 1px solid #ddd; text-align: center; margin:0 0 10px; position: relative;}
+.beet-tips-tit span { background: #f3f3f3; padding:0 5px; position: relative; top: 10px;}
+.beet-tips ul { overflow: hidden; margin:10px 0 20px; }
+.beet-tips ul li { width:33.33%; float: left; text-align: center; margin-bottom: 10px; }
+.beet-tips ul li a,.beet-tips ul li a.active { background:#fff url(../images/betting/touzhu_nav_02.png) no-repeat; width:92px; height: 28px; background-size: 92px; height: 28px; display: inline-block; line-height: 28px; }
+.beet-tips ul li a.beet-active { background:#fff url(../images/betting/touzhu_nav_01.png) no-repeat; background-size: 92px; height: 28px; color: #ec2829  }
+
+.beet-rig { position: absolute; top: 35px; right: 15px; background: url(../images/betting/you_caidan_box.png) no-repeat; width:117px; height:160px; background-size:117px 160px; z-index: 100  }
+.beet-rig ul { margin: 11px 1px 0; }
+.beet-rig ul li { text-align: center; line-height: 36px; height: 36px; border-bottom: 1px solid #ddd; }
+.beet-rig ul li a { color: #c91b1c; display: block; }
+
+.bett-odd,.bett-odd-r { background: url(../images/betting/peilv_btn_01.png) no-repeat; width:123px; height: 32.5px; background-size:123px 32.5px; }
+.bett-odd a,.bett-odd-r a { width: 50%; color: #fff; float: left; padding: 5px 0 0 20px; box-sizing: border-box; font-size: 80%; height: 32.5px;}
+.bett-odd a.btn-tall { color: #666; padding: 5px 0 0 10px; }
+.bett-odd-r a.btn-tall {color: #fff; padding: 5px 0 0 10px;}
+.bett-odd-r a.btn-low { color: #666;}
+
+.bett-odd-r {background: url(../images/betting/peilv_btn_02.png) no-repeat;  background-size:123px 32.5px;}
+
+/*-- 走势图 --*/
+.trend-icon { background: url(../images/zoushi_you_anniu_03.png) no-repeat; width:70px; height: 27px; background-size:70px 27px; margin: 8px 3px 0 0; }
+
+.trend-tit { width: 100% }
+.trend-tit span {font-size:80%; width: 16%; background: #f3f3f3; float: left; text-align: center; border:1px solid #ddd; border-bottom:2px solid #ddd; padding: 10px; box-sizing: border-box;  display: block;  border-radius: 10px; margin:2%; }
+.trend-tit span.on { border-bottom: 2px solid #ec2829; background: #fff; }
+
+.trend-content table,.trend-content tbody { width: 100%; box-sizing: border-box; clear:both;}
+.trend-titbg { background: #e9e0d9 }
+.trend-content table th,.trend-content table td { width: 8.5%; text-align: center; border-right: 1px solid #e6dfd7; box-sizing: border-box; height: 34px; line-height: 34px; color: #80756f;font-size: 80%;padding: 0 2px;}
+.trend-content table td { background: #fdfdfd }
+.trend-content table tr.trend-bg td { background: #f3f3e9 }
+.trend-content table tr.trend-bg-average td { background: #00ffff }
+.trend-content table tr td .cur { background:red; border-radius: 50%; display: inline-block;  margin:10px auto 0; box-sizing: border-box; width: 20px; height: 20px; line-height: 20px; text-align: center; color:#000;  }
+.trend-bot { position: absolute; z-index: 100; top: auto; bottom: 0; left: 0; right: 0; width: 100%; background: #f7f7f7; border-top: 1px solid #ccc; height: 30px; line-height: 30px; text-align: center; }
+.trend-bot a { color: #666 }
+
+.trend-foot { background: #fff; height: 44px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 99; box-shadow: 0px -3px 20px #ccc; line-height: 44px;  padding-left:10px;}
+.trend-add { background: #ec2829; position: absolute; right: 10px; top: 5px; z-index: 3; color: #fff; height: 33px; line-height: 33px; border:0; outline: none; font-size: 85%; border-radius: 3px; padding:0 15px; }
+
+.trend-tips { background: #fff; border-radius:5px; width:96%; position: fixed; left: 50%; margin-left: -48%; top: 20%; z-index: 999; padding-bottom: 15px; }
+.tips-bg { background: #000; opacity: .5; position: fixed; left: 0; top: 0; height: 100%; width:100%; z-index: 998; }
+.trtip-tit { border-bottom: 1px solid #ddd; margin:10px; padding-bottom: 5px; }
+.trtip-tit .tr-icon { background: url(../images/zoushi_tubiao.png) no-repeat; background-size: 14px 14px; width:14px; height: 14px; display: block; float: left; margin:4px 3px 0 0;  }
+.trend-tips ul { margin:0 10px; padding-bottom: 15px; }
+.trend-tips ul li { float: left; text-align: center; background: url(../images/zoushi_btn_01.png) no-repeat; background-size:100% 28px; width:30%; height: 28px; line-height: 28px; color: #343434; font-size: 80%; margin:0 3% 10px 0; }
+.trend-tips ul li.trend-on {background: url(../images/zoushi_btn_02.png) no-repeat; background-size:100% 28px; color: #ec2a2a}
+
+/*-- 快乐扑克3 --*/
+.klpk-lot ul { width:60%; margin: auto; }
+.klpk-lot ul li { width:25%; float:left; margin-right: 7px; box-shadow: none; }
+.klpk-per { background: url(../images/klpk/puke_pic_06.png) no-repeat; background-size: 28px 32px; width:28px; height: 32px; }
+.lot-number-tit { margin: 10px; font-size: 90% }
+.lot-number-tit .fl { margin-right: 10px; }
+.klpk3-info { color: #000; padding:3px; box-sizing: border-box; font-size: 80%; margin-left: 10px; }
+.klpk3-info ul { padding:0 0 0 15px; margin-bottom: 15px; width: 25%; box-sizing: border-box; float: left; }
+.klpk3-info-pair ul { width:20%; }
+.klpk-flower ul,.klpk-flush ul { width:25%; padding: 0 }
+.klpk-any ul { width: 20%; }
+.klpk3-info-junko ul,.klpk-choose ul { width:33%; }
+.klpk3-info .on,.pair-on,.klpk3-info-pair .on{ background: url(../images/klpk/puke_xuan.png) no-repeat; background-size:90% 46px; height: 46px; padding-left: 18px; margin-left: -3px; margin-right: 3px;}
+.klpk-info-box { background: url(../images/klpk/puke_pai.png) no-repeat; background-size: 36px 46px; float: left; margin-left:-18px; width: 36px; height: 46px; border-radius: 3px; padding:5px; box-sizing: border-box; }
+
+@media screen and (max-width: 414px) {
+    .klpk3-info .on { background-size:74% 46px; }
+    .klpk-any .on { background-size: 47% 46px;}
+    .klpk3-info-pair .on { background-size:70% 46px;}
+    .klpk3-info-junko .on { background-size: 55% 46px;}
+
+}
+@media screen and (max-width: 375px) {
+    .klpk3-info .on { background-size:82% 46px; }
+    .klpk-any .on { background-size: 51% 46px;}
+    .klpk3-info-pair .on { background-size:77% 46px;}
+    .klpk3-info-junko .on { background-size: 62% 46px;}
+
+}
+@media screen and (max-width: 360px) {
+    .klpk3-info .on { background-size:84% 46px; }
+    .klpk-any .on { background-size: 53% 46px;}
+    .klpk3-info-pair .on { background-size:79% 46px;}
+    .klpk3-info-junko .on { background-size: 64% 46px;}
+
+}
+@media screen and (max-width: 320px) {
+    .klpk3-info .on { background-size:98% 46px; }
+    .klpk-any .on { background-size: 60% 46px;}
+    .klpk3-info-pair .on { background-size:90% 46px;}
+    .klpk3-info-junko .on { background-size: 73% 46px;}
+
+}
+
+.klpk3-heart i { background: url(../images/lottery/kaijiang_17.png) no-repeat; width:8px; height: 8px; background-size:8px 8px; display: block;  }
+.klpk3-black i { background: url(../images/lottery/kaijiang_10.png) no-repeat; background-size:8px 8px;  }
+.klpk-pair { background: url(../images/klpk/baoxuan_pix.png) no-repeat; background-size: 121px 46px; width:121px; height: 46px; padding-left:20px; color: #000; line-height: 46px; margin-left: 10px; box-sizing: border-box; }
+.pair-on { width:135px; height: 46px; box-sizing: border-box; margin-left: 10px; position: relative; }
+.pair-on .klpk-pair { position: absolute; left: -10px; }
+
+.klpk-flower li { width:57px; height: 80px; border:1px solid #d3d3d3; line-height: 110px; text-align: center; border-radius:3px; background: #fff; vertical-align:center;}
+.klpk-flower li i { background:url(../images/klpk/huase_hei.png) no-repeat; background-size: 38px 40px; width:38px; height: 40px; display: inline-block;  }
+.klpk-flower .klpk-flower-red i { background:url(../images/klpk/huase_hong.png) no-repeat; background-size: 40px 40px; width: 40px}
+.klpk-flower .klpk-flower-rule i { background:url(../images/klpk/huase_mei.png) no-repeat; background-size: 40px 40px; width: 40px;}
+.klpk-flower .klpk-flower-wer i { background:url(../images/klpk/huase_fang.png) no-repeat; background-size: 38px 40px;}
+
+.klpk-flush li {width:57px; height: 80px;}
+.klpk-flush li img,.klpk-choose li img { max-width: 100%; }
+.klpk-choose ul { padding: 0 }
+.klpk-choose li { width:100px; }
+
+.six-ul li a { background:url(../images/); }
+
+/*-- 滑动条tips --*/
+.beet-odds-tips { background: #fff; width:80%; height: 265px; margin:-135px 0 0 -40%; left: 50%; position: fixed; top: 50%; z-index: 111; }
+.btn-que { background: #fff; text-align: center; width:50%; display: block; border:0; border-top:1px solid #ddd; height: 40px; line-height: 40px; font-size: 120%; color:#005ddc; position: absolute; bottom:0; right:0; border-left:1px solid #ddd; box-sizing: border-box; }
+.btn-que-no { left: 0 }
+.tips-bg { background: #000; position: fixed; left: 0; top: 0; width:100%; height: 100%; opacity: .5; z-index: 110 }
+.beet-money-int { float: left; width:57px; border:1px solid #ddd; height: 26px; line-height: 13px; padding-left:5px; box-sizing: border-box; color: #000  }
+.odds-tips-tit { text-align: center; border-bottom: 1px solid #ddd; height: 37px; line-height: 37px;}
+.beet-odds-info { font-size: 80%; line-height: 15px; }
+.beet-odds-info div { padding-left: 15px; line-height: 22px; color:#666; word-wrap: break-word;}
+.beet-money { overflow: hidden; font-size: 80%; line-height: 26px; margin-bottom:10px; }
+.beet-money a { width:32px; text-align: center; height: 24px; line-height: 24px; color:#666; background: #f3f3f3; border:1px solid #ddd; float: left; }
+.beet-money a.acitve { background: #f28010; color: #fff; border:1px solid #dd7212; }
+.beet-money .fl { line-height: 26px; }
+.odds-btn-none,.odds-btn-ture { background: #fff; height:40px; line-height: 40px; width:50%; text-align: center; border:0; color: #005ddc; font-size: 120%; border-top:1px solid #ddd; box-sizing: border-box; position: absolute; bottom:0;}
+.odds-btn-ture { border-left:1px solid #ddd; color: #005ddc; right:0; }
+#prize_money { color:#00bf16; }
+
+/*-- 个人中心 --*/
+.order-center ul li { border-bottom: 1px solid #dfdfdd;  padding:10px 15px; overflow: hidden;}
+.order-center ul li a { background: url(../images/goucai_hp_more.png) no-repeat center right; background-size:7.5px 13.5px; height: 50px; display: block;}
+.order-center .fr { margin-right: 10px; }
+.order-center ul li .order-list-tit { font-size: 90%; color: #000; overflow: hidden }
+.order-center ul li .order-list-tit .c-red i { border-radius:50%; background: #f00; width:10px; height:10px; display: inline-block;}
+.order-center .c-gary { color: #999; font-size: 90%; margin-top: 10px; }
+.order-top-left { width:7em; float: left; }
+
+.ui-dialog .ui-dialog-buttonpane button { background: #ec2829; border-radius: 5px; height: 30px; line-height: 30px; text-align: center; border: 0; color: #fff; font-size: 100%; margin-top: 20px; display: inline-block; outline: none; }
+
+.order-tit { padding:15px 10px 10px; border-bottom: 1px solid #ddd; overflow: hidden; }
+.order-tit .order-top-right { float: left;}
+.order-icon { width:45px; float: left; margin-right: 15px; }
+.order-icon img { max-width:100%; }
+
+.order-info { padding: 15px; }
+.order-info h3 { border-left:5px solid #fe0103; height: 18px; line-height: 18px; padding-left: 5px; margin-bottom: 5px; }
+.order-info ul li { overflow: hidden; line-height: 20px; word-break:break-all;  }
+.order-info ul li .grey { width:5em; float: left; }
+.order-top-right .lot-number { overflow: hidden; }
+.order-top-right .lot-number .red { font-size:100%; line-height: 26px; float: left;}
+.order-top-right .lot-number .red span { margin:0 2px; }
+.order-top-right .lot-number .num-more span { margin:0 2px; }
+.order-top-right .f80 { margin-left: 15px; }
+@media screen and (max-width: 375px) {
+  .order-top-right .lot-number .num-more span { float: left;  }
+  .order-tit .order-top-right { width:240px; }
+  .order-top-right .lot-number .grey { width:37%; }
+  .order-top-right .lot-number .red { width:60%; }
+}
+
+.order-btn { margin:10px auto 30px; width: 90%; background: #c3191c; color: #fff; height:35px; line-height: 35px; display: block; border:0; border-radius:3px; font-size: 100%; outline: none;   }
+
+/*-- 账户明细 --*/
+.recharge ul li { border-bottom:1px dashed #666; line-height: 40px; overflow: hidden; padding-left: 15px; }
+.recharge-left { float: left; width:5em; }
+
+/*-- 六合彩 --*/
+.six-ul ul { padding:0 10px; margin-top: 10px }
+.six-ul ul li { width:29%; float: left; margin:0 2%; }
+.six-ul ul li a { padding:5% 4%; background: url(../images/liuhecai_btn_weixuan.png) no-repeat; background-size:100% 100%; float: left; width: 100%; height: 127.5px; display: block; box-sizing: border-box; }
+/* .six-ul ul li:first-child,.six-odds ul li:first-child { margin-left: 0 } */
+.six-ul ul li:last-child,.six-odds ul li:last-child { margin-right: 0; }
+.six-ul ul li .six-ul-tit { font-size: 120%; color: #000; text-align: center; margin-bottom: 10px;}
+
+.six-ul ul li span { width: 20%; display: block; text-align: center; float: left; font-size: 80%; }
+
+.six-ul ul li.choose a { background: url(../images/liuhecai_btn_xuanzhong.png) no-repeat #fff; background-size:100% 100%; width:100%;  }
+.six-ul ul li.choose span,.six-ul ul li.choose .six-ul-tit { color: #e9090a }
+
+.six-odds { padding:2%; margin:0 1%; line-height: 30px; font-size: 80%; text-align: center; color: #999}
+
+/* .six-ul ul li:first-child .six-odds { text-align: left; } */
+.six-ul ul li span.six-odds-i { background: url(../images/touzhu_qian_bg.png) no-repeat; background-size: 42px 18px; width:42px; height: 18px;line-height: 18px; padding-left:4px;float: left; margin:5px 0 0 0; text-align: left; }
+
+
+.six-lunar ul li { margin-bottom: 10px;}
+.six-lunar ul li a { background: url(../images/liuhecai_btn_weixuan_01.png) no-repeat; background-size:100% 100%; height: 59px; padding:3% 2%;}
+.six-lunar ul li.choose a { background: url(../images/liuhecai_btn_xuanzhong_02.png) #fff no-repeat; background-size:100% 100%; }
+.six-money { background:#fff; height:41px; border-top:1px solid #ddd; text-align: center; position: fixed; left: 0; bottom:45px; right:0; line-height: 41px; z-index: 99}
+.six-money-int { border:1px solid #ccc; width:72px; height: 26px; line-height: 13px; border-radius: 5px; margin:0 5px; color: #666; padding-left: 5px; }
+.six-odds-text { background: #fffbf0; height:24px; line-height: 24px; color: #e91514; position: fixed; left: 0; bottom:86px; right: 0; z-index: 999; width:100%; border-top:1px solid #ddd; padding-left: 10px; font-size: 80%;  }
+.six-odds-text i { background: #e71514; width:6px; height: 6px; border-radius:50%; float: left; margin:8px 5px 0 0; }
+
+/*-- 个人中心 --*/
+.user-mess ul li { border-bottom:1px solid #ddd; padding:10px; line-height: 24px; position: relative;}
+.user-mess ul li p {overflow: hidden;}
+.user-mess ul li a {background: url(../images/goucai_hp_more.png) no-repeat center right; background-size:7.5px 13.5px; height: 50px; display: block; color: #000}
+.user-mess ul li .time { color: #999; font-size: 80%  }
+
+.user-mess-text { margin:10px; }
+.user-mess-text .mess-tit { color: #000; text-align: center; font-size: 120%; line-height: 30px; }
+.user-mess-text p { font-size: 90%; color: #666; text-indent: 2em; line-height: 24px; }
+.user-mess i { background: #e71514; width:6px; height: 6px; border-radius:50%; display: block; float: left; margin:8px 5px;}
+
+/*-- 充值 --*/
+.tit { background:#f1f1f1; padding-left: 10px; height: 30px; line-height: 30px; margin-top: 5px; }
+.charge {margin:10px;}
+.charge-menu ul { display: -webkit-block; display: flex; }
+.charge-menu ul li a { width:70px; background: #F5F5F5; margin:0 3px; height:35px; line-height: 35px; float: left; text-align: center; font-size: 85%}
+.charge-menu ul li a.act { background:#af1e1e; color: #fff; }
+
+.tit-bt { margin-top: 10px; }
+.user-charge { font-size: 90%; }
+.user-charge ul li { margin:5px 0; line-height: 30px; }
+.chos-bank { border:1px solid #ccc; height: 28px; line-height: 28px; padding-left: 5px; width:150px; border-radius: 5px;}
+
+.charge-tips { font-size: 80%; margin-top: 20px; }
+.charge-tips h3 { color: #ec2929 }
+.charge-btn { background:#ec2929; border:0; border-radius: 5px; color: #fff; height:36x; font-size: 100%; line-height: 36px; width: 95%; margin:20px auto 0; display: block; outline: none;  }
+
+.charge-bank { background:#fff; padding: 10px 0; position: relative; border:1px solid #ddd; border-width: 1px 0;}
+.charge-bank ul li { overflow: hidden; font-size: 80%; line-height: 24px; color: #999}
+.charge-bank ul li .left { width:70px; float: left; text-align: right; padding-right: 10px; height: 25px; color: #000; }
+.charge-bank ul li .rec_name,.charge-bank ul li .rec_bank,.charge-bank ul li .rec_addr,.charge-bank ul li .rec_account  { float: left; }
+.choose-ture,.choose-green { background: url(../images/cz_01.png); background-size: 24px 24px; width: 24px; height: 24px; position: absolute; top: 10px; right:10px; z-index: 9 }
+.choose-green {background: url(../images/cz_02.png); background-size: 24px 24px; width: 24px; height: 24px; }
+
+.arge-btn { overflow: hidden; margin-left: 15px; }
+.arge-btn button { background: #fff; border:1px solid #ec2929; border-radius: 5px; color: #ec2929; height:36x; font-size: 100%; line-height: 36px; width: 45%; margin:10px auto 0; display: block; outline: none; float: left; margin-right: 5%;  }
+.arge-btn .arge-btn2 { margin-right: 0; background: #ec2929; color: #fff; }
+
+.tit-txt { padding:10px ; }
+.tit-txt p { font-size: 80%; color: #999 }
+.int-charge { border:1px solid #ccc; height: 20px; line-height: 20px; padding-left: 5px; width:150px; border-radius: 5px; margin-bottom: 3px}
+
+.charge-copy { background: url(../images/fuzhi_cz.png) no-repeat; background-size: 47px 22.5px; width:47px; height: 22.5px; float: right; margin-right: 5%; }
+.charge-choose { background:#fff; padding: 10px 0; position: relative; border:1px solid #ddd; border-width: 1px 0; margin-bottom: 15px; overflow: hidden;}
+.charge-choose ul li { float: left; width:125px; padding:0 15px; font-size: 80%; margin:5px 0;}
+.choose-ture-c,.choose-ture-d { background: url(../images/cz_01.png); background-size: 24px 24px; width: 24px; height: 24px; float: left; margin-right: 5px;}
+.chare-green { color: #61b219 }
+.chare-green .choose-ture-c {background: url(../images/cz_02.png); background-size: 24px 24px; width: 24px; height: 24px;}
+
+/*-- 提现 --*/
+.cash-text,.cash-txt,.cash-list { background: #fff; border:1px solid #ddd; border-width: 1px 0 }
+.cash-text ul { margin:0 10px; }
+.cash-text ul li,.cash-list ul li { border-bottom: 1px solid #ddd; height: 40px; line-height: 40px  }
+.cash-text ul li .text-left { float: left; }
+.cash-text ul li input { float: right; border:0; color: #000; text-align: right; width: 70%; }
+.cash-text ul li:last-child,.cash-list ul li:last-child{ border-bottom: 0 }
+
+.cash-txt,.cash-list { padding:10px 0; margin-top: 15px; }
+.cash-txt h3 { padding-left: 10px; }
+.cash-txt ul { overflow: hidden; }
+.cash-txt ul li { float: left; width:50%; box-sizing: border-box; font-size: 80%; padding-left: 10px; white-space: nowrap;}
+.cash-txt ul li span { color: #999; white-space: nowrap; }
+.cash-list { padding:0; margin-bottom: 10px; }
+.cash-list ul li { padding-left:10px; overflow: hidden;}
+.cash-list ul li span { float:left;}
+.cash-int { float: left;margin-top: 5px;line-height: 14px; border:1px solid #ddd; border-radius: 3px; height: 28px; font-size:80%; padding-left: 10px; width:150px; }
+.cash-list select { border:1px solid #ddd; width:40px; height: 25px; margin-right: 5px; color: #666; outline: none; }
+
+.wiht-img { width:60px; height: 60px; text-align: center; margin:20px auto; }
+.wiht-img img {max-width: 100%}
+.with-end { font-size: 120%; }
+.sub-txt { text-align: left; width:100%; margin:10px auto; font-size: 80%; position: relative; }
+.sub-txt p { position: relative; left: calc(50% - 96px); width:100%; }
+     
+
+/*充值 2016-9-14 kent*/
+
+.rech-top { height:42px; line-height: 42px; background: #f3f3f3; font-size: 80%; padding:0 10px; }
+.rech-top-left { float: left }
+.rech-top-right { float: right; }
+.rech-top-right .fr { width: 30px; height: 30px; margin-top:7px; }
+.rech-top-right .fr img { max-width: 100%; }
+.rech-money { background: #fff; border: 1px solid #ddd; border-width: 1px 0; padding:10px; overflow: hidden; line-height:30px; }
+.rech-money span { font-size:80%}
+.rech-money button { height:32px; line-height: 32px; padding:0 10px; background: #f6f6f6; border:1px solid #ddd; float: left; margin-right:5px; outline: none; }
+.rech-money button.on { color: #fff; background: #ec2829; border:1px solid #d71617; }
+.rech-money input { height: 32px; line-height: 16px; padding-left: 5px; border:1px solid #ddd; width: 100px; float: left; font-size: 80%; }
+
+.rech-tit { height:40px; line-height: 40px; padding-left: 10px; }
+.rech-box { background: #fff; border:1px solid #ddd; border-width: 1px 0; border-bottom: none; }
+.rech-title { overflow: hidden; }
+.rech-title a { width:25%; border-right:1px solid #ddd; float: left; height:34px; line-height: 34px; box-sizing: border-box; text-align: center; border-bottom: 1px solid #ddd }
+.rech-title a.on { border-bottom: 2px solid #eb2929 }
+
+.wechat-box li { border-bottom: 1px solid #ddd; padding:10px; }
+.wechat-box li .fr { width:24px; height: 24px; margin-top:10px ; }
+.wechat-box li p { font-size: 80%; color: #666; }
+
+.wechat-important { font-size: 80%; padding:10px; overflow: hidden; }
+.wechat-important img { float: left;}
+.wechat-important .fl { width:33.5px; height: 29.5px; margin:5px 10px 0 0; }
+.pay-sorry { float: left; margin:5px 0 0 10px; width:73%;}
+
+.rech-bank {background: #f3f3f3; text-align: center; }
+.rech-bank select { border:0; font-size: 80%; line-height: 24px; height: 24px; color: #666; font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif; outline: none; }
+.charge-two { text-align: center; }
+.charge-two img { width: 114px; height: 114px; }
+
+.login-repoist ul {margin:60px 0 40px; }
+.login-repoist ul li { padding-left: 10px; background: #fff;  border-top:1px solid #ddd; border-bottom: 1px solid #ddd; height: 50px; width: 100%; line-height: 50px; margin-bottom: 10px;  box-sizing: border-box;}
+.login-repoist .login-peo,.login-repoist .login-pass { background: url(../images/login/login_peo.png) no-repeat; width:17px; height: 20px; background-size: 17px 20px; display: block; float: left; margin-top: 13px; }
+.login-repoist .login-pass { background:url(../images/login/login_pass.png) no-repeat; background-size: 17px 20px;  }
+.login-repoist input { padding-left: 10px; color: #000; height: 34px; line-height: 34px; background: #fff; width:220px; }
+.login-repoist input.c-red { color: #ec2929 }
+.login-p { margin:0 auto 20px; width:96%; overflow: hidden; }
+
+.login-btn,.reg-btn { background: #f13031; margin:0 auto; margin-top:30px; width: 92%; font-size:18px; height: 40px; line-height: 40px;  color: #fff; border:0; border-radius:3px; display: block; outline: none; font-family: 'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif;}
+.reg-btn { margin-top: 20px; background: #fff; border:1px solid #ddd; color: #f13031; text-align: center; cursor: pointer; }
+
+.rech-end { padding:10px 20px; margin:10px; overflow: hidden; }
+.rech-end-left { width: 30px; height: 116px; float: left; }
+.rech-end-right { float: left; margin-left: 10px; }
+.rech-end-right h3 { font-size: 120%; }
+.rech-end-right p { color: #666; font-size: 80% }
+.rech-end-right .bot-end { margin-top: 24px; }
+
+.on-more { height: 40px; line-height: 40px; text-align: center; display: block;  font-size: 80%; }
+
+.choose-tit { border-left:4px solid red; margin-left: 10px; text-indent: 5px; margin-top: 10px;}
+.cash-nobor { border:0; width:60%}
+.cash-list .choose-sel { width:auto;}
+span#play_name,span#order_type,span#status_type,span#account_type,span#msg_type {font-size: 14px;}
+/*-- confim提示框 @  2016-12-31--*/
+#_confim_,#_confim_2{position:fixed;background-color:rgba(50,50,50,0.2);width:100%;height:100%;left:0;top:0;z-index:188;}
+._confim_{width:84%;background:#fff;border:2px #CBC7C7 solid;box-sizing:border-box;border-radius:5px;line-height:18px;position:absolute;left:8%;top:31%;min-height:29%;color:#666;}
+._confim_>.title{display:none!important;height:44px;position:relative;border-bottom:1px #D7D7D7 solid;margin:0 15px;}
+._confim_>.title>span{height:45px;border-bottom:3px #ea721a solid;position:absolute;line-height:46px;padding:0 3px;}
+._confim_  .btn_close{position:absolute;width:24px;height:24px;top:15px;right:2px;cursor:pointer;}
+._confim_  .btn_close:hover>span{transform:rotate(180deg);-moz-transform:rotate(180deg);-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);-ms-transform:rotate(180deg);}
+._confim_  .btn_close>span{width:18px;height:18px;display:block;background:url(/common/statics/img/icon/mdl-icon.png) no-repeat -11px -80px;border:none;
+    transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;-ms-transition:all .2s ease-in-out;}
+._confim_ .btn_ok,._confim_ .btn_cancel{float:left;cursor:pointer;width:50%;font-size:90%;line-height:2.3;color:#888;text-align:center;border:0;margin:1px auto;background-color:rgba(255,255,255,0);letter-spacing:6px;word-spacing:4px;padding-left:6px;
+    -webkit-transition:all .1s linear;-moz-transition:all .1s linear;-o-transition:all .1s linear;-ms-transition:all .1s linear;transition:all .1s linear; }
+._confim_>p{text-align:center;padding:6% 5% 5% 5%;line-height:1.4;}
+._confim_ .btn_div{width:98%;left:1%;margin:0 auto;position:absolute;bottom:2px;border-top:1px solid #99968E;}
+._confim_ .btn_cancel{margin-left:-2px;float:right!important;border-left:1px solid #99968E;}
+._confim_.anim{animation:0.3s key_alert ease-out;-webkit-animation:0.3s key_alert ease-out;-ms-animation:0.3s key_alert ease-out;transform-origin:center;-webkit-transform-origin:center;-ms-transform-origin:center;}
+/*-- confim提示框 结束  --*/
+
+/* -- 首页弹出框 -- */
+.home-tips { background:url(../images/home-tips.png) no-repeat; width:16rem; height: 28rem; background-size: 100% 100%; position: fixed; left: 50%; top: 50%; z-index: 999; margin:-14rem 0 0 -8rem; display: none;  }
+.home-close { position: absolute; left: 50%; top: 0; z-index: 2; width:12%; height: 7%; margin-left: -6%; }
+.ios-btn,.and-btn { width:80%; position: absolute; bottom:19%; z-index: 9; height: 12%; left: 10%; }
+.and-btn { bottom:6%; }
+
+.home-dwon { background: url(../images/home-dwon.png) no-repeat; width:18rem; height: 20.5rem; background-size:100% 100%; position: fixed; left: 50%; top: 50%; z-index: 999; margin:-12rem 0 0 -9rem;  }
+.home-dwon-noupd { background: url(../images/home-dwon1.png) no-repeat; width:18rem; height: 20.5rem; background-size:100% 100%; position: fixed; left: 50%; top: 50%; z-index: 999; margin:-12rem 0 0 -9rem;  }
+.homedwon-href,.homedwon-href500,.homedwon-hreffhcp  { font:1.8rem/2rem Impact; color:#b00013; position: absolute; left:8.9rem; top: 3.5rem; }
+.homedwon-href500 { font-size:1.3rem; }
+.homedwon-hreffhcp { font-size:1.2rem;}
+.homedwon-txt { margin:7rem 2rem 0; font-size: 0.8rem; color:#fff; line-height: 2rem; }
+.homedwon-txt span { background: #fff; color:#be1112; border-radius: 50%; width:1rem; height: 1rem; line-height: 1rem; text-align: center; float: left; margin:8px 5px 0 0;}
+.homedwon-btn { position: absolute; bottom:1rem; width: 100%; }
+.homedwon-btn a { width:90%; margin:auto; display: block; height:3.1rem; }
+
+/* - loading - */
+.loading { padding:2px 6px; background-color:rgba(0,0,0,0.5); position: fixed; top:40%; left: 50%; margin-left: -2em; z-index: 102; color: #919191; display: inline-block; }
+.loading-bg { background-color:rgba(0,0,0,0.4); position: fixed; width:100%; height: 100%; left: 0; top: 0; right: 0; z-index: 101; }
+
+.bet-more { position: fixed; left: 0; bottom: 10px; right: 0; width:100%; text-align: center; }
+
+
+/* 抢红包样式表 */
+.lucky {float: left;width: 100%; margin-top: 3%;}
+.lucky span { display: block; line-height: 1rem;}
+.lottery-bags .hot-icon { float: left; padding: 0.8rem; width: 25%;}
+.erect-right .red_span { color: #ed2d2a; font-size: 0.8rem;}
+.erect-right .p-gray {color: #656565; font-size: 0.8rem;}
+.span-fz { font-size: 0.8rem; margin-top: 4px !important;}
+.lottery-bags p { margin:0px;}
+.lottery-bags span { margin: 2px 0px 4px 0.5rem;}
+.purchase {background:none; border: none; color: #323232; font-size: 0.8rem; width: 4.4rem; float: right; margin-right: 0.2rem;}
+.prog { width: 12.4rem; height: .8rem; background-color: #eeeeee; border-radius:2rem;}
+.prog-bg {width: 50%; height: .8rem;border-radius:2rem; text-align: right; padding-right: .2rem; color: #fff; font-size: .4rem;
+		background: -ms-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));  /* IE 10 */
+		background: -moz-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));/*火狐*/ 
+		background: -webkit-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));/*谷歌*/ 
+		background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#f9944e), to(#fe6b04));      /* Safari 4-5, Chrome 1-9*/
+		background: -webkit-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));   /*Safari5.1 Chrome 10+*/
+		background: -o-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));  /*Opera 11.10+*/
+		background: linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));
+}
+.bags-title { font-size: 1rem;}
+.lottery-list .red_span { color: #ed2d2a; font-size: 1rem;}
+.clear {clear: both; }
+.clearfix {zoom: 1; }
+.clearfix:after {content: "";font-size: 0;display: block;height: 0;clear: both;visibility: hidden;overflow: hidden; }
+	
+.bags-index-bg { background: url(../images/bags/beijing.png); width: 100%; height: 100%; /*图片拉伸→*/ position: fixed;  text-align: center;}
+.bags-index-bg .bags-cont { position: relative; width: 80%; margin: 0 auto;}
+.bags-index-bg .bags-cont > img { margin-top: 35%;}
+.bags-index-bg .bags-cont .cont-text { position: absolute; top: 42%; left: 40%; margin-left: -30%; text-align: center; width: 80%;}
+.bags-index-bg .bags-cont .cont-text .bags-time { width: 100%; height: 3rem; line-height: 3rem; color: #fff; font-size: 1.2rem; text-align: center; color: #fbe76b;}
+.bags-index-bg .bags-cont .cont-text .bags-time .bags-money { font-size: 2.3rem; font-family:Impact; margin-right: 0.1rem;}
+.bags-index-bg .bags-cont .cont-text p { color: #fff; font-size: 1rem; margin: 8px 24px;}
+.bags-index-bg .bags-cont .cont-text .see-rule { margin-top: 1rem;}
+.bags-index-bg .bags-cont .cont-text .see-rule div { width: 47%; height: 2.5rem; line-height: 2.5rem; box-shadow:1px 1px 2px #b30d17 inset; background-color: #cc0b1e; border-radius: 3rem; color: #fff; font-size: .95rem;}
+.bags-index-bg .bags-cont .cont-text .see-rule .bags-see {float: left;}
+.bags-index-bg .bags-cont .cont-text .see-rule .bags-rule {float: right;}
+.bags-open {position: absolute; bottom: 1rem; left: 50%; z-index: 3; width:24%; display: block;/* background: url(images/bags/liji.png) no-repeat center;*/  margin:0 -12% 0;}
+.bags-open img { max-width: 100%;}
+.see-popup { position: fixed; top: 50%; left: 50%;text-align: center; margin: -44% 0 0 -45%; width: 90%; height:auto; background: #fff; z-index: 6; }
+.see-popup .see-title { font-size: 1.2rem; line-height: 3rem; border-bottom: 1px solid #cacaca; color: #d0676c;}
+.see-popup .see-tiem {  font-size: .95rem; margin-top: 2%; color: #666;}
+.see-popup .see-prog { width: 90%; height: 1rem; line-height: 1rem; background-color: #eeeeee; border-radius:2rem; margin: 0 auto; margin-top: 3%;}
+.see-popup .see-prog-bg {width: 50%; height: 1rem;border-radius:2rem; text-align: right; padding-right: .2rem; color: #fff; font-size: .4rem;
+	background: -ms-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));  /* IE 10 */
+	background: -moz-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));/*火狐*/ 
+	background: -webkit-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));/*谷歌*/ 
+	background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#f9944e), to(#fe6b04));      /* Safari 4-5, Chrome 1-9*/
+	background: -webkit-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));   /*Safari5.1 Chrome 10+*/
+	background: -o-linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));  /*Opera 11.10+*/
+	background: linear-gradient(linear, 0% 0%, 100% 0%,from(#f9944e), to(#fe6b04));    
+}
+.sub_ScorllCont .textar { margin-top: 5px; outline: none; resize: none; font-family:'Helvetica Neue', Arial, "Hiragino Sans GB", 'Microsoft YaHei', sans-serif; padding:10px 15px; color:#666; font-size:1rem; box-sizing: border-box; width: 100%; border:1px solid #ddd; }
+.see-popup .see-part { text-align: left; margin: 0 auto; margin-top: 5%; font-size: .9rem; color: #666; width: 90%;}
+.see-popup .see-part input { width: 25%; height: 1.6rem; line-height: 1.6rem; margin:0rem .3rem 0 .5rem; border: 1px solid #cdcdcd; border-radius:3px; text-align: center; color: #626262; -webkit-appearance: none;}
+.see-popup .see-part span { color: #bc0406; margin-left: 0.2rem;font-size: 1rem;}
+.see-popup .see-part-secon { margin: 0 auto; margin-top: 5%; width: 90%;}
+.see-popup .see-part-secon ul li { float: left; width: 30%; height: 1.8rem; line-height: 1.8rem; border: 1px solid #cdcdcd; border-radius:3px; margin-bottom: 1rem; color: #666; cursor: pointer;}
+.see-popup .see-part-secon ul li:hover {background-color:#f3f3f3;box-shadow:1px 1px 3px #c9c9c9 inset;}
+.see-popup .see-part-secon ul li:nth-child(1),.see-popup .see-part-secon ul li:nth-child(2) ,.see-popup .see-part-secon ul li:nth-child(4) {margin-right: 3.8%;}
+.see-popup .see-part-secon ul li.on { border:1px solid red;}
+.see-popup .see-part-secon ul li.rule-jump { background: #f3f3f3; font-size: .9rem;box-shadow:1px 1px 3px #c9c9c9 inset;}
+.see-popup .see-bottu { border-top: 1px solid #cdcdcd; margin-top: 1rem;}
+.see-popup .see-bottu div { width: 49.5%; height: 2.5rem; line-height: 2.5rem; float: left; color: #d0676c; font-size: 1rem;}
+.see-popup .see-bottu .cancel { border-right:1px solid #cdcdcd;}
+
+.rule-cont { position: fixed; top: 50%; left: 50%;text-align: center; margin: -177px 0 0 -45%; width: 90%; height:auto; background: #fff; z-index: 6; }
+.rule-cont .rule-title {font-size: 1.2rem; margin-bottom:.3rem; line-height: 2.5rem; border-bottom: 1px solid #cacaca; color: #d0676c;}
+.rule-cont .rule-text { width: 90%;height: 250px; overflow: auto; line-height: 1.5rem; color: #6d6d6d; font-size: 0.6rem; margin: 0 auto; text-align:justify;text-justify:inter-ideograph;}
+.rule-cont .rule-text h4 { font-weight: bold; font-size: 0.8rem;}
+.rule-cont .rule-return {font-size: 1.2rem;line-height: 2.5rem; border-top: 1px solid #cacaca; color: #d0676c; margin-top: 1rem;}
+.mask {width: 100%; height: 100%; background: rgba(0,0,0,0.5); position: fixed; top: 0; z-index: 4;}
+.rigth-mt { margin-top: .3rem;}
+
+.basg-ann { height: 2rem; line-height: 2rem; margin-top: 0.2rem; background-color: #e6e6e6;}
+.basg-ann span { margin: 0 0.5rem; color: #828282; font-size: 1rem;}
+.basg-form { height: 4rem; background-color: #ff5454; margin-top: 0.2rem;}
+.basg-form span ,.basg-form p { margin-left: 0.5rem; color: #FFF; font-size: 1rem;}
+.basg-form span { padding-top: 0.7rem; display: block; font-size: 0.9rem;}
+.basg-text { border-bottom: 1px solid #e2e2e2;}
+.basg-text p{margin: 0 0.5rem; font-size: 0.85rem; color: #a1a1a1; padding: 0.5rem 0;}
+.basg-part { margin-top:0.2rem;}
+.basg-part .basg-part-title { margin: 0 0.5rem; color: #a1a1a1;}
+.basg-part .basg-part-title span { font-size: 0.95rem;}
+.basg-part ul li { font-size: 0.85rem; color: #A1A1A1; margin: 0.5rem 0.5rem;}
+.qhb-ui-toolbar-right {position: absolute;z-index: 2;top: 12px;right: 10px;font-size: 16px;color: #fff;}
+.sub-copy { max-width: 260px;}
+.list-span {width:195px;display:block;float:left;}
+
+/*-- 系统维护 --*/
+.main-img { width:115px; margin:auto; }
+.main-mess { text-align: center; }
+.main-mess h3 { font-size: 140%; margin:5% 0; }
+
+.main-txt { margin:5% 0 0 0; font-size: 100%; text-align: center; }
+.main-txt span { color:#f00; }
+
+/* wap抢红包 */
+@media only screen and (max-width:320px ) {
+	.list-span {width:138px;}
+}
+
+
+
+/*- 媒体查询 ipad 768 -*/
+@media screen and (min-width: 768px) {
+    .wait-lot11 { margin-top: 8px; text-align: center; }
+	  .home-tips { background:url(../images/home-tips.png) no-repeat; width:414px; height: 730px; background-size: 100% 100%; position: fixed; left: 50%; top: 50%; z-index: 999; margin:-365px 0 0 -205px;  }
+    .lott_bar {padding: 178px 0 102px; overflow: hidden;}
+    .lott-menu ul li img { min-width: 100%; max-height: 114px; }
+    .erect-right div .red { padding-top: 14px; font-size: 140%; }
+    .erect-right p { padding-top: 14px; font-size: 120%;}
+    .erect-right .price { padding-top: 14px; font-size: 160%;}
+    .erect-right p span {font-size: 100% !important;}
+    .f120 {font-size: 160% !important;}
+    .lott-list-tit {font-size: 110%;}
+    .lott-list-tit span.gray { font-size: 100% !important;}
+    .k3-number ul, .klpk3-number ul {width: 150px;height: 40px;line-height: 30px; background-size: 150px 40px;padding: 5px 0 0 10px;}
+    .k3-number ul li {margin-right: 0px;margin-left: 6%;}
+    .lottery-info ul li a, .lott-list ul li.list-k3 a { font-size: 105%;}
+    .two-ball { font-size: 120%; height: 40px; line-height: 44px;}
+    .lot-num-list i.lot, i.lot-blue, .two-ball i {width: 35px;height: 35px;line-height: 35px;font-size: 120%;}
+    .trend-content table tr td .cur {width: 30px;height: 30px;line-height: 30px;/*font-size: 140%;*/}
+    .trend-content table th, .trend-content table td {font-size: 125%; height: 48px; line-height: 48px;}
+    .news-info-list ul li div {font-size: 180%;}
+    .news-info-list ul li { height: 50px; line-height: 50px;}
+    .pol-icon {width: 25px !important;height: 25px!important;background-size: 25px 25px!important; margin: 8px 5px!important;}
+    .news-info-list ul li .pol-icon { margin-top: 15px!important;}
+    .hot-text {font-size: 160%;}
+    .last-time {font-size: 140% !important;}
+    .login ul li {height: 80px; line-height: 80px;}
+    .login ul li .logi { font-size: 140%;}
+    .login .login-peo, .login .login-pass {width: 23px;height: 25px;background-size: 23px 25px; margin-top: 28px;}
+    .login ul li input {width: 70%; font-size: 120%;margin-top: 14px;}
+    #captcha_img { margin-top: 14px;}
+    .login-p { font-size: 140%;}
+    .login-btn, .reg-btn { height: 50px;line-height: 50px; font-size: 140%;}
+    .reg-btn { font-size: 130% !important; }
+    .mine-list ul li {height: 80px;line-height: 80px; font-size: 140%; background-size: 15px 15px;}
+    .mine-list ul li a img {width: 28px;height: 28px;margin: 25px 15px 0 0;}
+     .order-center ul li { padding: 15px 15px;}
+    .order-center ul li a { background-size: 10.5px 16.5px;}
+    .order-center ul li .order-list-tit { font-size: 120%;}
+    .order-center .c-gary span ,.order-center .c-gary p { font-size: 120% !important;}
+    .mine-tit { font-size: 1.5rem;}
+    .mine-info ul li p { font-size: 1.4rem;}
+    /*.tow-ball-cont { height: 40px;line-height: 40px; font-size: 140%;}*/
+    .charge-tips { font-size: 120%;}
+    .mine-head .mine-name { font-size: 2.2rem; padding-top: 30px;}
+    .charge-bank ul li { font-size: 100%; line-height: 30px;}
+    .charge-bank ul li .left { font-size: 1.4rem; width: 8rem; padding-bottom: 0.5rem;}
+    .charge-copy { background-size: 85px 35px; width: 85px;height: 35px; margin-right: 5%;}
+    .charge-btn { font-size: 140%; height: 45px;line-height: 45px;}
+	.mine-top {height: 250px;}
+	.mine-info ul {padding-top: 100px;}
+	.mine-refresh1 { font-size: 1.6rem!important; line-height: 55px;}
+	.charge-bank ul li textarea { font-size: 1.2rem; width: 86.2%;}
+	.news-info { height: 180px !important; max-height: 180px!important;}
+	
+	.odds-tips-tit {font-size: 140%; height: 47px; line-height: 47px;}
+	.beet-odds-info .btn-que { font-size: 120%;}
+    .red-icon { margin-top: 35px;  }
+	.lot-txt{ width: 85px; height: 30px!important; background-size: 85px 30px; line-height: 30px; font-size: 125%!important;}
+	.lot-time, .dat-time { height: 90px;}
+	.lot-time p { font-size: 120%; margin-top: 5px; margin-bottom: 2px;}
+	.dat-time P { font-size:120%!important; margin-top: 5px; margin-bottom: 2px;}
+	.time-late { width: 190px; height: 30px; background-size: 190px 30px;}
+	.time-late .time-kong { width: 11px;}
+	.time-late span { font-size: 140%; width: 28px; height: 30px;}
+	.btn-none, .btn-add { width: 80px; font-size: 110%; margin-top: 5px;}
+	.beet-foot-txt p { font-size: 100%;}
+	.beet-foot-txt p span { font-size:120%;}
+	.trend-add { font-size: 110%;}
+	.trend-foot-txt span { font-size: 120%;}
+	.trend-tit span { font-size: 100%;}
+	.trtip-tit{ font-size: 120%;}
+	.trtip-tit i { width: 20px;height: 20px; background-size: 20px 20px;}
+	.trend-tips ul li { font-size: 100%; background-size: 100% 46px !important; height: 46px; line-height: 46px;}
+	.slide-top .fl { font-size: 120%;}
+	.slide-top .fl label,.slide-top .fr label, .slide-top .fl input,.slide-top .fr,.slide-top .fr input { font-size: 120% !important; line-height: 24px !important}
+	.beet-odds-tips { height: 345px; padding-bottom: 10px;}
+	.slidebg .ui-widget-content {height: 34px;background-size: 100% 34px;}
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { height: 25px; background-size: 25px 25px;}
+	.beet-odds-info div { font-size: 140% !important; margin-bottom: 10px; padding-left: 15px;}
+	.ui-dialog .ui-dialog-buttonpane button { height: 30px;}
+	#shuchukuang { font-size: 1rem;}
+	
+	.odds-btn-none, .odds-btn-ture { height: 50px; line-height: 50px; font-size:1.2rem; }
+	.bet-info-li div,.bet-info-li p { font-size:120% !important;}
+	.bet-close { margin: 20px 8px 0 0;}
+	#last_open { font-size: 120% !important;}
+	.user-mess-text .mess-tit { font-size: 140%;}
+	.user-mess-text p { font-size: 120%;}
+	
+	.rech-top-left { font-size: 140%;}
+	.rech-top-left span { font-size: 120%;}
+	.rech-top-right { font-size: 140%;}
+	.rech-top-right span { font-size: 120%;}
+	.rech-top-right a { width: 35px; height: 35px;}
+	.rech-money span { font-size: 100%;}
+	.rech-tit { font-size: 140%;}
+	.wechat-box li .rech-list-t { font-size: 120%;}
+	.wechat-box li p { font-size: 100%;}
+	.choose-tit { font-size: 140%;}
+	.cash-list ul li span {font-size: 120%;}
+	.cash-list .choose-sel { width: 150px;}
+	.cash-list select { width: 60px;}
+	.cash-text ul li .text-left { font-size: 120%;}
+	.cash-txt h3 { font-size: 120%;}
+	.cash-txt ul li { font-size: 100%;}
+	.text-center { font-size: 120%;}
+	.cash-int { font-size: 100%; width: 180px;}
+	.lottery-info ul li a, .lott-list ul li.list-k3 a { height: 85px;}
+	.bulletin { height: 55px; line-height: 55px;}
+	
+	.go-back { width: 160px; line-height: 40px; background-size: 160px 40px; padding-left: 35px;}
+	.go-back a { font-size: 120%;}
+	.go-back i { width: 25px; height: 25px; line-height: 25px; font-size: 100%;}
+	.bett-foot { height: 55px;}
+	.beet-foot-txt { margin-top: 5px;}
+	.ch_numball ul li { height: 55px;}
+	.ball-red span {width: 40px; height: 40px; line-height: 40px; }
+	.ui-widget-header { background-size: 100% 32px;}
+	.six-money {bottom: 55px;}
+	.mine-img {width: 104px; margin: 17px 10px 0 62px;}
+	.charge-bank { padding:35px 0 25px; margin-bottom: 30px;}
+	.order-tit { height: 160px; padding: 25px 35px 0 35px;}
+	.order-icon {width: 70px; height: 71px !important;}
+	.order-top-right .grey {font-size: 1.5rem;}
+	.order-top-right .lot-number .red { font-size: 1.4rem; float: left; line-height: 32px;}
+	.order-top-right .lot-number .green { font-size: 1.2rem;}
+	.order-info { padding: 25px 35px;}
+	.order-info h3 { font-size: 160%; height: 20px; line-height: 20px;}
+	.order-info ul {margin-top: 10px;}
+	.order-info ul li { line-height: 35px; font-size: 120%;}
+	.order-info ul li .grey { font-size:1.5rem;}
+	.order-info ul li div {font-size: 1.5rem;}
+	.rech-money {width: 100%;}
+	
+	.header { height: 64px;}
+	.header h1 { height: 64px; line-height: 64px; font-size: 2rem;}
+	.header #reveal-left { height: 64px; background-size: 65.5px; width: 65.5px;}
+	.header #header-left { background-size: 32px 30.5px; width: 32px;height: 30.5px; margin-top: 10.5px;}
+	.ui-toolbar-right { width: 70px; height: 33px; background-size: 70px 33px; top: 16px; right: 20px;}
+	.lott-menu { top: 64px !important;}
+	.bett-tit {height: 36px; line-height: 28px;}
+	span#play_name, span#order_type, span#status_type, span#account_type, span#msg_type { font-size:1.4rem !important;}
+	.header .ui-betting-title .bett-play { font-size: 1rem; line-height: 17px;}
+	.ui-bett-right { width:79px; background-size: 79px 58px; height: 58px; top: 5px; margin: 0 8px 0 0; right: 13px;}
+	.trend-icon { width: 90px; height: 34px; background-size: 90px 34px; margin: 5px 3px 0 0; top: 10px}
+	.login ul, .login-suc ul { margin: 64px 0 22px;}
+	.header-logout { width:90px; height: 30px; background-size: 90px 30px; top: 18px; right: 15px;}
+	.beet-tips { top: 64px;}
+	.beet-rig { top: 46px; right: 33px; width:133px; height: 180px; background-size:133px 180px;}
+	.beet-rig ul li { height: 41px; line-height: 41px; }
+  .beet-rig ul li a { font-size: 1.2rem; }
+	.ball-red span:active, .ball-blue span:active { width: 75px; height: 120px; top: -82px; margin-left: -38.5px; background-size: 75px 120px; line-height: 70px;}
+	.trend-foot { height: 55px;}
+	.trend-foot-txt { margin-top: 6px;}
+	.trend-add { top: 12px;}
+	.bett-buy { bottom: 55px; height: 55px !important;}
+	.bett-buy-top ul { margin: 12px 0; }
+	.bett-buy-top ul li label input { width: 16px; height: 16px; }
+	.bett-buy-top ul li span { font-size: 120% !important; }
+	.ui-bett-with { height: 64px; line-height: 70px;}
+	.ui-bett-with a { font-size: 1.2rem;}
+	.ui-bett-refresh { top: 8px; right: 8px;}
+	.order-btn { height: 45px; line-height: 45px; font-size: 140%;}
+	.news-tit-ul { height: 48px;line-height: 48px;}
+	.news-tit-ul ul li div { font-size: 1.3rem;}
+	.bett-top-btn .btn-add1, .bett-top-btn .btn-add2 { width: 176px!important; height: 46px; background-size: 176px 46px;}
+	.ipad-top { height: 64px!important;}
+	.app-list-box .list-tit h3 {font-size: 130%;}
+	.app-list-box .list-tit p { font-size: 120%	;}
+	.app-list-box .list-pic p { font-size: 120%	;}
+	.activity .list-tit h3 {font-size: 140%;}
+	.activity .list-tit p { font-size: 120%	;}
+	.activity .list-pic p { font-size: 120%	;}
+	.activity .hd_cont_txtarea span { font-size: 120%; }
+	.activity .hd_cont_txtarea p { font-size: 120% }
+	.lottery-list-erect ul li .hot-icon { width:20%; }
+	.erect-right { width:80%; }
+	.six-ul ul li span { margin: 0 0!important; display: block; width: 20%; text-align: center; font-size: 1.4rem; }
+	.bett-head { width: 100%; height: 100%; }
+  .six-ul ul li .six-ul-tit { margin-bottom: 1.3rem; font-size: 1.4rem;}
+  .six-lunar ul li a { height: 110px !important; padding: .6rem; }
+  .six-ul ul li a { height:205px; }
+  .code_numball ul li span { width: 65px; height: 45px; font-size: 1rem; line-height: 45px; background-size: 65px 45px;}
+  .code_numball ul li span.ball-active {background-size: 100%; width: 65px; height: 45px;}
+
+
+  table { border-collapse: collapse; border-spacing: 0; width: 100%;}
+  table tr td img { padding: 8px 0px;}
+
+  .loading { font-size: 2rem !important;}
+  .bett-number2 label { font-size: 1.2rem; }
+  .bett-number2 label input { width: 17px; height: 17px; }
+  .header #header-left {width: 30px !important; height: 28.5px !important; margin-top:12px !important; background-size: 30px 28.5px !important; }
+  .beet-tips ul li a, .beet-tips ul li a.active { width: 130px; height: 40px;background-size: 130px; line-height: 40px; font-size: 1.2rem!important;}
+  .beet-tips ul li a.beet-active {background-size: 130px; height: 40px;}
+
+  .six-odds-text { font-size: 1rem; bottom: 96px;}
+  .on-more { height: 54px; line-height: 54px; font-size: 1.2rem; }
+  
+  /* wap抢红包 */
+.lottery-bags p { font-size: 1.6rem;}
+.erect-right .p-gray {font-size: 1.2rem; margin-top: .5rem;}
+.erect-right .red_span { font-size: 1.2rem; margin-top: .7rem;}
+.purchase { font-size: 1.4rem; width: 6rem; margin: .5rem 0 0 0;}
+.span-fz { font-size: 1.2rem;}
+.prog { margin-top: .5rem; width: 13.8rem; height: 1rem;}
+.prog-bg { height: 1rem; line-height: 1rem; font-size: 1rem;}
+.lottery-bags .hot-icon{width: 20% !important;}
+.bags-index-bg .bags-cont { width: 70%;}
+.bags-index-bg .bags-cont > img { margin-top: 15%; width: 100%; height: 100%;}
+.bags-index-bg .bags-cont .cont-text { top: 39%;}
+.bags-index-bg .bags-cont .cont-text .bags-time { height: 4rem; line-height: 4rem; font-size: 1.6rem;}
+.bags-index-bg .bags-cont .cont-text p { font-size: 1.4rem; margin: 1.2rem; margin: 8px 24px;}
+.bags-index-bg .bags-cont .cont-text .see-rule div { height: 3.5rem; line-height: 3.5rem; font-size: 1.4rem;}
+.bags-open { bottom: 7rem;}
+
+.see-popup .see-title {font-size: 1.6rem;line-height: 4rem;}
+.see-popup .see-tiem { font-size: 1.4rem; margin-top: 3%;}
+.see-popup .see-prog  { height: 1.2rem; line-height: 1.2rem;}
+.see-popup .see-prog-bg { height: 1.2rem;}
+.see-popup .see-part { font-size: 1.4rem;}
+.see-popup .see-part input { height: 2rem; line-height: 2rem;}
+.see-popup .see-part-secon ul li { height: 2rem; line-height: 2rem; font-size: 1.4rem;}
+.see-popup .see-part-secon ul li.rule-jump { font-size: 1.2rem;}
+.see-popup .see-bottu div { height: 4rem; line-height: 4rem;font-size: 1.4rem;}
+.rule-cont {margin: -44% 0 0 -45%;}
+.rule-cont .rule-title {font-size: 1.4rem;line-height: 3rem; margin-bottom: .5rem;}
+.rule-cont .rule-text{font-size: 1.2rem; line-height: 1.7rem; height: 330px;}
+.rule-cont .rule-return {font-size: 1.4rem; line-height: 3rem;}
+.bags-title {font-size: 1.4rem;}
+.lottery-list .red_span {font-size: 1.4rem;}
+.bags-index-bg .bags-cont .cont-text .bags-time { font-size: 2rem;}
+.bags-index-bg .bags-cont .cont-text .bags-time span {font-size: 2.8rem;}
+.basg-ann { height: 3rem;line-height: 3rem; margin-top: 0.4rem;}
+.basg-ann span { margin: 0 1rem; font-size: 2rem;}
+.basg-form { height: 6.8rem;}
+.basg-form span, .basg-form p { margin-left: 1rem;font-size: 2rem;}
+.basg-form span {font-size: 1.9rem;}
+.basg-text p { margin: 0 1rem; font-size: 1.8rem;}
+.basg-part .basg-part-title { margin: 0 1rem;}
+.basg-part .basg-part-title span { font-size: 1.8rem;}
+.basg-part ul li { margin: 1rem 1rem; font-size: 1.8rem;}
+.qhb-ui-toolbar-right {font-size: 1.4rem; top: 14px;}
+.order-info textarea { font-size: 1.4rem;}
+.lucky span { font-size: 1.6rem;}
+}
+
+.paddingbutton { padding-bottom: 0px!important; }
+
+/* 媒体查询 1024 ipad*/
+@media screen and (min-width: 1024px) {
+    .lott_bar {padding: 178px 0 102px; overflow: hidden;}
+    .lott-menu ul li img { min-width: 100%; max-height: 114px; }
+    .erect-right div .red { padding-top: 14px; font-size: 140%; }
+    .erect-right p span {font-size: 100%; }
+    .k3-number ul, .klpk3-number ul {width: 150px;height: 40px;background-size: 150px 40px;padding: 5px 0 0 10px;}
+    .lottery-info ul li a, .lott-list ul li.list-k3 a { font-size: 105%;}
+    .news-info-list ul li div {font-size: 180%;}
+    .news-info-list ul li { height: 50px; line-height: 50px;}
+    .pol-icon {width: 25px;height: 25px;background-size: 25px 25px; margin: 8px 5px;}
+    .news-info-list ul li .pol-icon { margin-top: 11px;}
+    .login ul li {height: 80px; line-height: 80px;}
+    .login ul li .logi { font-size: 140%;}
+    .login .login-peo, .login .login-pass {width: 23px;height: 25px;background-size: 23px 25px; margin-top: 28px;}
+    .login ul li input {width: 70%; font-size: 120%;margin-top: 14px;}
+    #captcha_img { margin-top: 14px;}
+    .login-p { font-size: 140%;}
+    .login-btn, .reg-btn { height: 50px;line-height: 50px; font-size: 140%;}
+    .mine-list ul li {height: 80px;line-height: 80px; font-size: 140%; background-size: 15px 15px;}
+    .mine-list ul li a img {width: 28px;height: 28px;margin: 25px 15px 0 0;}
+     .order-center ul li { padding: 15px 15px;}
+    .charge-tips { font-size: 120%;}
+	.mine-top {height: 250px;}
+	.mine-info ul {padding-top: 100px;}
+	.news-info { height: 180px; max-height: 180px;}
+	
+	.odds-tips-tit {font-size: 140%; height: 47px; line-height: 47px;}
+	.beet-odds-info .btn-que { font-size: 120%;}
+  	.red-icon { margin-top: 35px;  }
+	.lot-txt{ width: 68px; height: 30px!important; background-size: 68px 30px; line-height: 30px; font-size: 125%!important;}
+	.lot-time, .dat-time { height: 90px;}
+	.lot-time p { font-size: 120%; margin-top: 5px; margin-bottom: 2px;}
+	.time-late { width: 190px; height: 30px; background-size: 190px 30px;}
+	.time-late .time-kong { width: 11px;}
+	.time-late span { font-size: 140%; width: 28px; height: 30px;}
+	.btn-none, .btn-add { width: 80px; font-size: 110%; margin-top: 5px;}
+	.beet-foot-txt p { font-size: 100%;}
+	.beet-foot-txt p span { font-size:120%;}
+	.trend-add { font-size: 110%;}
+	.trend-foot-txt span { font-size: 120%;}
+	.trtip-tit{ font-size: 120%;}
+	.trtip-tit i { width: 20px;height: 20px; background-size: 20px 20px;}
+	.trend-tips ul li { font-size: 100%; background-size: 100% 46px; height: 46px; line-height: 46px;}
+	.slide-top .fl { font-size: 120%;}
+	.slide-top .fl label,.slide-top .fr label, .slide-top .fl input,.slide-top .fr,.slide-top .fr input { font-size: 140%;}
+	.beet-odds-tips { height: 345px; padding-bottom: 10px;}
+	.slidebg .ui-widget-content {height: 34px;background-size: 100% 34px;}
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { height: 25px; background-size: 25px 25px;}
+	.beet-odds-info div { font-size: 140%; margin-bottom: 10px; padding-left: 15px;}
+	.ui-dialog .ui-dialog-buttonpane button { width: 80px; height: 30px;}
+	#shuchukuang { font-size: 1rem;}
+	
+	.odds-btn-none, .odds-btn-ture { height: 50px; line-height: 50px; font-size:1.2rem; }
+	.bet-info-li div,.bet-info-li p { font-size:120%;}
+	.bet-close { margin: 20px 8px 0 0;}
+	#last_open { font-size: 120% !important;}
+	.rech-top-left span { font-size: 100%;}
+	.rech-top-right { font-size: 120%;}
+	.rech-money span { font-size: 100%;}
+	.rech-tit { font-size: 140%;}
+	.choose-tit { font-size: 140%;}
+	.cash-list .choose-sel { width: 150px;}
+	.cash-list select { width: 60px;}
+	.cash-txt h3 { font-size: 120%;}
+	.cash-txt ul li { font-size: 100%;}
+	.cash-int { font-size: 100%; width: 180px;}
+	.lottery-info ul li a, .lott-list ul li.list-k3 a { height: 85px;}
+	.bulletin { height: 55px; line-height: 55px;}
+	
+	.go-back { width: 160px; line-height: 40px; background-size: 160px 40px; padding-left: 35px;}
+	.go-back a { font-size: 120%;}
+	.go-back i { width: 25px; height: 25px; line-height: 25px; font-size: 100%;}
+	.bett-foot { height: 55px;}
+	.beet-foot-txt { margin-top: 5px;}
+	.ui-widget-header { background-size: 100% 32px;}
+	.six-money {bottom: 55px;}
+	.mine-img {width: 104px; margin: 17px 10px 0 62px;}
+	.charge-bank { padding:35px 0 25px; margin-bottom: 30px;}
+	.order-tit { height: 173px; padding: 25px 35px;}
+	.order-top-right .lot-number .green { font-size: 1.2rem;}
+	.lottery-list-erect ul li .hot-icon { width:15%; }
+	.erect-right { width:85%; }
+}

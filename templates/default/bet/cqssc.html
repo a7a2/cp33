@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+    <head>
+        <style>
+            body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-scrolling:touch;}/*解决苹果滚动条卡顿的问题*/
+            #wrapper_1{overflow-y:visible!important;}
+            .lott-menu{position:fixed;top:44px;left:0;margin-top:0!important;}
+        </style>
+        <link rel="stylesheet" href="/wap/statics/css/jquery-ui.min.css?ver=4.7" type="text/css">
+        
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name=format-detection content="telphone=no"/>
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=4.7" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=4.7"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=4.7"></script>
+	<script src="/wap/statics/js/iris-ws.js" type="text/javascript"></script>
+<script>
+    try{
+        isLogin = false;
+        }catch(e){console.log(e);}
+</script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+                     $("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+
+    </script>        <script>
+            //覆盖（重写 ）iscro-lot.js 同名方法避免bug产生 (只有使用IScroll.js的地方才需要调用iscro-lot.js文件中的 loaded()方法 )
+            function loaded(){}//空实现
+        </script>
+        <!-- 滑动js -->
+        <script src="/wap/statics/js/ui-slide.js?ver=4.7"></script>
+        <script src="/wap/statics/js/jquery-ui.min.js?ver=4.7"></script>
+
+        <title>投注大厅</title>
+
+        <script>
+            prizeData = {"37":{"maxPrize":9.8,"minPrize":8.5,"maxReward":13},"38":{"maxPrize":98,"minPrize":85,"maxReward":13},"39":{"maxPrize":98,"minPrize":85,"maxReward":13},"40":{"maxPrize":98,"minPrize":85,"maxReward":13},"41":{"maxPrize":98,"minPrize":85,"maxReward":13},"46":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"47":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"48":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"49":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"54":{"maxPrize":980,"minPrize":850,"maxReward":13},"55":{"maxPrize":980,"minPrize":850,"maxReward":13},"56":{"maxPrize":980,"minPrize":850,"maxReward":13},"57":{"maxPrize":980,"minPrize":850,"maxReward":13},"58":{"maxPrize":980,"minPrize":850,"maxReward":13},"59":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"60":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"61":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"62":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"63":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"64":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"65":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"66":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"67":{"maxPrize":9.8,"minPrize":8.5,"maxReward":13},"68":{"maxPrize":98,"minPrize":85,"maxReward":13},"69":{"maxPrize":16.334,"minPrize":14.167,"maxReward":13},"70":{"maxPrize":3.629,"minPrize":3.148,"maxReward":13},"71":{"maxPrize":980,"minPrize":850,"maxReward":13},"72":{"maxPrize":980,"minPrize":850,"maxReward":13},"73":{"maxPrize":980,"minPrize":850,"maxReward":13},"74":{"maxPrize":980,"minPrize":850,"maxReward":13},"75":{"maxPrize":980,"minPrize":850,"maxReward":13},"76":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"77":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"78":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"79":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"80":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"81":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"82":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"83":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"84":{"maxPrize":9.8,"minPrize":8.5,"maxReward":13},"85":{"maxPrize":98,"minPrize":85,"maxReward":13},"86":{"maxPrize":16.334,"minPrize":14.167,"maxReward":13},"87":{"maxPrize":3.629,"minPrize":3.148,"maxReward":13},"88":{"maxPrize":980,"minPrize":850,"maxReward":13},"89":{"maxPrize":980,"minPrize":850,"maxReward":13},"90":{"maxPrize":980,"minPrize":850,"maxReward":13},"91":{"maxPrize":980,"minPrize":850,"maxReward":13},"92":{"maxPrize":980,"minPrize":850,"maxReward":13},"93":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"94":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"95":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"96":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"97":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"98":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"99":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"100":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"101":{"maxPrize":9.8,"minPrize":8.5,"maxReward":13},"102":{"maxPrize":98,"minPrize":85,"maxReward":13},"103":{"maxPrize":16.334,"minPrize":14.167,"maxReward":13},"104":{"maxPrize":3.629,"minPrize":3.148,"maxReward":13},"105":{"maxPrize":9800,"minPrize":8500,"maxReward":13},"106":{"maxPrize":9800,"minPrize":8500,"maxReward":13},"107":{"maxPrize":98000,"minPrize":85000,"maxReward":13},"108":{"maxPrize":98000,"minPrize":85000,"maxReward":13},"109":{"maxPrize":3.92,"minPrize":3.4,"maxReward":13},"110":{"maxPrize":7.84,"minPrize":6.8,"maxReward":13},"111":{"maxPrize":3.92,"minPrize":3.4,"maxReward":13},"112":{"maxPrize":7.84,"minPrize":6.8,"maxReward":13},"113":{"maxPrize":3.616,"minPrize":3.136,"maxReward":13},"114":{"maxPrize":18.147,"minPrize":15.74,"maxReward":13},"115":{"maxPrize":3.616,"minPrize":3.136,"maxReward":13},"116":{"maxPrize":18.147,"minPrize":15.74,"maxReward":13},"117":{"maxPrize":2.849,"minPrize":2.471,"maxReward":13},"118":{"maxPrize":10.061,"minPrize":8.726,"maxReward":13},"119":{"maxPrize":2.392,"minPrize":2.075,"maxReward":13},"120":{"maxPrize":6.68,"minPrize":5.794,"maxReward":13},"121":{"maxPrize":22.528,"minPrize":19.54,"maxReward":13},"122":{"maxPrize":98,"minPrize":85,"maxReward":13},"123":{"maxPrize":98,"minPrize":85,"maxReward":13},"124":{"maxPrize":98,"minPrize":85,"maxReward":13},"125":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"126":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"127":{"maxPrize":49,"minPrize":42.5,"maxReward":13},"128":{"maxPrize":980,"minPrize":850,"maxReward":13},"129":{"maxPrize":980,"minPrize":850,"maxReward":13},"130":{"maxPrize":980,"minPrize":850,"maxReward":13},"131":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"132":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"133":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"134":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"135":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"136":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"137":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"138":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"139":{"maxPrize":9800,"minPrize":8500,"maxReward":13},"140":{"maxPrize":9800,"minPrize":8500,"maxReward":13},"141":{"maxPrize":408.332,"minPrize":354.166,"maxReward":13},"142":{"maxPrize":816.666,"minPrize":708.333,"maxReward":13},"143":{"maxPrize":1633.332,"minPrize":1416.666,"maxReward":13},"144":{"maxPrize":2450,"minPrize":2125,"maxReward":13},"244":{"maxPrize":2.849,"minPrize":2.471,"maxReward":13},"245":{"maxPrize":10.061,"minPrize":8.726,"maxReward":13},"1146":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"1147":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13},"1148":{"maxPrize":326.666,"minPrize":283.333,"maxReward":13},"1149":{"maxPrize":163.333,"minPrize":141.667,"maxReward":13}};
+            userReward = '12';
+        </script>
+
+        <script src="/wap/statics/js/game/face.4.js?ver=4.7"></script>
+        <script src="/wap/statics/js/game/game.4.js?ver=4.7"></script>
+        <script src="/wap/statics/js/game/shake.js?ver=4.7"></script>
+       	<script src="/wap/statics/js/game/common.js?ver=4.7"></script>
+    </head>
+    <body class="login-bg" onload='loaded()'>
+    <div class="bet_step_1 header">
+        <div class="headerTop">
+            <div class="ui-toolbar-left">
+                <button id="reveal-left">reveal</button>
+            </div>
+            <h1 class="ui-betting-title">
+                <div class="bett-top-box">
+                    <div class="bett-play">玩法</div>
+                    <div class="bett-tit"><span id="play_name">定位胆-直选复式</span><i class="bett-attr"></i></div>
+                </div>
+            </h1>
+            <div class="ui-bett-right">
+                <a class="bett-head" href="javascript:;"></a>
+            </div>
+        </div>
+        <!-- 菜单右侧tips -->
+        
+
+<div class="beet-rig" hidden="">
+    <ul>
+        <li><a href="/mine/betList.html?gameId=1">投注记录</a></li>
+        <li><a href="/trend/index.html?gameId=1">走势图</a></li>
+        <li><a href="/draw/list.html?gameId=1">最近开奖</a></li>
+        <li><a href="/help/instruct.html?gameId=1">玩法说明</a></li>
+    </ul>
+</div>
+    </div>
+    <div id="step_1">
+        <div id="wrapper_1" class="scorllmain-content scorllmain-Beet nobottom_bar">
+            <div class="sub_ScorllCont">
+                <div class="lot-tip">
+                    <div class="lot-time">
+                        <p><span id="last_period"></span>期</p>
+                        <div class="wait-lot"><i class="time-ico"></i><span id="last_open" style="font-size: 16px; color: #eb2b2a;">等待开奖</span></div>
+                    </div>
+                    <div class="dat-time">
+                        <p>距<span id="current_period"></span>期<span id="current_period_status"></span></p>
+                        <div class="time-late">
+                            <span id="time_h1">0</span>
+                            <span id="time_h2">0</span>
+                            <span class="time-kong"></span>
+                            <span id="time_m1">0</span>
+                            <span id="time_m2">0</span>
+                            <span class="time-kong"></span>
+                            <span id="time_s1">0</span>
+                            <span id="time_s2">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lot-center">
+                    <div class="lot-up">
+                        <div class="lot-up-left"><a href="javascript:;"><img src="/wap/statics/images/betting/yaoyiyao.png"></a></div>
+                        <div class="go-back" style="display: none; ">
+                            <i id="bet_time_count">0</i>
+                            <a href="javascript:showStep(2);">返回购彩清单</a>
+                        </div>
+                        <!-- 文字选择 -->
+                        <div class="lot-up-right" hidden="">每位至少选择一个数字</div>
+                    </div>
+                    <div id="lot_num" class="lot-number"><div class="lot-number-top"><div class="lot-number-left"><div class="lot-txt">万位</div></div><div class="lot-number-right"><div class="ch_numball ball-red"><ul class="place-value-0"><li class="specific-cell-o code-value-0" name="lt_place_0"><span valplace="0">0</span></li><li class="specific-cell-o code-value-1" name="lt_place_0"><span valplace="0">1</span></li><li class="specific-cell-o code-value-2" name="lt_place_0"><span valplace="0">2</span></li><li class="specific-cell-o code-value-3" name="lt_place_0"><span valplace="0">3</span></li><li class="specific-cell-o code-value-4" name="lt_place_0"><span valplace="0">4</span></li><li class="specific-cell-o code-value-5" name="lt_place_0"><span valplace="0">5</span></li><li class="specific-cell-o code-value-6" name="lt_place_0"><span valplace="0">6</span></li><li class="specific-cell-o code-value-7" name="lt_place_0"><span valplace="0">7</span></li><li class="specific-cell-o code-value-8" name="lt_place_0"><span valplace="0">8</span></li><li class="specific-cell-o code-value-9" name="lt_place_0"><span valplace="0">9</span></li></ul></div></div><div class="clear"></div></div><div class="lot-number-top"><div class="lot-number-left"><div class="lot-txt">千位</div></div><div class="lot-number-right"><div class="ch_numball ball-red"><ul class="place-value-1"><li class="specific-cell-o code-value-0" name="lt_place_1"><span valplace="0">0</span></li><li class="specific-cell-o code-value-1" name="lt_place_1"><span valplace="0">1</span></li><li class="specific-cell-o code-value-2" name="lt_place_1"><span valplace="0">2</span></li><li class="specific-cell-o code-value-3" name="lt_place_1"><span valplace="0">3</span></li><li class="specific-cell-o code-value-4" name="lt_place_1"><span valplace="0">4</span></li><li class="specific-cell-o code-value-5" name="lt_place_1"><span valplace="0">5</span></li><li class="specific-cell-o code-value-6" name="lt_place_1"><span valplace="0">6</span></li><li class="specific-cell-o code-value-7" name="lt_place_1"><span valplace="0">7</span></li><li class="specific-cell-o code-value-8" name="lt_place_1"><span valplace="0">8</span></li><li class="specific-cell-o code-value-9" name="lt_place_1"><span valplace="0">9</span></li></ul></div></div><div class="clear"></div></div><div class="lot-number-top"><div class="lot-number-left"><div class="lot-txt">百位</div></div><div class="lot-number-right"><div class="ch_numball ball-red"><ul class="place-value-2"><li class="specific-cell-o code-value-0" name="lt_place_2"><span valplace="0">0</span></li><li class="specific-cell-o code-value-1" name="lt_place_2"><span valplace="0">1</span></li><li class="specific-cell-o code-value-2" name="lt_place_2"><span valplace="0">2</span></li><li class="specific-cell-o code-value-3" name="lt_place_2"><span valplace="0">3</span></li><li class="specific-cell-o code-value-4" name="lt_place_2"><span valplace="0">4</span></li><li class="specific-cell-o code-value-5" name="lt_place_2"><span valplace="0">5</span></li><li class="specific-cell-o code-value-6" name="lt_place_2"><span valplace="0">6</span></li><li class="specific-cell-o code-value-7" name="lt_place_2"><span valplace="0">7</span></li><li class="specific-cell-o code-value-8" name="lt_place_2"><span valplace="0">8</span></li><li class="specific-cell-o code-value-9" name="lt_place_2"><span valplace="0">9</span></li></ul></div></div><div class="clear"></div></div><div class="lot-number-top"><div class="lot-number-left"><div class="lot-txt">十位</div></div><div class="lot-number-right"><div class="ch_numball ball-red"><ul class="place-value-3"><li class="specific-cell-o code-value-0" name="lt_place_3"><span valplace="0">0</span></li><li class="specific-cell-o code-value-1" name="lt_place_3"><span valplace="0">1</span></li><li class="specific-cell-o code-value-2" name="lt_place_3"><span valplace="0">2</span></li><li class="specific-cell-o code-value-3" name="lt_place_3"><span valplace="0">3</span></li><li class="specific-cell-o code-value-4" name="lt_place_3"><span valplace="0">4</span></li><li class="specific-cell-o code-value-5" name="lt_place_3"><span valplace="0">5</span></li><li class="specific-cell-o code-value-6" name="lt_place_3"><span valplace="0">6</span></li><li class="specific-cell-o code-value-7" name="lt_place_3"><span valplace="0">7</span></li><li class="specific-cell-o code-value-8" name="lt_place_3"><span valplace="0">8</span></li><li class="specific-cell-o code-value-9" name="lt_place_3"><span valplace="0">9</span></li></ul></div></div><div class="clear"></div></div><div class="lot-number-top"><div class="lot-number-left"><div class="lot-txt">个位</div></div><div class="lot-number-right"><div class="ch_numball ball-red"><ul class="place-value-4"><li class="specific-cell-o code-value-0" name="lt_place_4"><span valplace="0">0</span></li><li class="specific-cell-o code-value-1" name="lt_place_4"><span valplace="0">1</span></li><li class="specific-cell-o code-value-2" name="lt_place_4"><span valplace="0">2</span></li><li class="specific-cell-o code-value-3" name="lt_place_4"><span valplace="0">3</span></li><li class="specific-cell-o code-value-4" name="lt_place_4"><span valplace="0">4</span></li><li class="specific-cell-o code-value-5" name="lt_place_4"><span valplace="0">5</span></li><li class="specific-cell-o code-value-6" name="lt_place_4"><span valplace="0">6</span></li><li class="specific-cell-o code-value-7" name="lt_place_4"><span valplace="0">7</span></li><li class="specific-cell-o code-value-8" name="lt_place_4"><span valplace="0">8</span></li><li class="specific-cell-o code-value-9" name="lt_place_4"><span valplace="0">9</span></li></ul></div></div><div class="clear"></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 直选tips -->
+        <div class="beet-tips" hidden="" style="display: none;">
+            <div class="beet-tips-tit"><span id="play_title">定位胆</span></div>
+            <div class="clear"></div>
+            <ul id="play_list">
+                <li><a class="beet-active play_id_1" href="javascript:;" data-pid="1">定位胆</a></li><li><a class=" play_id_7" href="javascript:;" data-pid="7">五星</a></li><li><a class=" play_id_8" href="javascript:;" data-pid="8">四星</a></li><li><a class=" play_id_11" href="javascript:;" data-pid="11">后三</a></li><li><a class=" play_id_9" href="javascript:;" data-pid="9">前三</a></li><li><a class=" play_id_12" href="javascript:;" data-pid="12">前二</a></li><li><a class=" play_id_4" href="javascript:;" data-pid="4">不定位</a></li><li><a class=" play_id_2" href="javascript:;" data-pid="2">大小单双</a></li><li><a class=" play_id_13" href="javascript:;" data-pid="13">任选二</a></li><li><a class=" play_id_14" href="javascript:;" data-pid="14">任选三</a></li><li><a class=" play_id_15" href="javascript:;" data-pid="15">任选四</a></li>            </ul>
+            <div class="beet-tips-tit"><span id="sub_title">直选复式</span></div>
+            <div class="clear"></div>
+            <ul id="sub_list">
+                <li><a data-spid="107" href="javascript:;" class="beet-active">直选复式</a></li>
+            </ul>
+        </div>
+
+        <!-- 赔率tips -->
+        
+<!-- 赔率tips -->
+<div class="beet-odds-tips pop-win" style="display: none;">
+    <div class="odds-tips-tit">注单设定</div>
+    <!-- 滑动赔率 -->
+    <div class="slidebg">
+        <div class="slide-top">
+            <div class="fl" id="prize_div">
+                <label for="amount">赔率：</label>
+                <input type="text" id="prize_show" value="" disabled="disabled" readonly style="background-color: #fff;">
+                <input type="hidden" id="prize_true" value=""/>
+            </div>
+            <div class="fr">
+                <input type="text" id="reward_show" value="" disabled="disabled" readonly style="background-color: #fff;">
+                <label for="amount">返利：</label>
+                <input type="hidden" id="reward">
+            </div>
+        </div>
+        <div aria-disabled="false" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="slider-range-min">
+            <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min"></div>
+            <a id="slide_a" href="javascript:;" class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;"></a>
+            <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
+        </div>
+        <div class="beet-odds-info" style="margin-top: 3px; font-size: 14px;" id="prize_more"></div>
+    </div>
+    <div class="beet-odds-info">
+        <div class="beet-money">
+            <span class="fl">单注金额：</span><input class="beet-money-int" id="bet_per_money" type="tel" value="2" placeholder="2" maxlength="7" min="0" inputmode="numeric" pattern="[0-9]"> <a class="acitve money-unit money-yuan" data-unit="1" href="javascript:;">元</a><a class="money-unit" data-unit="0.1" href="javascript:;">角</a><a class="money-unit" data-unit="0.01" href="javascript:;">分</a>
+        </div>
+        <div>
+            下注注数：<span id="bet_count_pop">1</span>注
+        </div>
+        <div>
+            下注总额：<span id="bet_money_pop">2</span>元
+        </div>
+            <div>
+            若中奖,单注最高中：<span id="prize_money">0</span>元
+        </div>
+        <input type="hidden" id="bet_code" value=""/>
+        <input type="hidden" id="bet_reward" value=""/>
+        <input type="hidden" id="bet_each_money" value=""/>
+        <input type="hidden" id="bet_sub_id" value=""/>
+        <button class="odds-btn-none">取消</button>
+        <button class="odds-btn-ture">提交</button>
+    </div>
+</div>
+<div class="tips-bg pop-win" style="display: none;"></div>
+
+<script>
+    function popPrizeWin () {
+        $('.pop-win').show();
+    }
+</script>
+
+        <input type="hidden" id="init_code" value=""/>
+        <input type="hidden" id="init_playid" value="1"/>
+        <input type="hidden" id="init_spid" value=""/>
+        <input type="hidden" id="game_id" value="1"/>
+        <input type="hidden" id="game_name" value="重庆时时彩"/>
+    </div>
+    <div id="step_2" style="margin-top: 64px; margin-bottom: 44px; display: none;">
+        
+<div class="header">
+    <div class="headerTop">
+        <div class="ui-toolbar-left">
+            <button class="reveal-left" onclick="showStep(1);">reveal</button>
+        </div>
+        <h1 class="ui-toolbar-title">
+            <div class="bett-top-box">重庆时时彩</div>
+        </h1>
+    </div>
+</div>
+<div id="wrapper_1" class="scorllmain-content scorllmain-Beet-list nobottom_bar">
+    <div class="sub_ScorllCont">
+        <div class="betting-wrap">
+            <div class="bett-top-btn">
+                <button class="btn-add1" onclick="showStep(1);"></button>
+                <button class="btn-add2" onclick="$.mobileShake();"></button>
+            </div>
+            <div class="betting-info-box">
+                <div class="bet-top"></div>
+                <div class="bet-info">
+                    <ul id="bet_list">
+                    </ul>
+                </div>
+                <div class="bet-foot"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height: 45px;"></div>
+<div class="bett-buy" style="height: 45px;">
+    <div class="bett-buy-top">
+        <ul>
+            <li>
+                <div class="fl">
+                    <label>
+                        <input type="checkbox" id="bet_win_stop"><span style="font-size: 14px;">中奖后停止追号</span>
+                    </label>
+                </div>
+            </li>
+            <li>
+                <span style="font-size: 14px;">追 </span><input class="buy-int" type="tel" inputmode="numeric" pattern="[0-9]" id="bet_more" value="1" placeholder="1"><span style="font-size: 14px;"> 期</span>
+            </li>
+        </ul>
+    </div>
+</div>
+    </div>
+    <div id="step_3" style="margin-top: 64px; display: none;">
+        
+<div class="header">
+    <div class="header">
+        <div class="headerTop">
+            <div class="ui-toolbar-left">
+                <button id="reveal-left">reveal</button>
+            </div>
+            <h1 class="ui-toolbar-title">投注</h1>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper_1" class="scorllmain-content scorll-order nobottom_bar">
+    <div class="sub_ScorllCont">
+        <div class="with-end text-center">
+            <div class="wiht-img"><img src="/wap/statics/images/gou_wancheng.png" alt=""></div>
+            投注成功，预祝您中奖
+            <div class="sub-txt">
+                <!--<p>当前投注彩种：重庆时时彩</p> 
+                <p>当前投注期数：第<span id="bet_period"></span>期</p> -->
+            </div>
+        </div>
+        <button class="charge-btn" onclick="showStep(1);" style="margin: 20px auto">确认</button>
+    </div>
+</div>
+    </div>
+    <div class="bett-foot">
+        <button class="btn-none">清空</button>
+        <div class="beet-foot-txt">
+            <p id="bet_step_1"><span id="bet_sel_count">0</span>注&nbsp;&nbsp;<span id="bet_sel_money" class="red">0</span>元</p>
+            <p id="bet_step_2" style="display: none;"><span id="bet_count">0</span>注&nbsp;&nbsp;<span id="bet_money">0</span>元</p>
+        </div>
+        <button class="btn-add">投注</button>
+    </div>
+    <!-- 提示框 -->
+    
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+    
+<div class="beet-odds-tips round" id="confirm_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="confirm_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que btn-que-no" onclick="confirmCancel()"><span id="confirm_pop_cancel">取消</span></button>
+        <button class="btn-que" style="width: 50%;" onclick="confirmOk()"><span id="confirm_pop_ok">确定</span></button>
+    </div>
+</div>
+
+<div id="confirm_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var confirmFunc;
+    function confirmOk() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(confirmFunc) == "function"){
+            confirmFunc();
+            confirmFunc = "";
+        }else{
+            if (typeof(doConfirmOk) == "function") {
+                doConfirmOk();
+            }
+        }
+    }
+    function confirmCancel() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(doConfirmCancel) == "function") {
+            doConfirmCancel();
+        }
+    }
+    function msgConfirm (msg,funcParm,textConfirm,textCancel) {
+        textConfirm = (textConfirm == undefined) ? '' : textConfirm;
+        textCancel = (textCancel == undefined) ? '' : textCancel;
+        if (textConfirm != '') {
+            $('span#confirm_pop_ok').text(textConfirm);
+        }
+        if (textCancel != '') {
+            $('span#confirm_pop_cancel').text(textCancel);
+        }
+        $('div#confirm_pop_content').text(msg);
+        $('div#confirm_pop_cancel').html(textCancel);
+        $('div#confirm_pop').show();
+        $('div#confirm_bg').show();
+        confirmFunc = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+    <!-- 加载中 -->
+<div class="loading" style="display: none"></div>
+<div class="loading-bg" style="display: none"></div>
+
+<script>
+    function loadingShow(tips,bg) {
+        if(tips == ""||typeof(tips) == "undefined"){
+            $(".loading").css("left","50%");
+            $(".loading").css("margin-left","-2em");
+            $(".loading").html("加载中...");
+        }else{
+            $(".loading").html(tips);
+            $(".loading").css("left",Math.ceil(($(document).width() - $(".loading").width())/2));
+            $(".loading").css("margin-left",0);
+        }
+
+        bg   = (bg == ""||typeof(bg) == "undefined")?1:0;
+        if (bg == 1){
+            $(".loading-bg").show();
+        }else{
+            $(".loading-bg").hide();
+        }
+        $(".loading").show();
+    }
+    function loadingHide() {
+        $(".loading").hide();
+        $(".loading-bg").hide();
+    }
+</script>
+    </body>
+</html>
+
+<script>
+function showStep(step) {
+    if (step == undefined) {
+        return;
+    }
+    $('.bet_step_1').hide();
+    $('#step_1').hide();
+    $('#step_2').hide();
+    $('#step_3').hide();
+    $('#bet_step_1').hide();
+    $('#bet_step_2').hide();
+    $('#step_'+step).show();
+    if (step == 1) {
+        $('.bet_step_1').show();
+    }
+    if (step == 3) {
+        $('div.bett-foot').hide();
+    } else {
+        $('div.bett-foot').show();
+        $('#bet_step_'+step).show();
+    }
+}
+
+$(function () {
+    loadBetList();
+})
+
+var hiddenProperty = 'hidden' in document ? 'hidden' :    
+    'webkitHidden' in document ? 'webkitHidden' :    
+    'mozHidden' in document ? 'mozHidden' :    
+    null;
+var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+var onVisibilityChange = function(){
+	console.log("onVisibilityChange");
+		w.Emit("1","get");
+}
+document.addEventListener(visibilityChangeEvent, onVisibilityChange);
+//$('span#username').text(username); 
+	$(function () {
+	w = new Ws("ws://" + host + "/my_endpoint");
+	w.OnConnect(function () {
+		w.Emit("validate", uvData);
+	});
+
+	w.OnDisconnect(function () {
+		setTimeout(function(){top.document.location.reload();},5000);  
+	});
+
+	w.On("validate", function (message) {
+		if (message=="ok"){
+			w.Emit("1","get");
+		}else{
+			//w.Emit("balance","get");
+			location.href = '/index/login.html?platform='+platform;
+		}
+	});
+	
+	w.On("1", function (message) {
+		console.log(message);
+		var obj = JSON.parse(message);  
+		if (obj.code!==200){
+			 	msgAlert(obj.message);
+				return;
+		}
+		$('span#last_period').text(obj.data.last_period); 
+		$('span#last_open').text(obj.data.last_open); 
+		$('span#current_period').text(obj.data.current_period);
+		$('span#current_period_status').text(obj.data.current_period_status);
+		//$('span#time_m1').text('3'); 
+		setLeaveTimer(obj.data.timeleft,"1");
+	});
+})
+</script>

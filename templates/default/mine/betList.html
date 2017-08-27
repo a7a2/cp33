@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name=format-detection content="telphone=no"/>
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=5.0_5" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=5.0_5"></script>
+<script>
+    try{
+        isLogin = true;
+        }catch(e){console.log(e);}
+</script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+                     $("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+
+    </script>    <!-- start  16-09-30 : 下面解决iscroll自带 bug (bugID=1858) -->
+    <style>
+        body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-scrolling:touch;}/*解决苹果滚动条卡顿的问题*/
+        #wrapper_1{overflow-y:visible!important;}
+    </style>
+    <script src="/wap/statics/js/game/face.4.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/game/face.6.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/game/face.7.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/game/face.15.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/game/face.41.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/game/face.s3.js?ver=5.0_5"></script>
+    <script src="/wap/statics/js/bet.list.js?ver=5.0_5"></script>
+    <script>
+        resUrl = '/wap/statics';
+    </script>
+    <!-- end  16-09-30 :  下面解决iscroll自带 bug (bugID=1858) -->
+    <script>
+	function getParameterByName(name) {  
+    	var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);  
+    	return match && decodeURIComponent(match[1].replace(/\+/g, ' '));  
+	} 
+        //获取投注列表参数
+        orderType = 0;
+        pageIndex = 1;//初始第一页
+      	onlyWin=getParameterByName("onlyWin");
+        if (onlyWin == 1) {
+            $('span#order_type').text('中奖记录');
+            orderType = 2;
+        }
+    </script>
+    <title>投注记录</title>
+</head>
+<body class="login-bg">
+<div class="bet_list header">
+    <div class="headerTop">
+        <div class="ui-toolbar-left">
+            <button id="reveal-left">reveal</button>
+        </div>
+        <h1 class="ui-betting-title">
+             <div class="bett-top-box">    
+                <div class="bett-tit">
+                    <span id="order_type">全部订单</span><i class="bett-attr" style="display: ''"></i>
+                </div>
+            </div>
+        </h1>
+        <div class="ui-bett-refresh">
+            <a class="bett-refresh" href="javascript:;"></a>
+        </div>
+    </div>
+</div>
+
+<div class="bet_detail bet_revokeok header" style="display: none;">
+    <div class="header">
+        <div class="headerTop">
+            <div class="ui-toolbar-left">
+                <button class="reveal-left" onclick="showStep('list')">reveal</button>
+            </div>
+            <h1 class="ui-toolbar-title"><span class="bet_detail">详情</span><span class="bet_revokeok">撤单</span></h1>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper_1" class="bet_list scorllmain-content scorll-order nobottom_bar paddingbutton">
+    <div class="sub_ScorllCont">
+        <div class="mine-message" style="display: none;">
+            <div class="mine-mess"><img src="/wap/statics/images/message/wuxinxi.png"></div>
+            <p>目前暂无记录哦！</p>
+        </div>
+        <div class="order-center">
+            <ul id="bet_list">
+                <!--<li class="loading">
+                    <div class="order-list-tit"></div>
+                    <div class="c-gary" style="text-align: center">正在加载...</div>
+                </li>-->
+            </ul>
+            <a class="on-more" href="javascript:;" style="display: none;">点击加载更多</a>
+        </div>
+    </div>
+</div>
+
+<!-- 直选tips -->
+<div class="bet_list beet-tips" hidden="">
+    <!--<div class="beet-tips-tit"><span>普通玩法</span></div>-->
+    <div class="clear"></div>
+    <ul>
+        <li><a class="beet-active" href="javascript:;" data-type="0">全部订单</a></li>
+        <li><a href="javascript:;" data-type="1">我的追号</a></li>
+        <li><a href="javascript:;" data-type="2">我的中奖</a></li>
+        <li><a href="javascript:;" data-type="3">待开奖</a></li>
+        <li><a href="javascript:;" data-type="4">我的撤单</a></li>
+    </ul>
+</div>
+
+<div id="wrapper_1" class="bet_detail scorllmain-content scorll-order nobottom_bar" style="display: none; padding-top: 44px;">
+    <div class="sub_ScorllCont">
+        <div class="order-box">
+            <div class="order-tit">
+                <div class="order-icon" style="height: 55px;"><img id="game_logo" alt=""></div>
+                <div class="order-top-right">
+                    <span class="order-name f120"></span> <span class="grey f80"></span>
+                    <div class="lot-number">
+                        <span class="grey fl">开奖号码：</span>
+                        <div id="open_num" class="red"></div>
+                    </div>
+                    <div id="win_amt" class="lot-number" style="display: none;">
+                        <span class="green fl" style="color: #00bf16;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="order-info">
+                <h3>订单内容</h3>
+                <ul>
+                    <li><span class="grey">订单号</span><span id="bet_oid"></span></li>
+                    <li><span class="grey">投注金额</span><span id="bet_money"></span></li>
+                    <li><span class="grey">投注注数</span><span id="bet_count"></span></li>
+                    <li><span class="grey">投注返点</span><span id="bet_reward"></span></li>
+                    <li><span class="grey">投注赔率</span><span id="bet_prize"></span></li>
+                    <li><span class="grey">投注时间</span><span id="bet_time"></span></li>
+                    <li><span class="grey">是否中奖</span><span id="bet_status"></span></li>
+                    <li><span class="grey">是否关盘</span><span id="bet_close"></span></li>
+                    <li><span class="grey">玩法名称</span><span id="bet_pname"></span></li>
+                </ul>
+            </div>
+            <div class="order-info order-kit">
+                <h3>投注号码</h3>
+                <ul id="code" class="grey">
+                                    </ul>
+            </div>
+        </div>
+        <button class="order-btn" data-key="" data-gid="">再来一注</button>
+    </div>
+</div>
+
+<div id="wrapper_1" class="bet_revokeok scorllmain-content scorll-order nobottom_bar" style="display: none; padding-top: 44px;">
+    <div class="sub_ScorllCont">
+        <div class="with-end text-center">
+            <div class="wiht-img"><img src="/wap/statics/images/gou_wancheng.png" alt=""></div>
+            撤单成功，预祝您中奖
+        </div>
+        <button class="charge-btn" onclick="showStep('list');" style="margin: 20px auto">确认</button>
+    </div>
+</div>
+
+<!-- 加载中 -->
+<div class="loading" style="display: none"></div>
+<div class="loading-bg" style="display: none"></div>
+
+<script>
+    function loadingShow(tips,bg) {
+        if(tips == ""||typeof(tips) == "undefined"){
+            $(".loading").css("left","50%");
+            $(".loading").css("margin-left","-2em");
+            $(".loading").html("加载中...");
+        }else{
+            $(".loading").html(tips);
+            $(".loading").css("left",Math.ceil(($(document).width() - $(".loading").width())/2));
+            $(".loading").css("margin-left",0);
+        }
+
+        bg   = (bg == ""||typeof(bg) == "undefined")?1:0;
+        if (bg == 1){
+            $(".loading-bg").show();
+        }else{
+            $(".loading-bg").hide();
+        }
+        $(".loading").show();
+    }
+    function loadingHide() {
+        $(".loading").hide();
+        $(".loading-bg").hide();
+    }
+</script>
+
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+<div class="beet-odds-tips round" id="confirm_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="confirm_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que btn-que-no" onclick="confirmCancel()"><span id="confirm_pop_cancel">取消</span></button>
+        <button class="btn-que" style="width: 50%;" onclick="confirmOk()"><span id="confirm_pop_ok">确定</span></button>
+    </div>
+</div>
+
+<div id="confirm_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var confirmFunc;
+    function confirmOk() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(confirmFunc) == "function"){
+            confirmFunc();
+            confirmFunc = "";
+        }else{
+            if (typeof(doConfirmOk) == "function") {
+                doConfirmOk();
+            }
+        }
+    }
+    function confirmCancel() {
+        $('#confirm_pop').hide();
+        $('#confirm_bg').hide();
+        if (/系统维护/g.test($('div#confirm_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(doConfirmCancel) == "function") {
+            doConfirmCancel();
+        }
+    }
+    function msgConfirm (msg,funcParm,textConfirm,textCancel) {
+        textConfirm = (textConfirm == undefined) ? '' : textConfirm;
+        textCancel = (textCancel == undefined) ? '' : textCancel;
+        if (textConfirm != '') {
+            $('span#confirm_pop_ok').text(textConfirm);
+        }
+        if (textCancel != '') {
+            $('span#confirm_pop_cancel').text(textCancel);
+        }
+        $('div#confirm_pop_content').text(msg);
+        $('div#confirm_pop_cancel').html(textCancel);
+        $('div#confirm_pop').show();
+        $('div#confirm_bg').show();
+        confirmFunc = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+<input type="hidden" id="revokeKey" />
+
+</body>
+</html>
+
+<script>
+    function showStep(step,key) {
+        if (step == undefined) {
+            return;
+        }
+        $('.bet_list').hide();
+        $('.bet_detail').hide();
+        $('.bet_revokeok').hide();
+        $('.bet_'+step).show();
+        if (step == 'detail') {
+            showDetail(key);
+        }
+    }
+</script>
