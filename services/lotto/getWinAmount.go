@@ -82,19 +82,35 @@ func (endBets *endBets) skip91_57(i *int, dbBetPrize *float64, start, end int) {
 func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取中奖注数
 	//	var tmpBetCodeSplit, tmpBetCodeOne []string
 	//	var intBetCount int //中奖注数
-
-	dbBetPrize, err := strconv.ParseFloat((*endBets.bets)[*i].BetPrize, 64)
-	if err != nil {
-		fmt.Println("services EndLottery 146:" + err.Error())
+	var err error
+	var dbBetPrize float64
+	dbBetPrizeSplit := make([]float64, 5)
+	tempDbBetPrizeSplit := strings.Split((*endBets.bets)[*i].BetPrize, "|")
+	switch { //特殊赔率处理
+	case len(tempDbBetPrizeSplit) == 1:
+		dbBetPrize, err = strconv.ParseFloat((*endBets.bets)[*i].BetPrize, 64)
+		if err != nil {
+			fmt.Println("services (endBets *endBets) getWinAmount:" + err.Error())
+			endBets.tx.Rollback()
+			return 0
+		}
+		break
+	case len(tempDbBetPrizeSplit) > 1:
+		for j := 0; j < len(tempDbBetPrizeSplit); j++ {
+			dbBetPrizeSplit[j], err = strconv.ParseFloat(tempDbBetPrizeSplit[j], 64)
+			if err != nil {
+				fmt.Println("services (endBets *endBets) getWinAmount:" + err.Error())
+				endBets.tx.Rollback()
+				return 0
+			}
+		}
+		break
+	default:
 		endBets.tx.Rollback()
-		return 0
+		return
 	}
 
-	//	//特殊返点过滤
-	//	switch {
-	//	case (*endBets.bets)[*i].PlayId == 11 && (*endBets.bets)[*i].SubId == 92:
-
-	//	}
+	//返点
 	betRewardMoney = common.Round((*endBets.bets)[*i].BetMoney * (*endBets.bets)[*i].BetReward)
 
 	switch (*endBets.bets)[*i].PlayId {

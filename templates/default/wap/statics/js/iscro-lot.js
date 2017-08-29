@@ -161,6 +161,7 @@ $(function(){
             }
             return;
         }
+		
         //检测是否登陆
         //走势返回到首页。如果上一页是充值结束，则进入首页
         if (location.href.indexOf('/mine/index.html') > -1
@@ -196,7 +197,8 @@ $(function(){
             || document.referrer.indexOf('/trend/') > -1
             || document.referrer.indexOf('/deposit/') > -1
             || document.referrer.indexOf('/index/login.html') > -1) {
-          //  checkLogin(location.href,document.referrer);	
+           	//checkLogin(location.href,document.referrer);	
+			window.history.go(-1);
             return;
         }
 
@@ -244,9 +246,12 @@ function reLogin(desc) {
 }
 
 function goBackOfBetPage() {
-    if (document.referrer.indexOf('/index/login.html') > -1 && isLogin == true) {
+  //  if (document.referrer.indexOf('/index/login.html') > -1 && isLogin == true) {
+	 if (document.referrer.indexOf('/index/login.html') > -1 ) {
         location.href = '/mine/index.html';
-    } else {
+    } else if (document.referrer.indexOf('/mine/index.html') > -1 ) {
+        location.href = '/mine/index.html';
+    } else{
         history.go(-1);
     }
 }

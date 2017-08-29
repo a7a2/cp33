@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-scrolling:touch;}/*解决苹果滚动条卡顿的问题*/
+        #wrapper_1{overflow-y:visible!important;}
+    </style>
+    
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name=format-detection content="telphone=no"/>
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=5.0_6" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=5.0_6"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=5.0_6"></script>
+<script>
+    try{
+        isLogin = true;
+        }catch(e){console.log(e);}
+</script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+                     $("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+
+    </script>    <script>
+        function loaded(){}//空实现
+    </script>
+    <title>账户明细</title>
+</head>
+<body class="login-bg" onload='loaded()'>
+<div class="header">
+    <div class="headerTop">
+        <div class="ui-toolbar-left">
+            <button id="reveal-left">reveal</button>
+        </div>
+        <h1 class="ui-betting-title">
+            <div class="bett-top-box">    
+                <div class="bett-tit"><span id="account_type">全部类型</span><i class="bett-attr"></i></div>
+            </div>
+        </h1>
+        <div class="ui-bett-refresh">
+            <a class="bett-refresh" href="javascript:;"></a>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper_1" class="scorllmain-content scorll-order nobottom_bar">
+    <div class="sub_ScorllCont">
+        <div class="mine-message" style="display: none;">
+            <div class="mine-mess"><img src="/wap/statics/images/message/wuxinxi.png"></div>
+            <p>目前暂无记录哦！</p>
+        </div>
+        <div class="order-center">
+            <ul id="account_list">
+                <!--<li class="loading">
+                    <div class="order-list-tit"></div>
+                    <div class="c-gary" style="text-align: center">正在加载...</div>
+                </li>-->
+            </ul>
+            <a class="on-more" href="javascript:;" style="display: none;">点击加载更多</a>
+        </div>
+    </div>
+</div>
+
+<!-- 直选tips -->
+<div class="beet-tips" hidden="">
+    <!--<div class="beet-tips-tit"><span>普通玩法</span></div>-->
+    <div class="clear"></div>
+    <ul>
+        <li><a class="beet-active" href="javascript:;" data-type="0">全部类型</a></li>
+        <li><a href="javascript:;" data-type="1">在线充值</a></li>
+        <li><a href="javascript:;" data-type="2">佣金提成</a></li>
+        <li><a href="javascript:;" data-type="3">提现失败</a></li>
+        <li><a href="javascript:;" data-type="4">撤单</a></li>
+        <li><a href="javascript:;" data-type="5">派奖</a></li>
+        <li><a href="javascript:;" data-type="6">购彩</a></li>
+        <li><a href="javascript:;" data-type="7">提款</a></li>
+        <li><a href="javascript:;" data-type="8">提现冻结</a></li>
+		 <li><a href="javascript:;" data-type="9">活动</a></li>
+		<li><a href="javascript:;" data-type="10">其他</a></li>
+    </ul>
+</div>
+<!-- 加载中 -->
+<div class="loading" style="display: none"></div>
+<div class="loading-bg" style="display: none"></div>
+
+<script>
+    function loadingShow(tips,bg) {
+        if(tips == ""||typeof(tips) == "undefined"){
+            $(".loading").css("left","50%");
+            $(".loading").css("margin-left","-2em");
+            $(".loading").html("加载中...");
+        }else{
+            $(".loading").html(tips);
+            $(".loading").css("left",Math.ceil(($(document).width() - $(".loading").width())/2));
+            $(".loading").css("margin-left",0);
+        }
+
+        bg   = (bg == ""||typeof(bg) == "undefined")?1:0;
+        if (bg == 1){
+            $(".loading-bg").show();
+        }else{
+            $(".loading-bg").hide();
+        }
+        $(".loading").show();
+    }
+    function loadingHide() {
+        $(".loading").hide();
+        $(".loading-bg").hide();
+    }
+</script>
+
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+</body>
+</html>
+
+<script>
+    function initLoading() {
+        $('a.on-more').hide();
+        $('div.mine-message').hide();
+    }
+</script>
+
+<script>
+    $('div.beet-tips a').click(function() {
+        $('div.beet-tips a').removeClass('beet-active');
+        $('div.beet-tips').hide();
+        $(this).addClass('beet-active');
+        $('span#account_type').text($(this).text());
+        dataType = $(this).data('type');
+        initLoading();
+        getAccountDetail(2);
+    });
+</script>
+
+<script>
+    $(function() {
+        getAccountDetail();
+    });
+</script>
+
+<script>
+    $('div.ui-bett-refresh').click(function() {
+        initLoading();
+        getAccountDetail(2);
+    });
+</script>
+
+<script>
+    $('a.on-more').click(function() {
+        getAccountDetail(1);
+    });
+</script>
+
+<script>
+    //获取投注列表
+    dataType = 0;
+    pageIndex = 1;//初始第一页
+    /*transType = {1:'支付接口在线入款',2:'公司入款',3:'快速入款',4:'人工入款 (补点+公司收入)'
+        ,5:'冲帐-取消出款 (补点+公司收入)',6:'冲帐-重覆出款 (补点+公司收入)',7:'存款优惠 (补点)'
+        ,8:'返点优惠 (补点)',9:'活动优惠 (补点)',10:'负数额度归零 (补点)',11:'其它 (补点)'
+        ,12:'优惠补点(补点)-锁定转点功能',13:'人工存提-紅利',16:'人工转点(入款)',17:'汇款优惠'
+        ,18:'首存优惠',19:'公司入款优惠',20:'派彩',21:'退水',22:'退码',23:'返点',24:'微信入款'
+        ,25:'支付宝入款',26:'退佣',27:'退款',2:'出款',30:'会员申请出款',31:'人工转点(出款)'
+        ,32:'冲帐-公司入款误存 (扣点+公司支出)',33:'手动申请出款 (扣点+公司支出)'
+        ,34:'会员负数回冲 (扣点)',35:'扣除非法下注派彩 (扣点)',36:'放弃存款优惠 (扣点)'
+        ,37:'其它 (扣点)',38:'人工扣点(扣点)-解除转点锁定',39:'人工存提-(扣)活动优惠'
+        ,40:'人工存提-(扣)紅利',41:'银行手续费',42:'投注'};*/
+    transType = {1:'第三方支付',2:'银行转账',3:'快速入款',4:'人工入款'
+        ,5:'取消出款',6:'重覆出款',7:'存款优惠'
+        ,8:'返点优惠',9:'活动优惠',10:'负数额度归零',11:'其它'
+        ,12:'优惠补点',13:'人工存提-紅利',16:'人工转点',17:'汇款优惠'
+        ,18:'首存优惠',19:'入款优惠',20:'派彩',21:'退水',22:'退码',23:'返点',24:'微信入款'
+        ,25:'支付宝入款',26:'退佣',27:'退款',30:'出款',31:'人工转点'
+        ,32:'公司入款误存',33:'出款'
+        ,34:'会员负数回冲',35:'扣除非法下注派彩',36:'放弃存款优惠'
+        ,37:'其它',38:'人工扣点',39:'人工存提'
+        ,40:'人工存提',41:'银行手续费',42:'投注'};
+    function getAccountDetail(more) {
+        if (more == 1) {
+            pageIndex++;
+        } else if (more == 2) {
+            pageIndex = 1;
+        }
+        loadingShow();
+        $('a.on-more').html("正在获取数据中..");
+        $.ajax({
+            url: '/mine/ajaxAccountDetail.html',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'dataType' : dataType,
+                'pageIndex' : pageIndex
+            },
+            timeout: 3000,
+            success: function (data) {
+                $('ul#account_list li.loading').remove();
+                if (data.code != 200) {
+                    	msgAlert(data.message);
+                 		if (/未登陆/g.test(data.message)) {
+						location.href = '/index/login.html?platform='+getCookie("platform");
+                		}
+                    return;
+                }
+                var txtHtml = '';
+                var txtType = '';
+                var txtColor = '';
+			
+                for (var i = 0; i < data.data.RecordCount; i++) {
+                    txtType = (data.data.Records[i].LiqType == 1) ? '+' : '-';
+                    txtColor = (data.data.Records[i].LiqType == 1) ? 'style="color: #00bf16;"' : '-';
+                    txtHtml += '<li>'
+                        + '<div class="order-list-tit">'
+                            + '<span class="fr c-red" '+ txtColor +'>'+txtType+data.data.Records[i].Coin+'元</span><span class="order-top-left">'+data.data.Records[i].Info+'</span>'
+                        + '</div>'
+                        + '<div class="c-gary"><span class="fr" style="font-size: 12px;">余额 '+data.data.Records[i].Balance+'</span><p class="order-time" style="font-size: 12px;">单号 '+data.data.Records[i].OrderId+'</p></div>'
+                    + '</li>';
+                }
+                if (data.data.RecordCount == 0) {
+                    $('div.mine-message').show();
+                } else {
+                    $('div.mine-message').hide();
+                }
+                if (more == 2) {//刷新
+                    $('ul#account_list').html(txtHtml);
+                } else {
+                    $('ul#account_list').append(txtHtml);
+                }
+                $('a.on-more').html("点击加载更多");
+                if (data.data.PageCount > pageIndex) {
+                    $('a.on-more').show();
+                } else {
+                    $('a.on-more').hide();
+                }
+                loadingHide();
+                loaded();
+            }
+        });
+    }
+</script>

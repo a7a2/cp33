@@ -30,9 +30,9 @@ func dodb() {
 		ReadTimeout:        3 * time.Second,
 		WriteTimeout:       3 * time.Second,
 		PoolSize:           99,
-		PoolTimeout:        time.Second * 3, //繁忙时候适用
-		IdleTimeout:        time.Second,
-		IdleCheckFrequency: time.Second,
+		PoolTimeout:        time.Second * 3,
+		IdleTimeout:        time.Second * 10,
+		IdleCheckFrequency: time.Second * 10,
 	})
 
 	err := createSchema(Db)

@@ -66,7 +66,7 @@ func DoBets(us []models.Bets, uid int) (result models.Result) {
 func BetList(bl *models.AjaxBetList, platform, username string) (result models.Result) {
 	//strSql := fmt.Sprintf("select id,amount,bet_count,bet_prize,bet_reward,ctime,is_win,sub_name,bet_code,play_id,game_id,win_amount,game_period,open_num,status,bet_pos,etime from bets where uid=%v ", services.GetUid(platform, username))
 
-	strSql := fmt.Sprintf("uid=%v", services.GetUid(platform, username))
+	strSql := fmt.Sprintf("uid=%v and is_delete=false", services.GetUid(platform, username))
 	switch bl.OrderType {
 	case 0: //0 全部
 		break
@@ -75,7 +75,7 @@ func BetList(bl *models.AjaxBetList, platform, username string) (result models.R
 	case 2: //中奖
 		strSql = fmt.Sprintf(" %s%s", strSql, " and is_win=true")
 	case 3: //3待开奖
-		strSql = fmt.Sprintf(" %s%s", strSql, " and open_num<>null")
+		strSql = fmt.Sprintf(" %s%s", strSql, " and open_num=''")
 	case 4: //4撤单
 		strSql = fmt.Sprintf(" %s%s", strSql, " and status=2")
 	}
@@ -154,7 +154,7 @@ func (endBets *endBets) betClose1() {
 		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
 
 		if betRewardMoney > 0 { //返点
-			endBets.addMoney(&betRewardMoney, &i, 2, "返点,单号")
+			endBets.addMoney(&betRewardMoney, &i, 2, "返点")
 		}
 		(*endBets.bets)[i].IsWin = false
 		(*endBets.bets)[i].OpenNum = endBets.data
@@ -162,7 +162,7 @@ func (endBets *endBets) betClose1() {
 		(*endBets.bets)[i].Etime = endBets.etime
 		if (*endBets.bets)[i].WinAmount > 0 { //赢了de
 			(*endBets.bets)[i].IsWin = true
-			endBets.addMoney(&(*endBets.bets)[i].WinAmount, &i, 5, "中奖,单号")
+			endBets.addMoney(&(*endBets.bets)[i].WinAmount, &i, 5, "中奖")
 			if (*endBets.bets)[i].BetWinStop == 1 && (*endBets.bets)[i].BetMore > 1 { //选了中奖后停止追号的 及 追了期的...要取消
 				_, err = endBets.tx.Model(&bet).Set("status=2, etime=?", endBets.etime).Where("label=? and ctime=? and game_id=? and game_period>? and open_num='' and is_delete=false and status=0", (*endBets.bets)[i].Label, (*endBets.bets)[i].Ctime, (*endBets.bets)[i].GameId, (*endBets.bets)[i].GamePeriod).Update()
 				if err != nil {
@@ -170,7 +170,7 @@ func (endBets *endBets) betClose1() {
 					endBets.tx.Rollback()
 					return
 				}
-				endBets.addMoney(&(*endBets.bets)[i].BetMoney, &i, 4, "撤单,单号")
+				endBets.addMoney(&(*endBets.bets)[i].BetMoney, &i, 4, "撤单")
 			}
 		}
 
@@ -183,10 +183,11 @@ func (endBets *endBets) addMoney(money *float64, i *int, liqType int, info strin
 	coinLog := models.CoinLog{
 		Uid:        (*endBets.bets)[*i].Uid,
 		Type:       (*endBets.bets)[*i].GameId,
+		OrderId:    (*endBets.bets)[*i].Id,
 		Coin:       *money,
 		FreezeCoin: 0.000,
 		Balance:    balance,
-		LiqType:    liqType, //返点
+		LiqType:    liqType,
 		ActionUid:  0,
 		Ctime:      endBets.etime,
 		ActionIp:   endBets.strIp,

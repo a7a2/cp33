@@ -87,7 +87,7 @@ function getHorseLamp() {
         dataType: 'json',
         data: {
         },
-        timeout: 30000,
+        timeout: 3000,
         success: function (data) {
             if (data.Result == false) {
                 return;

@@ -275,7 +275,8 @@
 			$('span#username').text(username); 
 			w.Emit("balance","get");
 		}else{
-			w.Emit("balance","get");
+			//w.Emit("balance","get");           
+			location.href = '/index/login.html?platform='+getCookie("platform");
 			//location.href = '/index/login.html?platform='+platform;
 		}
 	});
@@ -316,11 +317,13 @@
             dataType: 'json',
             data: {
             },
-            timeout: 30000,
+            timeout: 3000,
             success: function (data) {
-                if (data.Result == false) {
-                    msgAlert(data.Desc);
-                    reLogin(data.Desc);
+                   if (data.code != 200) {
+                    msgAlert(data.message);
+                 if (/未登陆/g.test(data.message)) {
+					location.href = '/index/login.html?platform='+getCookie("platform");
+                }
                     return;
                 }
                 if (data.Result && data.iUnReadCount > 0) {

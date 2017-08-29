@@ -205,16 +205,16 @@ function doConfirmOk() {
         data: {
             'key' : key
         },
-        timeout: 30000,
+        timeout: 3000,
         success: function (data) {
             loadingHide();
             $('#revokeKey').val('');
-            if (data.Result == false) {
-                if (/系统错误/g.test(data.Desc)) {
-                    data.Desc = '撤单失败，请重试！';
+            if (data.Code != 200) {
+                if (/未登陆/g.test(data.message)) {
+					location.href = '/index/login.html?platform='+getCookie("platform");
                 }
                 msgAlert(data.Desc);
-                reLogin(data.Desc);
+       //         reLogin(data.Desc);
                 return;
             }
             $('span#win_state').text('手动退码');
@@ -230,6 +230,15 @@ function doConfirmOk() {
 function initLoading() {
     $('a.on-more').hide();
     $('div.mine-message').hide();
+}
+
+function getCookie(name)
+{
+var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+if(arr=document.cookie.match(reg))
+return unescape(arr[2]);
+else
+return null;
 }
 
 function getBetList(more) {//1:更多，2:充值
@@ -254,7 +263,11 @@ function getBetList(more) {//1:更多，2:充值
             $('ul#bet_list li.loading').remove();
             if (data.code != 200) {
                 msgAlert(data.message);
-                reLogin(data.message);
+				if (/未登陆/g.test(data.message)) {
+					location.href = '/index/login.html?platform='+getCookie("platform");
+                }
+				
+               // reLogin(data.message);
                 return;
             }
             var txtHtml = '';
@@ -273,12 +286,12 @@ function getBetList(more) {//1:更多，2:充值
                     }
                     posText = '(' + posText + ')';
                 }
-                var subName = data.data.Records[i].SubName;
-                var subType = data.data.Records[i].SubId;
+                var subName = data.data.Records[i].SubId;
+                var subType = data.data.Records[i].SubName;
 
-                if (',10,11,16,17,'.indexOf(','+data.data.Records[i].GameId+',') > -1 && subName == '和值') {
+                if (',10,11,16,17,'.indexOf(','+data.data.Records[i].SubId+',') > -1 && subName == '和值') {
                     subType = '和值';
-                } else if (data.data.Records[i].GameId == 18) {//六合彩
+                } else if (data.data.Records[i].SubId == 18) {//六合彩
                     if (/^(特码|正码)$/g.test(subName)) {
                         subType = (/^[0-9]{1,}$/.test(subType)) ? '选码' : '其他';
                         if (subName == '特码' && subType == '选码') {
@@ -308,8 +321,8 @@ function getBetList(more) {//1:更多，2:充值
                         subType = subType;
                     }
                 }
-                if (data.data.Records[i].GameId == 41 || data.data.Records[i].GameId == 42){
-                    if(data.data.Records[i].PlayId >= 41000 && data.data.Records[i].PlayId <= 41027){
+                if (data.data.Records[i].SubId == 41 || data.data.Records[i].SubId == 42){
+                    if(data.data.Records[i].SubId >= 41000 && data.data.Records[i].SubId <= 41027){
                         var pName = subName+'-特码';
                     }else if (data.data.Records[i].playId == 41127){
                         var pName = subName+'-特码包三';
@@ -328,7 +341,7 @@ function getBetList(more) {//1:更多，2:充值
                     +'&count='+data.data.Records[i].BetCount+'&prize='+tmpPrize
                     +'&reward='+data.data.Records[i].BetReward+'&time='+data.data.Records[i].Ctime
                     +'&win='+data.data.Records[i].IsWin+'&pname='+pName
-                    +'&code='+betCode+'&subid='+data.data.Records[i].PlayId
+                    +'&code='+betCode+'&subid='+data.data.Records[i].SubId
                     +'&gname='+data.data.Records[i].GameName+'&winamount='+data.data.Records[i].WinAmount
                     +'&period='+data.data.Records[i].GamePeriod+'&opennum='+data.data.Records[i].OpenNum
                     +'&close='+data.data.Records[i].Status+'&status='+data.data.Records[i].Status

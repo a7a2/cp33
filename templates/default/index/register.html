@@ -172,7 +172,13 @@ return unescape(arr[2]);
 else
 return null;
 }
-
+getBLen = function(str) {
+  if (str == null) return 0;
+  if (typeof str != "string"){
+    str += "";
+  }
+  return str.replace(/[^\x00-\xff]/g,"01").length;
+}
 function getParameterByName(name) {  
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);  
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));  
@@ -184,8 +190,9 @@ var username=getParameterByName("username");
 var platform=getParameterByName("platform");
 var enClientPassWd=getParameterByName("enClientPassWd");
 
-if (platform==""){
+if (getBLen(platform)!=36 && getBLen(getCookie("platform"))==36){
 	platform=getCookie("platform");
+	location.href = '/index/register.html?platform='+platform;
 }
 if (enClientPassWd=="") {
 	enClientPassWd=getCookie("enClientPassWd");
@@ -193,7 +200,10 @@ if (enClientPassWd=="") {
 if (username=="") {
 	username=getCookie("username");
 }
-
+if (getBLen(platform)!=36){
+	platform="ce45035d-317e-4831-afe1-05444d9b040a";
+	location.href = '/index/register.html?platform='+platform;
+}
 function getParameterByName(name) {  
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);  
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));  

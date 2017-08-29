@@ -244,12 +244,14 @@
             data: {
                 'key' : $('#revokeKey').val()
             },
-            timeout: 30000,
+            timeout: 3000,
             success: function (data) {
                 $('#revokeKey').val('');
-                if (data.Result == false) {
-                    msgAlert(data.Desc);
-                    reLogin(data.Desc);
+                if (data.code != 200) {
+                    msgAlert(data.message);
+                 	if (/未登陆/g.test(data.message)) {
+						location.href = '/index/login.html?platform='+getCookie("platform");
+                	}
                     return;
                 }
                 $('span#win_state').text('手动退码');
@@ -287,7 +289,9 @@
         } else if (subid >= 41301 && subid <= 41303) {//北京28波色
             subid = 41301;
         }
-        var titleArr = face[subid]['title'];
+		console.log(gameid);
+        //var titleArr = face[subid]['title'];
+		var titleArr = "1111ss";
         titleArr = (typeof (titleArr) == 'string') ? new Array(titleArr) : titleArr;
         var codeArr = $('#betcode').val().split('or');
         var placeArr = face[subid]['place'].split('|');

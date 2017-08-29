@@ -61,6 +61,11 @@ type WebsiteInfo struct { //网站基础
 	Host  string
 }
 
+type PostAccountDetail struct {
+	DataType  int `form:"dataType"` //0全部，1充值，2佣金提成，3、派奖，4、撤单，5、购彩，6、提现失败，7提款，8、其他
+	PageIndex int `form:"pageIndex"`
+}
+
 type LoginPost struct { //post登陆
 	Platform string `form:"platform"` //平台uuid
 	Username string `form:"username"`
@@ -247,6 +252,7 @@ type Members struct {
 type CoinLog struct {
 	Id         int       `sql:",pk,type:bigint"`
 	Uid        int       `sql:"type:integer"`             //用户uid
+	OrderId    int64     `sql:"type:bigint"`              //单号
 	Type       int       `sql:"type:smallint"`            //彩种类，如果与彩票无关，这采用默认值(比如充值)
 	Coin       float64   `sql:"type:numeric"`             //流动资金
 	FreezeCoin float64   `sql:"type:numeric"`             //冻结

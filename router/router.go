@@ -44,11 +44,13 @@ func init() {
 	indexParty.Get("/login.html", func(ctx iris.Context) { ctx.View("index/login.html") })       //登陆页面
 	indexParty.Get("/register.html", func(ctx iris.Context) { ctx.View("index/register.html") }) //注册页面
 
-	mineParty := models.App.Party("/mine")                                                       //我的
-	mineParty.Get("/index.html", func(ctx iris.Context) { ctx.View("mine/index.html") })         //个人中心
-	mineParty.Get("/betDetail.html", func(ctx iris.Context) { ctx.View("mine/betDetail.html") }) //投注记录详细
-	mineParty.Get("/betList.html", func(ctx iris.Context) { ctx.View("mine/betList.html") })     //投注记录
-	mineParty.Post("/ajaxBetList.html", controllers.BetList)                                     //提交查询投注记录入口
+	mineParty := models.App.Party("/mine")                                                               //我的
+	mineParty.Get("/index.html", func(ctx iris.Context) { ctx.View("mine/index.html") })                 //个人中心
+	mineParty.Get("/betDetail.html", func(ctx iris.Context) { ctx.View("mine/betDetail.html") })         //投注记录详细
+	mineParty.Get("/betList.html", func(ctx iris.Context) { ctx.View("mine/betList.html") })             //投注记录
+	mineParty.Get("/accountDetail.html", func(ctx iris.Context) { ctx.View("mine/accountDetail.html") }) //账户明细
+	mineParty.Post("/ajaxBetList.html", controllers.BetList)                                             //提交查询投注记录入口
+	mineParty.Post("/ajaxAccountDetail.html", controllers.AccountDetail)                                 //提交查询账户明细入口
 
 	doBetParty := models.App.Party("/doBet")              //彩票投注相关
 	doBetParty.Post("/ajaxBet.html", controllers.PostBet) //投注提交投注入口
