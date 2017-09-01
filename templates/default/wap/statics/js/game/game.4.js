@@ -584,8 +584,16 @@ $(function () {
                 }
                 break;
             case 92://后三组合
-                nums = betCodeArr[2].split(sepIn).length * betCodeArr[3].split(sepIn).length
-                    * betCodeArr[4].split(sepIn).length * 3;
+			  	var nums3 = 1;
+                for (var i = 2; i < 5; i++) {
+                    nums3 = (betCodeArr[i] == '') ? 0 : nums3 * betCodeArr[i].split(sepIn).length;
+                }
+				var nums2 = 1;
+				for (var i = 3; i < 5; i++) {
+                    nums2 = (betCodeArr[i] == '') ? 0 : nums2 * betCodeArr[i].split(sepIn).length;
+                }
+				var nums0 = 0;
+                nums =  nums3+nums2+betCodeArr[4].split(sepIn).length;
                 break;
             case 58://前三组合
                 nums = betCodeArr[0].split(sepIn).length * betCodeArr[1].split(sepIn).length

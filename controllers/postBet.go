@@ -245,6 +245,8 @@ func PostBet(ctx iris.Context) {
 			return
 		}
 
+		playedGroup := servicesLotto.PlayedGroup(intPlayId)
+
 		played := servicesLotto.Played(platformId, intPlayId, intSubId)
 		//对提交上来带有|的赔率 返点验证
 		var betPrizeDb float64
@@ -372,7 +374,14 @@ func PostBet(ctx iris.Context) {
 				}
 			case 92, 58: //后三组合11,前三组合9
 				arrayLenght := 3
-				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], arrayLenght) * 3
+				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], arrayLenght)
+				tempBetCodeSplit := strings.Split(postBet.Bet_list[i]["betCode"], "|")
+				tempStrSumCount := make([][]string, 3)
+				for i := 0; i < len(tempBetCodeSplit); i++ {
+					tempStrSumCount[i] = regexp.MustCompile(`[0-9]{1}`).FindAllString(tempBetCodeSplit[i], -1)
+				}
+				tempCount2 := len(tempStrSumCount[1]) * len(tempStrSumCount[2])
+				tempCount = tempCount + tempCount2 + len(tempStrSumCount[2])
 			case 93, 59: //后三、前三组三复式11、9
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = len(tempStrSumCount) * (len(tempStrSumCount) - 1)
@@ -629,6 +638,7 @@ func PostBet(ctx iris.Context) {
 			OpenNum:      "",
 			Status:       0,
 			PlayId:       intPlayId, //对应数据库played表 group_id
+			GroupName:    playedGroup.GroupName,
 			SubId:        intSubId,
 			SubName:      postBet.Bet_list[i]["subName"],
 			BetCode:      postBet.Bet_list[i]["betCode"],
@@ -664,7 +674,7 @@ func PostBet(ctx iris.Context) {
 
 	}
 
-	result = servicesLotto.DoBets(betsArray, uid)
+	result = servicesLotto.DoBets(betsArray, uid, ctx.RemoteAddr())
 	ctx.JSON(&result)
 	fmt.Println("postBet ok ,speed time:", time.Now().Sub(timeStart))
 

@@ -547,7 +547,7 @@ body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-y:visible!important;ov
 .order-center ul li .order-list-tit { font-size: 90%; color: #000; overflow: hidden }
 .order-center ul li .order-list-tit .c-red i { border-radius:50%; background: #f00; width:10px; height:10px; display: inline-block;}
 .order-center .c-gary { color: #999; font-size: 90%; margin-top: 10px; }
-.order-top-left { width:7em; float: left; }
+.order-top-left { width:9em; float: left; }
 
 .ui-dialog .ui-dialog-buttonpane button { background: #ec2829; border-radius: 5px; height: 30px; line-height: 30px; text-align: center; border: 0; color: #fff; font-size: 100%; margin-top: 20px; display: inline-block; outline: none; }
 

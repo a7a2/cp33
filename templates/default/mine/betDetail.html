@@ -267,12 +267,13 @@
         if (/undefined/g.test(posText)) {
             posText = '';
         }
+		
         var weiArr = {0:'万位',1:'千位',2:'百位',3:'十位',4:'个位'};//时时彩
         var gameid = $('#gameid').val();
         if (gameid == 18) {
             return;
         }
-        if (',1,2,3,10,11,16,17,'.indexOf(','+gameid+',') > -1) {
+        if (',2,3,10,11,16,17,'.indexOf(','+gameid+',') > -1) {
             weiArr = {0: '百位', 1: '十位', 2: '个位'};//快三、福体彩
         } else if (',12,13,14,15,28,'.indexOf(','+gameid+',') > -1) {
             weiArr = {0: '第一位', 1: '第二位', 2: '第三位', 3: '第四位', 4: '第五位'};//11选5、幸运农场
@@ -290,8 +291,8 @@
             subid = 41301;
         }
 		console.log(gameid);
-        //var titleArr = face[subid]['title'];
-		var titleArr = "1111ss";
+        var titleArr = face[subid]['title'];
+		//var titleArr = "1111ss";
         titleArr = (typeof (titleArr) == 'string') ? new Array(titleArr) : titleArr;
         var codeArr = $('#betcode').val().split('or');
         var placeArr = face[subid]['place'].split('|');

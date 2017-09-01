@@ -273,8 +273,8 @@
                 var txtColor = '';
 			
                 for (var i = 0; i < data.data.RecordCount; i++) {
-                    txtType = (data.data.Records[i].LiqType == 1) ? '+' : '-';
-                    txtColor = (data.data.Records[i].LiqType == 1) ? 'style="color: #00bf16;"' : '-';
+                    //txtType = (data.data.Records[i].LiqType == 1) ? '+' : '-';
+                    //txtColor = (data.data.Records[i].LiqType == 1) ? 'style="color: #00bf16;"' : '-';
                     txtHtml += '<li>'
                         + '<div class="order-list-tit">'
                             + '<span class="fr c-red" '+ txtColor +'>'+txtType+data.data.Records[i].Coin+'元</span><span class="order-top-left">'+data.data.Records[i].Info+'</span>'

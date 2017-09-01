@@ -172,6 +172,14 @@ type PostBet struct { //投注单
 	//	Bet_list   map[int]interface{} `formam:"bet_list"`
 }
 
+type PlayedGroup struct {
+	Id        int64  `sql:",pk,type:bigint"`
+	Enable    bool   `sql:"type:boolean"`
+	Type      int    `sql:"type:smallint"`
+	GroupName string `sql:"type:character varying"`
+	Sort      int    `sql:"type:smallint"`
+}
+
 type Bets struct { //对应数据库bets
 	Id         int64     `sql:",pk,type:bigint"`
 	Label      uuid.UUID `sql:"type:uuid"` //追号标记
@@ -196,6 +204,7 @@ type Bets struct { //对应数据库bets
 	PlayId       int     `form:"playId";pg:"playId";sql:"type:smallint"` //对应数据库played表 group_id ,played_group表id
 	SubId        int     `form:"subId";sql:"type:smallint"`
 	SubName      string  `form:"subName"`
+	GroupName    string  `sql:"type:character varying"`
 	BetCode      string  `form:"betCode"`
 	BetCount     int     `sql:"type:integer"`
 	BetMoney     float64 `form:"betMoney"`

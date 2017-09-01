@@ -12,7 +12,7 @@ import (
 	"github.com/go-pg/pg"
 )
 
-func DoBets(us []models.Bets, uid int) (result models.Result) {
+func DoBets(us []models.Bets, uid int, ip string) (result models.Result) {
 	tx, err := models.Db.Begin()
 	if err != nil {
 		result = models.Result{Code: 500, Message: err.Error(), Data: nil}
@@ -20,7 +20,6 @@ func DoBets(us []models.Bets, uid int) (result models.Result) {
 	}
 
 	m := models.Members{}
-
 	_, err = tx.QueryOne(&m, fmt.Sprintf("select coin from members where uid=%v limit 1 for update", uid))
 	//err = tx.Model(&m).Where("uid=?", uid).Returning("coin").Select()
 	if err != nil {
@@ -44,12 +43,30 @@ func DoBets(us []models.Bets, uid int) (result models.Result) {
 		return
 	}
 
-	err = tx.Insert(&us)
-	if err != nil {
-		fmt.Println(err.Error())
-		tx.Rollback()
-		result = models.Result{Code: 600, Message: "数据库错误!", Data: nil}
-		return
+	var balance float64
+	for i := 0; i < len(us); i++ {
+		err = tx.Insert(&us[i])
+		if err != nil {
+			fmt.Println(err.Error())
+			tx.Rollback()
+			result = models.Result{Code: 600, Message: "数据库错误!", Data: nil}
+			return
+		}
+		balance = m.Coin - us[i].BetMoney
+		coinLog := models.CoinLog{
+			Uid:        us[i].Uid,
+			Type:       us[i].GameId,
+			OrderId:    us[i].Id,
+			Coin:       0 - us[i].BetMoney,
+			FreezeCoin: 0.000,
+			Balance:    balance,
+			LiqType:    6,
+			ActionUid:  0,
+			Ctime:      us[i].Ctime,
+			ActionIp:   ip,
+			Info:       fmt.Sprintf("%s%v", "购彩-", us[i].GameName),
+		}
+		services.CoinLog(&coinLog, tx) //日志
 	}
 
 	err = tx.Commit()
@@ -95,9 +112,9 @@ func BetList(bl *models.AjaxBetList, platform, username string) (result models.R
 type endBets struct {
 	bets      *[]models.Bets
 	tx        *pg.Tx
-	strIp     string
-	data      string
-	dataSplit []string
+	strIp     string   //ip
+	data      string   //开奖号码
+	dataSplit []string //开奖号码split后
 	etime     time.Time
 }
 

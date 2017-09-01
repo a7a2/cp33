@@ -55,7 +55,7 @@ func (endBets *endBets) sum_97_63(i *int, dbBetPrize *float64, start, end int) {
 	strSum := strconv.Itoa(intSum)
 	for k := 0; k < len(arrayCount); k++ {
 		if arrayCount[k] == strSum {
-			(*endBets.bets)[*i].WinAmount = common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
+			(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round(*dbBetPrize*(*endBets.bets)[*i].BetEachMoney)
 			return
 		}
 
@@ -77,6 +77,28 @@ func (endBets *endBets) skip91_57(i *int, dbBetPrize *float64, start, end int) {
 		}
 	}
 	//fmt.Println("strSkipNum", strSkipNum, "	", *dbBetPrize, "*", (*endBets.bets)[*i].BetEachMoney, "*", float64(intCount))
+}
+
+func (endBets *endBets) houSanZuSanFuShi(i *int, dbBetPrize *float64, start, end int) {
+	dataSplit := make([]int, end-start)
+	arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString((*endBets.bets)[*i].BetCode, -1)
+	for j := start; j < end; j++ {
+		dataSplit[j-start], _ = strconv.Atoi(endBets.dataSplit[j])
+	}
+
+	for j := 0; j < len(dataSplit); j++ {
+		strDataSplit := strconv.Itoa(dataSplit[j])
+		for k := 0; k < len(arrayBetCode); k++ {
+			if arrayBetCode[k] == strDataSplit {
+				if j == len(dataSplit)-1 { //中了
+					(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round(*dbBetPrize*(*endBets.bets)[*i].BetEachMoney)
+				}
+				break
+			} else if k == len(arrayBetCode)-1 { //miss
+				return
+			}
+		}
+	}
 }
 
 func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取中奖注数
@@ -135,8 +157,38 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			endBets.skip91_57(i, &dbBetPrize, 2, 5)
 			return
 		case 92: //后三组合
-			//					arrayLenght := 3
-			//				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], arrayLenght) * 3
+			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[0], 2, 5)
+			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[1], 3, 5)
+			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[2], 4, 5)
+			return
+		case 93: //后三 组三复式
+			if !(endBets.dataSplit[0] == endBets.dataSplit[1] || endBets.dataSplit[1] == endBets.dataSplit[2] || endBets.dataSplit[0] == endBets.dataSplit[2]) { //没有两个相同跳过
+				return
+			}
+			if endBets.dataSplit[0] == endBets.dataSplit[1] && endBets.dataSplit[1] == endBets.dataSplit[2] { //三个一样的跳过
+				return
+			}
+			endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
+			return
+		case 94: //后三 组六复式
+			if !(endBets.dataSplit[0] == endBets.dataSplit[1] || endBets.dataSplit[1] == endBets.dataSplit[2] || endBets.dataSplit[0] == endBets.dataSplit[2]) { //没有两个相同跳过
+				return
+			}
+			if endBets.dataSplit[0] == endBets.dataSplit[1] && endBets.dataSplit[1] == endBets.dataSplit[2] { //三个一样的跳过
+				return
+			}
+			endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
+			return
+		case 97: //后三 组选和值 ，和值3 开奖号码：后三位 003 中第一个赔率，012中第二个赔率
+			endBets.sum_97_63(i, &dbBetPrizeSplit[0], 2, 5)
+			endBets.sum_97_63(i, &dbBetPrizeSplit[1], 3, 5)
+			return
+		case 99: //后三 组选包胆 .......等待完成！
+			//			if endBets.dataSplit[0] == endBets.dataSplit[1] && endBets.dataSplit[1] == endBets.dataSplit[2] { //三个一样的跳过
+			//				return
+			//			}
+			//			endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
+			//			return
 		}
 
 	}
