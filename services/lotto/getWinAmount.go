@@ -55,7 +55,7 @@ func (endBets *endBets) sum_97_63(i *int, dbBetPrize *float64, start, end int) {
 	strSum := strconv.Itoa(intSum)
 	for k := 0; k < len(arrayCount); k++ {
 		if arrayCount[k] == strSum {
-			(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round(*dbBetPrize*(*endBets.bets)[*i].BetEachMoney)
+			(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
 			return
 		}
 
@@ -91,7 +91,7 @@ func (endBets *endBets) houSanZuSanFuShi(i *int, dbBetPrize *float64, start, end
 		for k := 0; k < len(arrayBetCode); k++ {
 			if arrayBetCode[k] == strDataSplit {
 				if j == len(dataSplit)-1 { //中了
-					(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round(*dbBetPrize*(*endBets.bets)[*i].BetEachMoney)
+					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
 				}
 				break
 			} else if k == len(arrayBetCode)-1 { //miss
@@ -101,24 +101,22 @@ func (endBets *endBets) houSanZuSanFuShi(i *int, dbBetPrize *float64, start, end
 	}
 }
 
-//0&6&7  797
+//2&4&6&7&8&9  093
 func (endBets *endBets) zuXuanBaoDan(i *int, dbBetPrizeSplit *[]float64, start, end int) {
-	dataSplit := make([]int, end-start)
 	arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString((*endBets.bets)[*i].BetCode, -1)
-	for j := 0; j < len(dataSplit); j++ {
+	for j := 0; j < len(arrayBetCode); j++ {
 		match := 0
-		strDataSplit := strconv.Itoa(dataSplit[j])
-		for k := 0; k < len(arrayBetCode); k++ {
-			if arrayBetCode[k] == strDataSplit { //中了
+		//strData := strconv.Itoa(dataSplit[j])
+		for k := start; k < end; k++ {
+			if endBets.dataSplit[k] == arrayBetCode[j] { //中了
 				match = match + 1
-
 			}
-			if k == len(arrayBetCode)-1 {
+			if k == end-1 {
 				switch match {
 				case 1:
-					(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round((*dbBetPrizeSplit)[1]*(*endBets.bets)[*i].BetEachMoney)
+					(*endBets.bets)[*i].WinAmount += common.Round((*dbBetPrizeSplit)[1] * (*endBets.bets)[*i].BetEachMoney)
 				case 2:
-					(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round((*dbBetPrizeSplit)[0]*(*endBets.bets)[*i].BetEachMoney)
+					(*endBets.bets)[*i].WinAmount += common.Round((*dbBetPrizeSplit)[0] * (*endBets.bets)[*i].BetEachMoney)
 				default:
 					break
 				}
