@@ -395,11 +395,7 @@ func PostBet(ctx iris.Context) {
 				}
 			case 99, 65: //后三、前三组选包胆11、9   只能选一个号码
 				tempStrSumCount = regexp.MustCompile(`[0-9]+`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
-				if len(tempStrSumCount) != 1 {
-					ctx.JSON(models.Result{Code: 202, Message: "下注错误!", Data: nil})
-					return
-				}
-				tempCount = 54
+				tempCount = 54 * len(tempStrSumCount)
 			case 102, 68, 117, 244, 119: //后三、前三特殊号11、9,不定位前四一码、后四一码、五星一码4
 				tempStrSumCount = strings.Split(postBet.Bet_list[i]["betCode"], "&")
 				tempCount = len(tempStrSumCount)

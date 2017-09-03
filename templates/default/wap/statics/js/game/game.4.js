@@ -609,11 +609,12 @@ $(function () {
                 break;
             case 99://后三组选包胆
             case 65://前三组选包胆
-                nums = (betCodeArr[0] != '' && betCodeArr[0].split(sepIn).length > 0) ? 54 : 0;
+				nums=betCodeArr[0].split(sepIn).length*54
+               // nums = (betCodeArr[0] != '' && betCodeArr[0].split(sepIn).length > 0) ? 54 : 0;
                 break;
             case 102://后三特殊号
             case 68://前三特殊号
-                nums = (betCodeArr[0] == '') ? 0 : betCodeArr[0].split(sepIn).length;
+				nums = (betCodeArr[0] == '') ? 0 : betCodeArr[0].split(sepIn).length;
                 break;
         }
         return nums;

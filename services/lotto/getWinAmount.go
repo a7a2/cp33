@@ -101,6 +101,33 @@ func (endBets *endBets) houSanZuSanFuShi(i *int, dbBetPrize *float64, start, end
 	}
 }
 
+//0&6&7  797
+func (endBets *endBets) zuXuanBaoDan(i *int, dbBetPrizeSplit *[]float64, start, end int) {
+	dataSplit := make([]int, end-start)
+	arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString((*endBets.bets)[*i].BetCode, -1)
+	for j := 0; j < len(dataSplit); j++ {
+		match := 0
+		strDataSplit := strconv.Itoa(dataSplit[j])
+		for k := 0; k < len(arrayBetCode); k++ {
+			if arrayBetCode[k] == strDataSplit { //中了
+				match = match + 1
+
+			}
+			if k == len(arrayBetCode)-1 {
+				switch match {
+				case 1:
+					(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round((*dbBetPrizeSplit)[1]*(*endBets.bets)[*i].BetEachMoney)
+				case 2:
+					(*endBets.bets)[*i].WinAmount = (*endBets.bets)[*i].WinAmount + common.Round((*dbBetPrizeSplit)[0]*(*endBets.bets)[*i].BetEachMoney)
+				default:
+					break
+				}
+			}
+		}
+	}
+
+}
+
 func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取中奖注数
 	//	var tmpBetCodeSplit, tmpBetCodeOne []string
 	//	var intBetCount int //中奖注数
@@ -183,12 +210,12 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			endBets.sum_97_63(i, &dbBetPrizeSplit[0], 2, 5)
 			endBets.sum_97_63(i, &dbBetPrizeSplit[1], 3, 5)
 			return
-		case 99: //后三 组选包胆 .......等待完成！
-			//			if endBets.dataSplit[0] == endBets.dataSplit[1] && endBets.dataSplit[1] == endBets.dataSplit[2] { //三个一样的跳过
-			//				return
-			//			}
-			//			endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
-			//			return
+		case 99: //后三 组选包胆 .......
+			if endBets.dataSplit[0] == endBets.dataSplit[1] && endBets.dataSplit[1] == endBets.dataSplit[2] { //三个一样的跳过
+				return
+			}
+			endBets.zuXuanBaoDan(i, &dbBetPrizeSplit, 2, 5)
+			return
 		}
 
 	}
