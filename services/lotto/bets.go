@@ -196,7 +196,7 @@ func (endBets *endBets) betClose1() {
 }
 
 func (endBets *endBets) addMoney(money *float64, i *int, liqType int, info string) {
-	balance := services.CoinChangeByUid((*endBets.bets)[*i].Uid, *money, endBets.tx) //取消返回投注金额
+	balance := services.CoinChangeByUid((*endBets.bets)[*i].Uid, *money, endBets.tx)
 	coinLog := models.CoinLog{
 		Uid:        (*endBets.bets)[*i].Uid,
 		Type:       (*endBets.bets)[*i].GameId,

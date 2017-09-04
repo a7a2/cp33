@@ -475,7 +475,8 @@ $(function () {
                 }
                 break;
             case 49://前二组选包胆
-                nums = (betCodeArr[0].split(sepIn).length == 1) ? 9 : 0;
+                //nums = (betCodeArr[0].split(sepIn).length == 1) ? 9 : 0;
+				nums = betCodeArr[0].split(sepIn).length*9;
                 break;
             case 93://后三组三复试
             case 59://前三组三复试

@@ -422,11 +422,7 @@ func PostBet(ctx iris.Context) {
 				}
 			case 49: //组选包胆12
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
-				if len(tempStrSumCount) != 1 {
-					ctx.JSON(models.Result{Code: 202, Message: "下注错误!", Data: nil})
-					return
-				}
-				tempCount = 9
+				tempCount = 9 * len(tempStrSumCount)
 			case 111, 109: //前二、后二大小单双2
 				tempCount = getDxdsCount(postBet.Bet_list[i]["betCode"], 2)
 			case 112, 110: //前三、后三大小单双
