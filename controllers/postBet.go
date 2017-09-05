@@ -412,7 +412,7 @@ func PostBet(ctx iris.Context) {
 				for i := 0; i < len(tempStrSumCount); i++ {
 					tempCount += models.Skip41[tempStrSumCount[i]]
 				}
-			case 46, 114, 116, 118, 245, 123, 125: //前二组选复试12,不定位前三、后三二码、前四二码、后四二码、五星二码 4,任二组选复试13,任三组三复试
+			case 46, 114, 116, 118, 245, 123, 125, 120: //前二组选复试12,不定位前三、后三二码、前四二码、后四二码、五星二码 4,任二组选复试13,任三组三复试
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = combination(len(tempStrSumCount), 2)
 			case 48: //前二组选和值12

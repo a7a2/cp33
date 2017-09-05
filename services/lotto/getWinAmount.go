@@ -114,7 +114,6 @@ func (endBets *endBets) zuXuanBaoDan3(i *int, dbBetPrizeSplit *[]float64, start,
 	arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString((*endBets.bets)[*i].BetCode, -1)
 	for j := 0; j < len(arrayBetCode); j++ {
 		match := 0
-		//strData := strconv.Itoa(dataSplit[j])
 		for k := start; k < end; k++ {
 			if endBets.dataSplit[k] == arrayBetCode[j] { //中了
 				match = match + 1
@@ -164,6 +163,30 @@ func (endBets *endBets) zuXuanFuShi(i *int, dbBetPrize *float64, start, end int)
 					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
 				}
 				break
+			} else if k == len(arrayBetCode)-1 { //miss
+				return
+			}
+		}
+	}
+}
+
+func (endBets *endBets) buDingWei(i *int, dbBetPrize *float64, match, start, end int) {
+	dataSplit := make([]int, end-start)
+	arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString((*endBets.bets)[*i].BetCode, -1)
+	for j := start; j < end; j++ {
+		dataSplit[j-start], _ = strconv.Atoi(endBets.dataSplit[j])
+	}
+
+	count := 0
+	for j := 0; j < len(dataSplit); j++ {
+		strDataSplit := strconv.Itoa(dataSplit[j])
+		for k := 0; k < len(arrayBetCode); k++ {
+			if arrayBetCode[k] == strDataSplit {
+				count += 1
+				if count == match {
+					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
+					return
+				}
 			} else if k == len(arrayBetCode)-1 { //miss
 				return
 			}
@@ -248,7 +271,7 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 	betRewardMoney = common.Round((*endBets.bets)[*i].BetMoney * (*endBets.bets)[*i].BetReward)
 
 	switch (*endBets.bets)[*i].PlayId {
-	case 1, 7, 8, 11, 9, 12:
+	case 1, 7, 8, 11, 9, 12, 4:
 		switch (*endBets.bets)[*i].SubId {
 		case 37:
 			endBets.dingWeiDan37(i, &dbBetPrize)
@@ -340,7 +363,39 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 		case 68: //前三特殊号
 			endBets.teSuHao(i, &dbBetPrizeSplit, 0, 3)
 			return
-
+		case 113: //不定位 前三一码
+			endBets.buDingWei(i, &dbBetPrize, 1, 0, 3)
+			return
+		case 114: //不定位 前三二码
+			endBets.buDingWei(i, &dbBetPrize, 2, 0, 3)
+			return
+		case 115: //不定位后三一码
+			endBets.buDingWei(i, &dbBetPrize, 1, 2, 5)
+			return
+		case 116: //不定位后三2码
+			endBets.buDingWei(i, &dbBetPrize, 2, 2, 5)
+			return
+		case 117: //不定位前四一码
+			endBets.buDingWei(i, &dbBetPrize, 1, 0, 4)
+			return
+		case 118: //不定位前四2码
+			endBets.buDingWei(i, &dbBetPrize, 2, 0, 4)
+			return
+		case 244: //不定位后四1码
+			endBets.buDingWei(i, &dbBetPrize, 1, 0, 4)
+			return
+		case 245: //不定位后四2码
+			endBets.buDingWei(i, &dbBetPrize, 2, 0, 4)
+			return
+		case 119: //不定位5 1码
+			endBets.buDingWei(i, &dbBetPrize, 1, 0, 5)
+			return
+		case 120: //不定位5 2码
+			endBets.buDingWei(i, &dbBetPrize, 2, 0, 5)
+			return
+		case 121: //不定位5 3码
+			endBets.buDingWei(i, &dbBetPrize, 3, 0, 5)
+			return
 		}
 	}
 
