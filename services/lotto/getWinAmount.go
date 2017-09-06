@@ -188,7 +188,7 @@ func (endBets *endBets) buDingWei(i *int, dbBetPrize *float64, match, start, end
 		return
 	}
 
-	(*endBets.bets)[*i].WinAmount = common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney * float64(common.Combination(count, end-start)))
+	(*endBets.bets)[*i].WinAmount = common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney * float64(common.Combination(count, match)))
 }
 
 func (endBets *endBets) heZhiWeiHao(i *int, dbBetPrize *float64, start, end int) {
