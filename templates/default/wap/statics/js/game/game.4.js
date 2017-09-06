@@ -597,9 +597,20 @@ $(function () {
                 nums =  nums3+nums2+betCodeArr[4].split(sepIn).length;
                 break;
             case 58://前三组合
-                nums = betCodeArr[0].split(sepIn).length * betCodeArr[1].split(sepIn).length
-                    * betCodeArr[2].split(sepIn).length * 3;
+				var nums3 = 1;
+                for (var i = 0; i < 3; i++) {
+                    nums3 = (betCodeArr[i] == '') ? 0 : nums3 * betCodeArr[i].split(sepIn).length;
+                }
+				var nums2 = 1;
+				for (var i = 1; i < 3; i++) {
+                    nums2 = (betCodeArr[i] == '') ? 0 : nums2 * betCodeArr[i].split(sepIn).length;
+                }
+				var nums0 = 0;
+                nums =  nums3+nums2+betCodeArr[2].split(sepIn).length;
                 break;
+//                nums = betCodeArr[0].split(sepIn).length * betCodeArr[1].split(sepIn).length
+//                    * betCodeArr[2].split(sepIn).length * 3;
+//                break;
             case 97://后三组选和值
             case 63://前三组选和值
                 cc = {1: 1, 2: 2, 3: 2, 4: 4, 5: 5, 6: 6, 7: 8, 8: 10, 9: 11, 10: 13, 11: 14, 12: 14, 13: 15, 14: 15, 15: 14, 16: 14, 17: 13, 18: 11, 19: 10, 20: 8, 21: 6, 22: 5, 23: 4, 24: 2, 25: 2, 26: 1};

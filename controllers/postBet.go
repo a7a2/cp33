@@ -278,23 +278,18 @@ func PostBet(ctx iris.Context) {
 
 				switch tempBetCodeSplit[i] {
 				case "豹子":
-					fmt.Println("豹子")
-					fmt.Println(tmpF64BetPrizeDBArray[0], "		", tmpF64BetPrizeArray[0], "		", tmpF64BetPrizeDBArray[0]*f64BetEachMoney*f64BetReward)
-					fmt.Println(tmpF64BetPrizeDBArray[0]*f64BetEachMoney, "			", tmpF64BetPrizeArray[0]*f64BetEachMoney+tmpF64BetPrizeDBArray[0]*f64BetEachMoney*f64BetReward)
 					if tmpF64BetPrizeDBArray[0]*f64BetEachMoney < tmpF64BetPrizeArray[0]*f64BetEachMoney+tmpF64BetPrizeDBArray[0]*f64BetEachMoney*f64BetReward {
 						result = models.Result{Code: 561, Message: "提交数据错误!", Data: nil}
 						ctx.JSON(&result)
 						return
 					}
 				case "顺子":
-					fmt.Println("顺子")
 					if tmpF64BetPrizeDBArray[1]*f64BetEachMoney < tmpF64BetPrizeArray[1]*f64BetEachMoney+tmpF64BetPrizeDBArray[1]*f64BetEachMoney*f64BetReward {
 						result = models.Result{Code: 562, Message: "提交数据错误!", Data: nil}
 						ctx.JSON(&result)
 						return
 					}
 				case "对子":
-					fmt.Println("对子")
 					if tmpF64BetPrizeDBArray[2]*f64BetEachMoney < tmpF64BetPrizeArray[2]*f64BetEachMoney+tmpF64BetPrizeDBArray[2]*f64BetEachMoney*f64BetReward {
 						result = models.Result{Code: 563, Message: "提交数据错误!", Data: nil}
 						ctx.JSON(&result)
@@ -382,6 +377,7 @@ func PostBet(ctx iris.Context) {
 				}
 				tempCount2 := len(tempStrSumCount[1]) * len(tempStrSumCount[2])
 				tempCount = tempCount + tempCount2 + len(tempStrSumCount[2])
+				fmt.Println(tempCount)
 			case 93, 59: //后三、前三组三复式11、9
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = len(tempStrSumCount) * (len(tempStrSumCount) - 1)

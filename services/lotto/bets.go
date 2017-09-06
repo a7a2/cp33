@@ -168,7 +168,10 @@ func (endBets *endBets) betClose1() {
 
 	for i := 0; i < len(*endBets.bets); i++ {
 		betRewardMoney = endBets.getWinAmount(&i) //获取中奖金额、返回返点金额
-		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
+		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
+		//		if (*endBets.bets)[i].SubId == 58 {
+		//			panic("end!")
+		//		}
 
 		if betRewardMoney > 0 { //返点
 			endBets.addMoney(&betRewardMoney, &i, 2, "返点")

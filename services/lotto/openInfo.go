@@ -16,7 +16,6 @@ func OpenData(t, o, l, issue int) *models.Data {
 	stro := strconv.Itoa(o)
 	strl := strconv.Itoa(l)
 	strIssue := strconv.Itoa(issue)
-
 	var err error
 	u := models.Data{}
 
@@ -82,18 +81,29 @@ func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信�
 	if last_period != 0 && last_period+1 >= current_period && tmp3Num >= 1 { //防止出现1700824000 适用重庆时时彩
 		out := (models.OpenInfo{Last_period: last_period, Last_open: d.Data, Current_period: last_period + 1, Current_period_status: "截止", Timeleft: timeleft, Type: t})
 		result = models.Result{Code: 200, Message: "ok", Data: &out}
-		//fmt.Println(out)
 		return
 	}
+
+	last_period = current_period - 1
+	switch t {
+	case 1: //重庆时时彩
+		tempNum := common.FindNum(current_period-1, 1) + common.FindNum(current_period-1, 2)*10 + common.FindNum(current_period-1, 3)*100
+		if tempNum == 0 {
+			tmpLast_period, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
+			tmpLast_period = tmpLast_period * 1000
+			last_period = tmpLast_period + 120
+		}
+	}
+
 	var Last_open string
-	d = OpenData(t, 0, 1, current_period-1)
-	if d == nil { //
-		//fmt.Println(result.Message, current_period-1)
+	d = OpenData(t, 0, 1, last_period)
+	if d == nil {
 		Last_open = ""
 	} else {
 		Last_open = d.Data
 	}
-	out := (models.OpenInfo{Last_period: current_period - 1, Last_open: Last_open, Current_period: current_period, Current_period_status: "截止", Timeleft: timeleft, Type: t})
+
+	out := (models.OpenInfo{Last_period: last_period, Last_open: Last_open, Current_period: current_period, Current_period_status: "截止", Timeleft: timeleft, Type: t})
 	result = models.Result{Code: 200, Message: "ok", Data: &out}
 	//fmt.Println("22:", out)
 

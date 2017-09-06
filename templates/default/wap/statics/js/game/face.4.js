@@ -16,7 +16,7 @@ face = {107:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0|1|2|3|4'
     63:{'no':'1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26'
         ,'place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'和值'},
     99:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'包胆'},
-    65:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':1,'title':'包胆'},
+    65:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'包胆'},
     92:{'no':'0|1|2|3|4|5|6|7|8|9','place':'2|3|4','codepos':3,'codenum':1,'codeonly':0,'codenum2':0,'title':'组和'},
     58:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0|1|2','codepos':3,'codenum':1,'codeonly':0,'codenum2':0},
     90:{'no':'0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27'
@@ -39,7 +39,7 @@ face = {107:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0|1|2|3|4'
     48:{'no':'1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17'
         ,'place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'和值'},
     49:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'包胆'},
-    37:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0|1|2|3|4','codepos':0,'codenum':-1,'codeonly':0,'codenum2':0,'title':'定位胆'},
+    37:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0|1|2|3|4','codepos':0,'codenum':-1,'codeonly':0,'codenum2':0},
     113:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'不定位'},
     114:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':2,'codeonly':0,'codenum2':0,'title':'不定位'},
     115:{'no':'0|1|2|3|4|5|6|7|8|9','place':'0','codepos':1,'codenum':1,'codeonly':0,'codenum2':0,'title':'不定位'},

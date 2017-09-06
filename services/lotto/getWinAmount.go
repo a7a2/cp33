@@ -33,7 +33,7 @@ func (endBets *endBets) zhiXuanFuShi(i *int, dbBetPrize *float64, start, end int
 		for j := 0; j < len(arrayCount[k-start]); j++ {
 			if endBets.dataSplit[k] == arrayCount[k-start][j] {
 				if k == end-1 { //中了
-					(*endBets.bets)[*i].WinAmount = common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
+					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
 					return
 				}
 				break
@@ -85,18 +85,14 @@ func (endBets *endBets) houSanZuSanFuShi(i *int, dbBetPrize *float64, start, end
 	for j := start; j < end; j++ {
 		dataSplit[j-start], _ = strconv.Atoi(endBets.dataSplit[j])
 	}
-	if dataSplit[0] == dataSplit[1] && dataSplit[1] == dataSplit[2] { //三个一样的跳过
-		return
-	}
-	if !(dataSplit[0] == dataSplit[1] || dataSplit[1] == dataSplit[2] || dataSplit[0] == dataSplit[2]) { //没有两个相同跳过
-		return
-	}
+
 	for j := 0; j < len(dataSplit); j++ {
 		strDataSplit := strconv.Itoa(dataSplit[j])
 		for k := 0; k < len(arrayBetCode); k++ {
 			if arrayBetCode[k] == strDataSplit {
 				if j == len(dataSplit)-1 { //中了
 					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
+					return
 				}
 				break
 			} else if k == len(arrayBetCode)-1 { //miss
@@ -177,18 +173,16 @@ func (endBets *endBets) buDingWei(i *int, dbBetPrize *float64, match, start, end
 		dataSplit[j-start], _ = strconv.Atoi(endBets.dataSplit[j])
 	}
 
-	count := 0
-	for j := 0; j < len(dataSplit); j++ {
-		strDataSplit := strconv.Itoa(dataSplit[j])
-		for k := 0; k < len(arrayBetCode); k++ {
-			if arrayBetCode[k] == strDataSplit {
+	for j := 0; j < len(arrayBetCode); j++ { //0&1&2&3&4&5&6&7&8&9
+		count := 0
+		for k := 0; k < len(dataSplit); k++ {
+			strDataSplit := strconv.Itoa(dataSplit[k])
+			if arrayBetCode[j] == strDataSplit {
 				count += 1
 				if count == match {
 					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
-					return
+					break
 				}
-			} else if k == len(arrayBetCode)-1 { //miss
-				return
 			}
 		}
 	}
@@ -238,6 +232,36 @@ func (endBets *endBets) teSuHao(i *int, dbBetPrizeSplit *[]float64, start, end i
 	}
 }
 
+func (endBets *endBets) daXiaoDanShuang(i *int, dbBetPrize *float64, start, end int) {
+	dataSplit := make([]int, end-start)
+	for j := start; j < end; j++ {
+		dataSplit[j-start], _ = strconv.Atoi(endBets.dataSplit[j])
+	}
+	betCode := strings.Split((*endBets.bets)[*i].BetCode, "|") //大&小&单&双|大&小&单&双
+	count := make(map[int]int, end-start)
+	for j := 0; j < len(dataSplit); j++ {
+		betCodeSplit := strings.Split(betCode[j], "&")
+		for k := 0; k < len(betCodeSplit); k++ { //大&小&单&双
+			switch {
+			case regexp.MustCompile(`(大)`).MatchString(betCodeSplit[k]) && dataSplit[j] >= 5:
+				count[j] += 1
+			case regexp.MustCompile(`(小)`).MatchString(betCodeSplit[k]) && dataSplit[j] < 5:
+				count[j] += 1
+			case regexp.MustCompile(`(单)`).MatchString(betCodeSplit[k]) && dataSplit[j]%2 == 1:
+				count[j] += 1
+			case regexp.MustCompile(`(双)`).MatchString(betCodeSplit[k]) && dataSplit[j]%2 == 0:
+				count[j] += 1
+			}
+		}
+	}
+	matchCount := 1
+	for j := 0; j < len(count); j++ {
+		matchCount *= count[j]
+	}
+	fmt.Println(matchCount, "	", count[0], "	", count[1])
+	(*endBets.bets)[*i].WinAmount += common.Round((*dbBetPrize) * (*endBets.bets)[*i].BetEachMoney * float64(matchCount))
+}
+
 func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取中奖金额、返点金额
 	var err error
 	var dbBetPrize float64
@@ -271,7 +295,7 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 	betRewardMoney = common.Round((*endBets.bets)[*i].BetMoney * (*endBets.bets)[*i].BetReward)
 
 	switch (*endBets.bets)[*i].PlayId {
-	case 1, 7, 8, 11, 9, 12, 4:
+	case 1, 7, 8, 11, 9, 12, 4, 2:
 		switch (*endBets.bets)[*i].SubId {
 		case 37:
 			endBets.dingWeiDan37(i, &dbBetPrize)
@@ -310,20 +334,40 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			endBets.zhiXuanKuaDu(i, &dbBetPrize, 0, 2)
 			return
 		case 92: //后三组合
-			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[0], 2, 5)
-			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[1], 3, 5)
-			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[2], 4, 5)
+			endBets.zhiXuanFuShi(i, &dbBetPrizeSplit[0], 2, 5)
+			endBets.zhiXuanFuShi(i, &dbBetPrizeSplit[1], 3, 5)
+			endBets.zhiXuanFuShi(i, &dbBetPrizeSplit[2], 4, 5)
 			return
 		case 58: //前三组合
-			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[0], 0, 3)
-			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[1], 0, 3)
-			endBets.houSanZuSanFuShi(i, &dbBetPrizeSplit[2], 0, 3)
+			endBets.zhiXuanFuShi(i, &dbBetPrizeSplit[0], 0, 3)
+			endBets.zhiXuanFuShi(i, &dbBetPrizeSplit[1], 1, 3)
+			endBets.zhiXuanFuShi(i, &dbBetPrizeSplit[2], 2, 3)
 			return
 		case 93, 94: //后三 组三复式，组六复式
-			endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
+			if endBets.dataSplit[2] == endBets.dataSplit[3] && endBets.dataSplit[3] == endBets.dataSplit[4] && endBets.dataSplit[2] == endBets.dataSplit[4] {
+				return
+			}
+			if endBets.dataSplit[2] == endBets.dataSplit[3] || endBets.dataSplit[3] == endBets.dataSplit[4] || endBets.dataSplit[2] == endBets.dataSplit[4] {
+				if (*endBets.bets)[*i].SubId == 93 {
+					endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
+				}
+				return
+			} else if (*endBets.bets)[*i].SubId == 94 {
+				endBets.houSanZuSanFuShi(i, &dbBetPrize, 2, 5)
+			}
 			return
 		case 59, 60: //前三 组三复式，组六复式
-			endBets.houSanZuSanFuShi(i, &dbBetPrize, 0, 3)
+			if endBets.dataSplit[0] == endBets.dataSplit[1] && endBets.dataSplit[1] == endBets.dataSplit[2] && endBets.dataSplit[2] == endBets.dataSplit[0] {
+				return
+			}
+			if endBets.dataSplit[0] == endBets.dataSplit[1] || endBets.dataSplit[1] == endBets.dataSplit[2] || endBets.dataSplit[2] == endBets.dataSplit[0] {
+				if (*endBets.bets)[*i].SubId == 59 {
+					endBets.houSanZuSanFuShi(i, &dbBetPrize, 0, 3)
+					return
+				}
+			} else if (*endBets.bets)[*i].SubId == 60 {
+				endBets.houSanZuSanFuShi(i, &dbBetPrize, 0, 3)
+			}
 			return
 		case 46: //前2 组选复式
 			if endBets.dataSplit[0] == endBets.dataSplit[1] {
@@ -332,12 +376,24 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			endBets.zuXuanFuShi(i, &dbBetPrize, 0, 2)
 			return
 		case 97: //后三 组选和值 ，和值3 开奖号码：后三位 003 中第一个赔率，012中第二个赔率
-			endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[0], 2, 5)
-			endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[1], 3, 5)
+			if endBets.dataSplit[2] == endBets.dataSplit[3] && endBets.dataSplit[3] == endBets.dataSplit[4] && endBets.dataSplit[2] == endBets.dataSplit[4] {
+				return
+			}
+			if endBets.dataSplit[2] == endBets.dataSplit[3] || endBets.dataSplit[3] == endBets.dataSplit[4] || endBets.dataSplit[2] == endBets.dataSplit[4] {
+				endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[0], 2, 5)
+			} else {
+				endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[1], 2, 5)
+			}
 			return
 		case 63: //前三 组选和值
-			endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[0], 0, 3)
-			endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[1], 0, 3)
+			if endBets.dataSplit[2] == endBets.dataSplit[3] && endBets.dataSplit[3] == endBets.dataSplit[4] && endBets.dataSplit[2] == endBets.dataSplit[4] {
+				return
+			}
+			if endBets.dataSplit[2] == endBets.dataSplit[3] || endBets.dataSplit[3] == endBets.dataSplit[4] || endBets.dataSplit[2] == endBets.dataSplit[4] {
+				endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[0], 0, 3)
+			} else {
+				endBets.zhiXuanHeZhi(i, &dbBetPrizeSplit[1], 0, 3)
+			}
 			return
 		case 48: //前2 组选和值
 			endBets.zhiXuanHeZhi(i, &dbBetPrize, 0, 2)
@@ -395,6 +451,18 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			return
 		case 121: //不定位5 3码
 			endBets.buDingWei(i, &dbBetPrize, 3, 0, 5)
+			return
+		case 111: //前二大小单双
+			endBets.daXiaoDanShuang(i, &dbBetPrize, 0, 2)
+			return
+		case 109: //后二大小单双
+			endBets.daXiaoDanShuang(i, &dbBetPrize, 3, 5)
+			return
+		case 112: //前三大小单双
+			endBets.daXiaoDanShuang(i, &dbBetPrize, 0, 3)
+			return
+		case 110: //后三大小单双
+			endBets.daXiaoDanShuang(i, &dbBetPrize, 2, 5)
 			return
 		}
 	}
