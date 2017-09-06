@@ -173,19 +173,22 @@ func (endBets *endBets) buDingWei(i *int, dbBetPrize *float64, match, start, end
 		dataSplit[j-start], _ = strconv.Atoi(endBets.dataSplit[j])
 	}
 
+	count := 0
 	for j := 0; j < len(arrayBetCode); j++ { //0&1&2&3&4&5&6&7&8&9
-		count := 0
-		for k := 0; k < len(dataSplit); k++ {
+		for k := 0; k < len(dataSplit); k++ { //9 7 1
 			strDataSplit := strconv.Itoa(dataSplit[k])
 			if arrayBetCode[j] == strDataSplit {
 				count += 1
-				if count == match {
-					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
-					break
-				}
+				break
 			}
 		}
 	}
+
+	if count < match { //miss
+		return
+	}
+
+	(*endBets.bets)[*i].WinAmount = common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney * float64(common.Combination(count, end-start)))
 }
 
 func (endBets *endBets) heZhiWeiHao(i *int, dbBetPrize *float64, start, end int) {
@@ -258,7 +261,7 @@ func (endBets *endBets) daXiaoDanShuang(i *int, dbBetPrize *float64, start, end 
 	for j := 0; j < len(count); j++ {
 		matchCount *= count[j]
 	}
-	fmt.Println(matchCount, "	", count[0], "	", count[1])
+
 	(*endBets.bets)[*i].WinAmount += common.Round((*dbBetPrize) * (*endBets.bets)[*i].BetEachMoney * float64(matchCount))
 }
 
@@ -396,12 +399,18 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			}
 			return
 		case 48: //前2 组选和值
+			if endBets.dataSplit[0] == endBets.dataSplit[1] {
+				return
+			}
 			endBets.zhiXuanHeZhi(i, &dbBetPrize, 0, 2)
 			return
 		case 99: //后三 组选包胆 .......
 			endBets.zuXuanBaoDan3(i, &dbBetPrizeSplit, 2, 5)
 			return
 		case 49: //前2 组选包胆 .......
+			if endBets.dataSplit[0] == endBets.dataSplit[1] {
+				return
+			}
 			endBets.zuXuanBaoDan2(i, &dbBetPrize, 0, 2)
 			return
 		case 65: //前三 组选包胆 .......
@@ -467,6 +476,5 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 		}
 	}
 
-	//(*endBets.bets)[*i].WinAmount = common.Round(float64(intBetCount) * dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
 	return
 }
