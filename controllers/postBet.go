@@ -53,17 +53,16 @@ func getCount122(tempBetCodeSplit []string) (count int) { //任2循环所有注�
 	return
 }
 
-func getCountCombArr(tempBetCodeSplit []string, combArr map[int]interface{}) (count int) {
+func getCountCombArr(tempBetCodeSplit *[]string, combArr *map[int][]int) (count int) {
 	count = 0
-	for i := 0; i < len(combArr); i++ {
+	for i := 0; i < len(*combArr); i++ {
 		tmpCount := 1
-		for j := 0; j < len(combArr[i].([]int)); j++ {
-			if tempBetCodeSplit[combArr[i].([]int)[j]] == "" {
+		for j := 0; j < len((*combArr)[i]); j++ {
+			if (*tempBetCodeSplit)[(*combArr)[i][j]] == "" {
 				tmpCount = 0
 				break
 			}
-			betCodeArr := regexp.MustCompile(`[0-9]+`).FindAllString(tempBetCodeSplit[combArr[i].([]int)[j]], -1)
-			//fmt.Println(i, "	", j, "	", combArr[i].([]int)[j], "		", tempBetCodeSplit[combArr[i].([]int)[j]], "	", betCodeArr)
+			betCodeArr := regexp.MustCompile(`[0-9]+`).FindAllString((*tempBetCodeSplit)[(*combArr)[i][j]], -1)
 			if len(betCodeArr) >= 1 {
 				tmpCount *= len(betCodeArr)
 			}
@@ -379,9 +378,25 @@ func PostBet(ctx iris.Context) {
 				for i := 0; i < len(tempStrSumCount); i++ {
 					tempCount += models.Skip41[tempStrSumCount[i]]
 				}
-			case 46, 114, 116, 118, 245, 123, 125, 120: //前二组选复试12,不定位前三、后三二码、前四二码、后四二码、五星二码 4,任二组选复试13,任三组三复试
+			case 46, 114, 116, 118, 245, 123, 120: //前二组选复试12,不定位前三、后三二码、前四二码、后四二码、五星二码 4,任三组三复试
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = common.Combination(len(tempStrSumCount), 2)
+			case 125: //任2组选复式
+				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
+				tempCount = common.Combination(len(tempStrSumCount), 2)
+				tempBetPosSplit := strings.Split(postBet.Bet_list[i]["betPos"], "|")
+				switch len(tempBetPosSplit) {
+				case 2:
+					break
+				case 3:
+					tempCount = tempCount * 3
+				case 4:
+					tempCount = tempCount * 6
+				case 5:
+					tempCount = tempCount * 10
+				default:
+					return
+				}
 			case 48: //前二组选和值12
 				tempStrSumCount = regexp.MustCompile(`[0-9]+`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				for i := 0; i < len(tempStrSumCount); i++ {
@@ -399,7 +414,7 @@ func PostBet(ctx iris.Context) {
 				tempCount = getCount122(tempBetCodeSplit)
 			case 128: //任三直选复式14
 				tempBetCodeSplit := strings.Split(postBet.Bet_list[i]["betCode"], "|")
-				tempCount = getCountCombArr(tempBetCodeSplit, models.CombArr128)
+				tempCount = getCountCombArr(&tempBetCodeSplit, &models.CombArr128)
 			case 124: //任二直选和值13
 				tempStrSumCount = regexp.MustCompile(`[0-9]+`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				for i := 0; i < len(tempStrSumCount); i++ {
@@ -501,7 +516,7 @@ func PostBet(ctx iris.Context) {
 			switch intSubId {
 			case 139: //直选复式
 				tempBetCodeSplit := strings.Split(postBet.Bet_list[i]["betCode"], "|")
-				tempCount = getCountCombArr(tempBetCodeSplit, models.CombArr139)
+				tempCount = getCountCombArr(&tempBetCodeSplit, &models.CombArr139)
 			case 141: //任四组选24
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = common.Combination(len(tempStrSumCount), 4)

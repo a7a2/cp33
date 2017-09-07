@@ -2,7 +2,7 @@ package servicesLotto
 
 import (
 	"cp33/common"
-	//	"cp33/models"
+	"cp33/models"
 	"fmt"
 	"regexp"
 	"sort"
@@ -166,6 +166,53 @@ func (endBets *endBets) zuXuanFuShi(i *int, dbBetPrize *float64, start, end int)
 	}
 }
 
+func (endBets *endBets) renYiZhiXuanHeZhi(i *int, dbBetPrize *float64, match int, combArr *map[int][]int) {
+	betCodeSplit := strings.Split((*endBets.bets)[*i].BetCode, "&")
+	arrayBetPos := regexp.MustCompile(`[0-9]+`).FindAllString((*endBets.bets)[*i].BetPos, -1)
+	betPos := make([]int, len(arrayBetPos))
+	dataBets := make([]int, len(arrayBetPos))
+	for j := 0; j < len(arrayBetPos); j++ { // 0|2|3|4
+		betPos[j], _ = strconv.Atoi(arrayBetPos[j])
+		dataBets[j], _ = strconv.Atoi(endBets.dataSplit[betPos[j]])
+	}
+
+	var sumData, betCode int
+	for k := 0; k < len(*combArr); k++ {
+		h := 0
+		sumData = 0
+		for j := 0; j < len((*combArr)[k]) && common.InArrayInt(&j, &betPos); j++ {
+			sumData += dataBets[(*combArr)[k][j]]
+			h += 1
+		}
+		if h == len((*combArr)[k]) { //sumData成立的,可取得
+			for j := 0; j < len(betCodeSplit); j++ {
+				betCode, _ = strconv.Atoi(betCodeSplit[j])
+				if betCode == sumData { //中了的
+					(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney)
+					break
+				}
+			}
+		}
+	}
+}
+
+func (endBets *endBets) renYiZhiXuanFuShi(i *int, dbBetPrize *float64, match int) { //任意直选复式
+	var count int
+	betCodeSplit := strings.Split((*endBets.bets)[*i].BetCode, "|") // ||2&7&9|7&8|1&2&7
+	for h := 0; h < len(betCodeSplit); h++ {
+		arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString(betCodeSplit[h], -1)
+		//count = 0
+		for j := 0; j < len(arrayBetCode); j++ {
+			if arrayBetCode[j] == endBets.dataSplit[h] {
+				count += 1
+				break
+			}
+		}
+	}
+
+	(*endBets.bets)[*i].WinAmount = common.Round(*dbBetPrize * (*endBets.bets)[*i].BetEachMoney * float64(common.Combination(count, match)))
+}
+
 func (endBets *endBets) buDingWei(i *int, dbBetPrize *float64, match, start, end int) {
 	dataSplit := make([]int, end-start)
 	arrayBetCode := regexp.MustCompile(`[0-9]{1}`).FindAllString((*endBets.bets)[*i].BetCode, -1)
@@ -298,7 +345,7 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 	betRewardMoney = common.Round((*endBets.bets)[*i].BetMoney * (*endBets.bets)[*i].BetReward)
 
 	switch (*endBets.bets)[*i].PlayId {
-	case 1, 7, 8, 11, 9, 12, 4, 2:
+	case 1, 7, 8, 11, 9, 12, 4, 2, 13:
 		switch (*endBets.bets)[*i].SubId {
 		case 37:
 			endBets.dingWeiDan37(i, &dbBetPrize)
@@ -472,6 +519,12 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 			return
 		case 110: //后三大小单双
 			endBets.daXiaoDanShuang(i, &dbBetPrize, 2, 5)
+			return
+		case 122: //任2复式
+			endBets.renYiZhiXuanFuShi(i, &dbBetPrize, 2)
+			return
+		case 124: //任2直选和值
+			endBets.renYiZhiXuanHeZhi(i, &dbBetPrize, 2, &models.CombArr2)
 			return
 		}
 	}

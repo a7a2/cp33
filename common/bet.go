@@ -12,6 +12,15 @@ func Round(f float64) float64 {
 	return math.Trunc((f+0.5/pow10_n)*pow10_n) / pow10_n
 }
 
+func InArrayInt(j *int, betPos *[]int) bool { //检查某数字是否存在于[]int数组中
+	for h := 0; h < len(*betPos); h++ {
+		if *j == (*betPos)[h] {
+			return true
+		}
+	}
+	return false
+}
+
 func Combination(c, b int) int {
 	var f64 float64
 	if b == 0 || c == 0 {
