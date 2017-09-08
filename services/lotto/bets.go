@@ -165,11 +165,11 @@ func (endBets *endBets) betClose1() {
 	//var member models.Members
 	var bet models.Bets
 	var betRewardMoney float64 //返奖金额
-
+	timeStart := time.Now()
 	for i := 0; i < len(*endBets.bets); i++ {
 		betRewardMoney = endBets.getWinAmount(&i) //获取中奖金额、返回返点金额
 		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
-		//		if (*endBets.bets)[i].SubId == 58 {
+		//		if (*endBets.bets)[i].SubId == 133 {
 		//			panic("end!")
 		//		}
 
@@ -195,7 +195,7 @@ func (endBets *endBets) betClose1() {
 		}
 
 	} //完成len(bets)
-
+	fmt.Println("endbets ok ,speed time:", time.Now().Sub(timeStart))
 }
 
 func (endBets *endBets) addMoney(money *float64, i *int, liqType int, info string) {
