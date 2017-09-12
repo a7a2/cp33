@@ -113,7 +113,7 @@ func PostBet(ctx iris.Context) {
 		return
 	}
 
-	timeStart := time.Now()
+	//timeStart := time.Now()
 	var result models.Result
 	bets := []models.Bets{}
 	var intPlayId, intSubId, intBetCount int
@@ -130,7 +130,7 @@ func PostBet(ctx iris.Context) {
 	var rOpenInfo models.Result
 	_, rOpenInfo = servicesLotto.OpenInfo(postBet.GameId)
 	if rOpenInfo.Code != 200 || rOpenInfo.Data == nil || rOpenInfo.Data.(*models.OpenInfo).Current_period != postBet.GamePeriod {
-		fmt.Println(rOpenInfo.Data.(*models.OpenInfo).Current_period, "	", postBet.GamePeriod)
+		//fmt.Println(rOpenInfo.Data.(*models.OpenInfo).Current_period, "	", postBet.GamePeriod)
 		result = models.Result{Code: 588, Message: "当前期数已经关盘", Data: nil}
 		ctx.JSON(&result)
 		return
@@ -141,7 +141,7 @@ func PostBet(ctx iris.Context) {
 	tmpStrPlatformId := common.RedisClient.HGet(ctx.GetCookie("platform")+"_"+ctx.GetCookie("username"), "platformid").Val()
 	platformId, err = strconv.Atoi(tmpStrPlatformId)
 	if err != nil {
-		fmt.Println(err.Error(), "	get platformId via db")
+		//fmt.Println(err.Error(), "	get platformId via db")
 		platformId = servicesPingtais.GetPlatformId(ctx.GetCookie("platform"))
 	}
 
@@ -640,7 +640,6 @@ func PostBet(ctx iris.Context) {
 	for more := 0; more < bets[0].BetMore; more++ {
 		//fmt.Println(bets[0].GamePeriod)
 		tmpGamePeriod = common.BetMore(bets[0].GameId, staticGamePeriod, more)
-
 		for i := 0; i < len(bets); i++ {
 			bets[i].GamePeriod = tmpGamePeriod
 			betsArray = append(betsArray, bets[i])
@@ -651,6 +650,6 @@ func PostBet(ctx iris.Context) {
 
 	result = servicesLotto.DoBets(betsArray, uid, ctx.RemoteAddr())
 	ctx.JSON(&result)
-	fmt.Println("postBet ok ,speed time:", time.Now().Sub(timeStart))
+	//fmt.Println("postBet ok ,speed time:", time.Now().Sub(timeStart))
 
 }

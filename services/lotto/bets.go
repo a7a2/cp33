@@ -145,12 +145,12 @@ func EndLottery(gameId, period int, strIp string) { //结算
 	endBets := endBets{bets: &bets, tx: tx, strIp: strIp, dataSplit: dataSplit, data: d.Data, etime: etime}
 	endBets.betClose1()
 
-	_, err = tx.Model(&bets).Column("open_num", "status", "etime", "win_amount", "is_win").Update()
-	if err != nil {
-		fmt.Println("services EndLottery 215:" + err.Error())
-		tx.Rollback()
-		return
-	}
+	//	_, err = tx.Model(&bets).Column("open_num", "status", "etime", "win_amount", "is_win").Update()
+	//	if err != nil {
+	//		fmt.Println("services EndLottery 215:" + err.Error())
+	//		tx.Rollback()
+	//		return
+	//	}
 
 	err = tx.Commit()
 	if err != nil {
@@ -169,9 +169,6 @@ func (endBets *endBets) betClose1() {
 	for i := 0; i < len(*endBets.bets); i++ {
 		betRewardMoney = endBets.getWinAmount(&i) //获取中奖金额、返回返点金额
 		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
-		//		if (*endBets.bets)[i].SubId == 133 {
-		//			panic("end!")
-		//		}
 
 		if betRewardMoney > 0 { //返点
 			endBets.addMoney(&betRewardMoney, &i, 2, "返点")
@@ -195,7 +192,9 @@ func (endBets *endBets) betClose1() {
 		}
 
 	} //完成len(bets)
+
 	fmt.Println("endbets ok ,speed time:", time.Now().Sub(timeStart))
+
 }
 
 func (endBets *endBets) addMoney(money *float64, i *int, liqType int, info string) {
