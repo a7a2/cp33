@@ -355,9 +355,9 @@ func (endBets *endBets) re4ZuXuan(i *int, dbBetPrize *float64, combArr *map[int]
 							for l := 0; l < len(leftSplit) && leftSplit[l] == mapData[j]; l++ {
 								leftCheckOk = true
 								if j == 0 {
-									mapData = append(mapData[0:0], mapData[0])
-								} else {
 									mapData = append(mapData[0:0], mapData[3])
+								} else {
+									mapData = append(mapData[0:0], mapData[0])
 								}
 								break
 							}
@@ -402,8 +402,18 @@ func (endBets *endBets) re4ZuXuan(i *int, dbBetPrize *float64, combArr *map[int]
 				}
 			}
 		case 0 == rightMatch: //组选6
-			match = lInt
+			if mapData[0] != mapData[1] {
+				match = -1
+				break
+			}
+			for j := 0; j < len(rightSplit); j++ {
+				if rightSplit[j] == mapData[0] {
+					match = lInt - 1
+					break
+				}
+			}
 		}
+
 		fmt.Println(mapData, "	", match)
 		if match == rightMatch { //成立的,可取得
 			(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize) * common.Round((*endBets.bets)[*i].BetEachMoney)
