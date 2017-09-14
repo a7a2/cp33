@@ -981,9 +981,9 @@ function doBet(next) {
      }*/
     var betMore = $('#bet_more').val();
     betMore = (betMore == undefined || betMore == '') ? 1 : betMore;
-	if (betMore > 100) {//追号投注，最大追期数100
-       	msgAlert('最大追100期！');
-		betMore=100;
+	if (betMore > 300) {//追号投注，最大追期数100
+       	msgAlert('最大追300期！');
+		betMore=300;
 		return;
     }
     if (betMore > 1) {//追号投注，需在服务端获取当前期数

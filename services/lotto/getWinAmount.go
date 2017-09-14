@@ -368,7 +368,6 @@ func (endBets *endBets) re4ZuXuan(i *int, dbBetPrize *float64, combArr *map[int]
 						if mapData[j] == mapData[j+1] {
 							for l := 0; l < len(leftSplit); l++ {
 								if leftSplit[l] == mapData[j] {
-									fmt.Println(mapData, " ", mapData[j])
 									leftCheckOk = true
 									lInt += 1
 									switch j {
@@ -391,7 +390,7 @@ func (endBets *endBets) re4ZuXuan(i *int, dbBetPrize *float64, combArr *map[int]
 		if leftCheckOk == false { //左边检查不通过的
 			continue
 		}
-		fmt.Println(leftCheckOk)
+
 		switch {
 		case rightMatch >= 2:
 			for m := 0; m < len(mapData); m++ {
@@ -414,7 +413,6 @@ func (endBets *endBets) re4ZuXuan(i *int, dbBetPrize *float64, combArr *map[int]
 			}
 		}
 
-		fmt.Println(mapData, "	", match)
 		if match == rightMatch { //成立的,可取得
 			(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize) * common.Round((*endBets.bets)[*i].BetEachMoney)
 		}
@@ -562,7 +560,6 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 		}
 		break
 	default:
-		endBets.tx.Rollback()
 		return
 	}
 

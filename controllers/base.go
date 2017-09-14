@@ -16,7 +16,6 @@ type Base struct { //基础信息
 }
 
 func (self *Base) BaseCheck() bool { //检查用户名是否符合，平台是否存在
-
 	username := self.Context.FormValue("username")
 	if username != "" && regexp.MustCompile(`^(_)`).MatchString(username) == true {
 		self.Context.JSON(models.Result{Code: 404, Message: "用户名不能以下划线_开头！", Data: nil})
@@ -39,7 +38,7 @@ func (self *Base) BaseCheck() bool { //检查用户名是否符合，平台是�
 		return true
 	}
 
-	if servicesPingtais.GetPlatformId(platform) > 0 {
+	if *(servicesPingtais.GetPlatformId(&platform)) > 0 {
 		return true
 	}
 
@@ -67,13 +66,18 @@ func (self *Base) CheckIsLogin() bool {
 			return true
 		}
 		//解密验证
-		if common.DecryptClient(cookieEnClientPassWd, cookiePlatform) == common.DecryptClient(redisCookieEnClientPassWd, cookiePlatform) {
+		if common.DecryptClient(&cookieEnClientPassWd, &cookiePlatform) == common.DecryptClient(&redisCookieEnClientPassWd, &cookiePlatform) {
 			return true
 		}
 	}
 
 	//从数据库验证
-	err, result := services.Login(cookiePlatform, cookieUsername, common.DecryptClient(cookieEnClientPassWd, cookiePlatform))
+	lp := models.LoginPost{
+		Username: cookieUsername,
+		Platform: cookiePlatform,
+		Password: common.DecryptClient(&cookieEnClientPassWd, &cookiePlatform),
+	}
+	err, result := services.Login(&lp)
 	if err == nil && result.Code == 200 { //成功
 		return true
 	}

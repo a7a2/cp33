@@ -10,8 +10,9 @@ import (
 func DataInNotice(ctx iris.Context) {
 	issue, _ := ctx.Params().GetInt("issue")
 	gameId, _ := ctx.Params().GetInt("gameID")
-	_, result := servicesLotto.OpenInfo(gameId)
-	BroadcastSame(models.WsConn, string(gameId), "1", &result)
+	result := servicesLotto.OpenInfo(gameId)
+	BroadcastSame(&models.WsConn, &gameId, &gameId, &result)
 	//fmt.Println("DataInNotice  gameId:", gameId, "	issue:", issue)
 	servicesLotto.EndLottery(gameId, issue, ctx.RemoteAddr())
+
 }

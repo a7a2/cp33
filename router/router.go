@@ -24,7 +24,7 @@ func init() {
 			//ctx.Writef("%s = %s\n", name, value)
 			gameID, err := strconv.Atoi(value)
 			if err == nil {
-				_, r := servicesLotto.OpenInfo(gameID)
+				r := servicesLotto.OpenInfo(gameID)
 				ctx.JSON(r.Data)
 			}
 		})
@@ -55,8 +55,12 @@ func init() {
 	doBetParty := models.App.Party("/doBet")              //彩票投注相关
 	doBetParty.Post("/ajaxBet.html", controllers.PostBet) //投注提交投注入口
 
+	helpParty := models.App.Party("/help")                                                       //优惠信息
+	helpParty.Get("/promotion.html", func(ctx iris.Context) { ctx.View("help/promotion.html") }) //优惠信息页面
+
 	betParty := models.App.Party("/bet")                                               //彩票信息展示及选号页面相关
 	betParty.Get("/cqssc.html", func(ctx iris.Context) { ctx.View("bet/cqssc.html") }) //重庆时时彩投注页面
+	betParty.Get("/xjssc.html", func(ctx iris.Context) { ctx.View("bet/xjssc.html") }) //新疆时时彩投注页面
 
 	trendParty := models.App.Party("/trend")                                               //走势图
 	trendParty.Get("/index.html", func(ctx iris.Context) { ctx.View("trend/index.html") }) //走势图展示页面

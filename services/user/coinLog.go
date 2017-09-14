@@ -18,7 +18,8 @@ func CoinLog(coinLog *models.CoinLog, tx *pg.Tx) {
 }
 
 func AccountDetail(pAD *models.PostAccountDetail, platform, username string) (result models.Result) {
-	strSql := fmt.Sprintf("uid=%v ", GetUid(platform, username))
+	strSql := fmt.Sprintf("uid=%v ", *GetUidViaPlatformAndUsername(&platform, &username))
+
 	switch pAD.DataType {
 	case 0: //0 全部
 		break

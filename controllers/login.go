@@ -9,9 +9,6 @@ import (
 )
 
 func (self *Base) Login() {
-	self.Context.RemoveCookie("username")
-	self.Context.RemoveCookie("platform")
-	self.Context.RemoveCookie("enclientpasswd")
 	if self.BaseCheck() == false {
 		return
 	}
@@ -31,7 +28,8 @@ func (self *Base) Login() {
 	//	}
 	//fmt.Println("s.Password:", s.Password)
 	//start...先从redis校验
-	passwordDb := common.EncryptDb(s.Platform, s.Password, s.Username)
+
+	passwordDb := common.EncryptDb(&s.Platform, &s.Password)
 	if passwordDb == "" {
 		fmt.Println("passwordDb nil")
 		return
@@ -44,7 +42,7 @@ func (self *Base) Login() {
 		enClientPassWd = common.RedisClient.HGet(s.Platform+"_"+s.Username, "enclientpasswd").Val() //取存在redis的cookie密码
 		//然后解密的 校验 加密的，原则上不需要用到数据库
 		//fmt.Println(len(enClientPassWd), "	", enClientPassWd)
-		deClientPassWd := common.DecryptClient(enClientPassWd, s.Platform)
+		deClientPassWd := common.DecryptClient(&enClientPassWd, &(s.Platform))
 		if deClientPassWd == passwordDb {
 			outData := models.LoginCookie{Platform: s.Platform, Username: s.Username, Enclientpasswd: enClientPassWd}
 			self.loginSucceed(&outData)
@@ -56,7 +54,7 @@ func (self *Base) Login() {
 
 	//start...从数据库校验
 	var result models.Result
-	err, result = services.Login(s.Platform, s.Username, passwordDb)
+	err, result = services.Login(&s)
 	if err == nil && result.Code == 200 { //登陆成功
 		enClientPassWd = common.EncryptClient([]byte(passwordDb), s.Platform)
 		field := make(map[string]interface{}, 2)

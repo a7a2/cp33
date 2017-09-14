@@ -1,6 +1,7 @@
 package servicesLotto
 
 import (
+	"cp33/common"
 	"cp33/models"
 	"cp33/services/user"
 	"fmt"
@@ -12,7 +13,33 @@ import (
 	"github.com/go-pg/pg"
 )
 
-func DoBets(us []models.Bets, uid int, ip string) (result models.Result) {
+func BetMore(gameId, staticGamePeriod, more *int) *int { //追期
+	var tmpGamePeriod int
+	count := new(int)
+	count = GetCountDataTimes(gameId)
+	switch *gameId {
+	case 1, 7: //新疆时时彩
+		var tNow time.Time
+		//var a int
+		tNow = time.Now()
+		tmpGamePeriod = *staticGamePeriod + *more
+		tmpGamePeriod3 := common.FindNum(tmpGamePeriod, 1) + common.FindNum(tmpGamePeriod, 2)*10 + common.FindNum(tmpGamePeriod, 3)*100
+		if tmpGamePeriod3 > (*count) {
+			for i := 0; (*count) < tmpGamePeriod3; i++ {
+				tmpGamePeriod3 -= (*count)
+				tNow = tNow.Add(time.Hour * 24)
+			}
+
+			tmpTimeGamePeriod, _ := strconv.Atoi(tNow.Format("060102"))
+			tmpTimeGamePeriod = tmpTimeGamePeriod * 1000 //如:170909*1000
+			tmpGamePeriod = tmpTimeGamePeriod + tmpGamePeriod3
+		}
+
+	}
+	return &tmpGamePeriod
+}
+
+func DoBets(us *[]models.Bets, uid *int, ip string) (result models.Result) {
 	tx, err := models.Db.Begin()
 	if err != nil {
 		result = models.Result{Code: 500, Message: err.Error(), Data: nil}
@@ -20,51 +47,51 @@ func DoBets(us []models.Bets, uid int, ip string) (result models.Result) {
 	}
 
 	m := models.Members{}
-	_, err = tx.QueryOne(&m, fmt.Sprintf("select coin from members where uid=%v limit 1 for update", uid))
+	_, err = tx.QueryOne(&m, fmt.Sprintf("select coin from members where uid=%v limit 1 for update", *uid))
 	//err = tx.Model(&m).Where("uid=?", uid).Returning("coin").Select()
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("DoBets53:", err.Error())
 		tx.Rollback()
 		result = models.Result{Code: 601, Message: "数据库错误!", Data: nil}
 		return
 	}
 
-	coin := m.Coin - us[0].Amount*float64(us[0].BetMore)
+	coin := m.Coin - (*us)[0].Amount*float64((*us)[0].BetMore)
 	if coin < 0 {
 		tx.Rollback()
 		result = models.Result{Code: 601, Message: "余额不足本次消费!", Data: nil}
 		return
 	}
-	_, err = tx.Model(&m).Set("coin=?", strconv.FormatFloat(coin, 'f', 3, 64)).Where("uid=?", uid).Update()
+	_, err = tx.Model(&m).Set("coin=?", strconv.FormatFloat(coin, 'f', 3, 64)).Where("uid=?", *uid).Update()
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("DoBets67:", err.Error())
 		tx.Rollback()
 		result = models.Result{Code: 601, Message: "数据库错误!", Data: nil}
 		return
 	}
 
 	var balance float64
-	for i := 0; i < len(us); i++ {
-		err = tx.Insert(&us[i])
+	for i := 0; i < len(*us); i++ {
+		err = tx.Insert(&(*us)[i])
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Println("DoBets77:", err.Error())
 			tx.Rollback()
 			result = models.Result{Code: 600, Message: "数据库错误!", Data: nil}
 			return
 		}
-		balance = m.Coin - us[i].BetMoney
+		balance = m.Coin - (*us)[i].BetMoney
 		coinLog := models.CoinLog{
-			Uid:        us[i].Uid,
-			Type:       us[i].GameId,
-			OrderId:    us[i].Id,
-			Coin:       0 - us[i].BetMoney,
+			Uid:        (*us)[i].Uid,
+			Type:       (*us)[i].GameId,
+			OrderId:    (*us)[i].Id,
+			Coin:       0 - (*us)[i].BetMoney,
 			FreezeCoin: 0.000,
 			Balance:    balance,
 			LiqType:    6,
 			ActionUid:  0,
-			Ctime:      us[i].Ctime,
+			Ctime:      (*us)[i].Ctime,
 			ActionIp:   ip,
-			Info:       fmt.Sprintf("%s%v", "购彩-", us[i].GameName),
+			Info:       fmt.Sprintf("%s%v", "购彩-", (*us)[i].GameName),
 		}
 		services.CoinLog(&coinLog, tx) //日志
 	}
@@ -81,9 +108,9 @@ func DoBets(us []models.Bets, uid int, ip string) (result models.Result) {
 }
 
 func BetList(bl *models.AjaxBetList, platform, username string) (result models.Result) {
-	//strSql := fmt.Sprintf("select id,amount,bet_count,bet_prize,bet_reward,ctime,is_win,sub_name,bet_code,play_id,game_id,win_amount,game_period,open_num,status,bet_pos,etime from bets where uid=%v ", services.GetUid(platform, username))
+	//strSql := fmt.Sprintf("select id,amount,bet_count,bet_prize,bet_reward,ctime,is_win,sub_name,bet_code,play_id,game_id,win_amount,game_period,open_num,status,bet_pos,etime from bets where uid=%v ", services.GetUid(&platform, &username))
 
-	strSql := fmt.Sprintf("uid=%v and is_delete=false", services.GetUid(platform, username))
+	strSql := fmt.Sprintf("uid=%v and is_delete=false", *services.GetUidViaPlatformAndUsername(&platform, &username))
 	switch bl.OrderType {
 	case 0: //0 全部
 		break
@@ -134,7 +161,7 @@ func EndLottery(gameId, period int, strIp string) { //结算
 		fmt.Println("services EndLottery 108," + err.Error())
 		return
 	}
-	_, err = tx.Query(&bets, fmt.Sprintf("select * from bets where game_id=%v and game_period=%v and open_num='' and is_delete=false for update", gameId, period))
+	_, err = tx.Query(&bets, fmt.Sprintf("select \"id\",\"uid\",\"game_id\",\"bet_each_money\",\"bet_pos\",\"bet_prize\",\"bet_money\",\"play_id\",\"sub_id\",\"bet_code\",\"bet_more\",\"label\",\"ctime\",\"bet_win_stop\" from bets where game_id=%v and game_period=%v and open_num='' and is_delete=false and status=0 for update", gameId, period))
 	if err != nil || len(bets) == 0 {
 		fmt.Println("services EndLottery 113 len(bets)=", len(bets))
 		tx.Rollback()
@@ -143,14 +170,15 @@ func EndLottery(gameId, period int, strIp string) { //结算
 	etime, _ := time.ParseInLocation("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"), time.Local) //结算时间
 	dataSplit := strings.Split(d.Data, " ")
 	endBets := endBets{bets: &bets, tx: tx, strIp: strIp, dataSplit: dataSplit, data: d.Data, etime: etime}
+
 	endBets.betClose1()
 
-	//	_, err = tx.Model(&bets).Column("open_num", "status", "etime", "win_amount", "is_win").Update()
-	//	if err != nil {
-	//		fmt.Println("services EndLottery 215:" + err.Error())
-	//		tx.Rollback()
-	//		return
-	//	}
+	_, err = tx.Model(&bets).Column("open_num", "status", "etime", "win_amount", "is_win").Update()
+	if err != nil {
+		fmt.Println("services EndLottery 215:" + err.Error())
+		tx.Rollback()
+		return
+	}
 
 	err = tx.Commit()
 	if err != nil {
@@ -168,7 +196,7 @@ func (endBets *endBets) betClose1() {
 	timeStart := time.Now()
 	for i := 0; i < len(*endBets.bets); i++ {
 		betRewardMoney = endBets.getWinAmount(&i) //获取中奖金额、返回返点金额
-		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
+		//fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
 
 		if betRewardMoney > 0 { //返点
 			endBets.addMoney(&betRewardMoney, &i, 2, "返点")
@@ -198,14 +226,14 @@ func (endBets *endBets) betClose1() {
 }
 
 func (endBets *endBets) addMoney(money *float64, i *int, liqType int, info string) {
-	balance := services.CoinChangeByUid((*endBets.bets)[*i].Uid, *money, endBets.tx)
+	balance := services.CoinChangeByUid(&(*endBets.bets)[*i].Uid, money, endBets.tx)
 	coinLog := models.CoinLog{
 		Uid:        (*endBets.bets)[*i].Uid,
 		Type:       (*endBets.bets)[*i].GameId,
 		OrderId:    (*endBets.bets)[*i].Id,
 		Coin:       *money,
 		FreezeCoin: 0.000,
-		Balance:    balance,
+		Balance:    *balance,
 		LiqType:    liqType,
 		ActionUid:  0,
 		Ctime:      endBets.etime,

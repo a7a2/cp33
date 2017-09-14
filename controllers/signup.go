@@ -10,9 +10,6 @@ import (
 )
 
 func (self *Base) Signup() { //post 注册
-	self.Context.RemoveCookie("username")
-	self.Context.RemoveCookie("platform")
-	self.Context.RemoveCookie("enclientpasswd")
 	var s models.SignupPost
 	var err error
 	err = self.Context.ReadForm(&s)
@@ -28,9 +25,10 @@ func (self *Base) Signup() { //post 注册
 		return
 	}
 
-	passwordDb := common.EncryptDb(s.Platform, s.Password, s.Username)
+	passwordDb := common.EncryptDb(&(s.Platform), &(s.Password))
+	s.Password = passwordDb
 	var result models.Result
-	_, result = services.Signup(s.Platform, s.Username, passwordDb, s.Uuid, fmt.Sprintf("%s/%s", self.Context.RemoteAddr(), "32"))
+	_, result = services.Signup(&s, fmt.Sprintf("%s/%s", self.Context.RemoteAddr(), "32"))
 	if result.Code == 200 {
 		enClientPassWd := common.EncryptClient([]byte(passwordDb), s.Platform)
 		field := make(map[string]interface{}, 2)

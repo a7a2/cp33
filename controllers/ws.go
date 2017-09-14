@@ -12,7 +12,7 @@ import (
 )
 
 func checkIsLogin(l *models.LoginCookie) bool {
-	passwdDb := common.DecryptClient(l.Enclientpasswd, l.Platform)
+	passwdDb := common.DecryptClient(&(l.Enclientpasswd), &(l.Platform))
 
 	//从redis验证
 	if common.RedisClient.HExists(l.Platform+"_"+l.Username, "enclientpasswd").Val() == true {
@@ -23,14 +23,19 @@ func checkIsLogin(l *models.LoginCookie) bool {
 		}
 		//解密验证
 		//fmt.Println(l.Enclientpasswd, "	", redisEnclientpasswd, "	", l.Enclientpasswd)
-		if common.DecryptClient(redisEnclientpasswd, l.Platform) == common.DecryptClient(l.Enclientpasswd, l.Platform) {
+		if common.DecryptClient(&redisEnclientpasswd, &(l.Platform)) == common.DecryptClient(&(l.Enclientpasswd), &(l.Platform)) {
 			common.RedisClient.HSet(l.Platform+"_"+l.Username, "enclientpasswd", l.Enclientpasswd)
 			return true
 		}
 	}
 
 	//从数据库验证
-	err, result := services.Login(l.Platform, l.Username, passwdDb)
+	lp := models.LoginPost{
+		Platform: l.Platform,
+		Username: l.Username,
+		Password: passwdDb,
+	}
+	err, result := services.Login(&lp)
 	if err == nil && result.Code == 200 { //成功
 		common.RedisClient.HSet(l.Platform+"_"+l.Username, "enclientpasswd", l.Enclientpasswd)
 		//	fmt.Println(l.Username, "ws.go文件 checkIsLogin 从数据库验证 成功！")
@@ -73,10 +78,14 @@ func WsMain(c websocket.Connection) {
 
 	c.On("balance", func(message string) {
 		if c.GetValue(c.ID()) != nil {
+			enclientpasswd := c.GetValue(c.ID()).(models.LoginCookie).Enclientpasswd
 			platform := c.GetValue(c.ID()).(models.LoginCookie).Platform
-			username := c.GetValue(c.ID()).(models.LoginCookie).Username
-			passwdDb := common.DecryptClient(c.GetValue(c.ID()).(models.LoginCookie).Enclientpasswd, platform)
-			err, result := services.Login(platform, username, passwdDb)
+			lp := models.LoginPost{
+				Platform: platform,
+				Username: c.GetValue(c.ID()).(models.LoginCookie).Username,
+				Password: common.DecryptClient(&enclientpasswd, &platform),
+			}
+			err, result := services.Login(&lp)
 			if err == nil && result.Code == 200 { //成功
 				c.Emit("balance", result.Data.(*models.Members).Coin)
 			} else {
@@ -86,15 +95,25 @@ func WsMain(c websocket.Connection) {
 	})
 
 	c.On("1", func(message string) { //重庆时时彩
-		//fmt.Println(c.ID())
 		if c.GetValue(c.ID()) == nil {
 			return
 		}
 		c.Leave("1")
 		c.Join("1")
 
-		_, result := servicesLotto.OpenInfo(1)
+		result := servicesLotto.OpenInfo(1)
 		c.Emit("1", &result)
+	})
+
+	c.On("7", func(message string) { //新疆时时彩
+		if c.GetValue(c.ID()) == nil {
+			return
+		}
+		c.Leave("7")
+		c.Join("7")
+
+		result := servicesLotto.OpenInfo(7)
+		c.Emit("7", &result)
 	})
 
 	c.On("logout", func(message string) {
@@ -112,8 +131,8 @@ func WsMain(c websocket.Connection) {
 	})
 }
 
-func BroadcastSame(Conn map[websocket.Connection]bool, room, gate string, m interface{}) {
-	for c := range Conn {
-		c.To(room).Emit(gate, m)
+func BroadcastSame(Conn *map[websocket.Connection]bool, room, gate *int, m interface{}) {
+	for c := range *Conn {
+		c.To(string(*room)).Emit(string(*gate), m)
 	}
 }

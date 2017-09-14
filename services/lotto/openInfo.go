@@ -42,7 +42,9 @@ func OpenData(t, o, l, issue int) *models.Data {
 	return nil
 }
 
-func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信息及当前可购买期号
+func OpenInfo(t int) *models.Result { // 上一期开奖信息及当前可购买期号
+	var err error
+	var result models.Result
 	last_period := 0
 	current_period := 0
 	var delaySecond int = 10 //截止投注前n秒
@@ -50,10 +52,10 @@ func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信�
 	d = OpenData(t, -1, 1, -1)
 	if d == nil {
 		fmt.Println("OpenInfo 33")
-		return
+		last_period = 0
+	} else {
+		last_period = d.Issue //数据库内有数据的期号为上一期数据 即有开奖数据的那期绝对不能投了
 	}
-
-	last_period = d.Issue //数据库内有数据的期号为上一期数据 即有开奖数据的那期绝对不能投了
 
 	dt := models.DataTime{}
 	sTime := time.Now().Add(time.Second * time.Duration(delaySecond)).Format("15:04:05") //数据库检索时间
@@ -66,7 +68,7 @@ func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信�
 		//fmt.Println(current_period, "ww		", dt.ActionNo, "	", dt.ActionTime, "	day:", time.Now(), "	")
 	} else {
 		result = models.Result{Code: 590, Message: "系统错误", Data: nil}
-		return
+		return &result
 	}
 	var timeleft int64
 	var ttActionTime time.Time
@@ -81,7 +83,7 @@ func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信�
 	if last_period != 0 && last_period+1 >= current_period && tmp3Num >= 1 { //防止出现1700824000 适用重庆时时彩
 		out := (models.OpenInfo{Last_period: last_period, Last_open: d.Data, Current_period: last_period + 1, Current_period_status: "截止", Timeleft: timeleft, Type: t})
 		result = models.Result{Code: 200, Message: "ok", Data: &out}
-		return
+		return &result
 	}
 
 	last_period = current_period - 1
@@ -92,6 +94,13 @@ func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信�
 			tmpLast_period, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
 			tmpLast_period = tmpLast_period * 1000
 			last_period = tmpLast_period + 120
+		}
+	case 7:
+		tempNum := common.FindNum(current_period-1, 1) + common.FindNum(current_period-1, 2)*10 + common.FindNum(current_period-1, 3)*100
+		if tempNum == 0 {
+			tmpLast_period, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
+			tmpLast_period = tmpLast_period * 1000
+			last_period = tmpLast_period + 96
 		}
 	}
 
@@ -107,5 +116,5 @@ func OpenInfo(t int) (err error, result models.Result) { // 上一期开奖信�
 	result = models.Result{Code: 200, Message: "ok", Data: &out}
 	//fmt.Println("22:", out)
 
-	return
+	return &result
 }

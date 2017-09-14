@@ -23,7 +23,6 @@ func AccountDetail(ctx iris.Context) {
 		fmt.Println(err.Error())
 		return
 	}
-
 	var result models.Result
 	result = services.AccountDetail(&postAccountDetail, ctx.GetCookie("platform"), ctx.GetCookie("username"))
 	ctx.JSON(&result)

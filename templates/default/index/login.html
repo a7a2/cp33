@@ -237,9 +237,9 @@ if (getBLen(platform)!=36){
             success: function (data) {
                 //loadingHide();
 				if (data.code == 200) {
-					document.cookie="username="+data.data.Username;
-					document.cookie="enClientPassWd="+data.data.Enclientpasswd;
-					document.cookie="platform="+data.data.Platform;
+					//document.cookie="username="+data.data.Username;
+					//document.cookie="enClientPassWd="+data.data.Enclientpasswd;
+					//document.cookie="platform="+data.data.Platform;
                     //location.href = '/index/registerOk.html?username='+username;
                     location.href = '/mine/index.html?platform='+$('#platform').val()+'&username='+uid+'&enClientPassWd='+data.data.Enclientpasswd;
 					msgAlert(data.message);

@@ -257,7 +257,14 @@
 </html>
 
 <script>
-
+function delCookie(name)
+{
+var exp = new Date();
+exp.setTime(exp.getTime() - 1);
+var cval=getCookie(name);
+if(cval!=null)
+document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
 //$('span#username').text(username); 
 	$(function () {
 	w = new Ws("ws://" + host + "/my_endpoint");
@@ -292,6 +299,8 @@
 	
     function doConfirmOk() {
 		w.Emit("logout","Why is evenything so wrong!");
+		delCookie("username")
+		delCookie("enclientpasswd")
 		location.href = '/index/login.html?platform='+platform;
 	}
 

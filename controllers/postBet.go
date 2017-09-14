@@ -17,11 +17,11 @@ import (
 )
 
 // 交集
-func arrIntersect(a, b []string) (count int) { //传字符串
-	for i := 0; i < len(b); i++ {
-		temp := b[i]
-		for j := 0; j < len(a); j++ {
-			if temp == a[j] {
+func arrIntersect(a, b *[]string) (count int) { //传字符串
+	for i := 0; i < len(*b); i++ {
+		temp := (*b)[i]
+		for j := 0; j < len(*a); j++ {
+			if temp == (*a)[j] {
 				count += 1
 				break
 			}
@@ -30,18 +30,18 @@ func arrIntersect(a, b []string) (count int) { //传字符串
 	return
 }
 
-func getCount122(tempBetCodeSplit []string) (count int) { //任2循环所有注数 如|0&1&6||7&8&9|4有15注
+func getCount122(tempBetCodeSplit *[]string) (count int) { //任2循环所有注数 如|0&1&6||7&8&9|4有15注
 	count = 0
-	for i := 0; i < len(tempBetCodeSplit)-1; i++ {
-		if tempBetCodeSplit[i] == "" {
+	for i := 0; i < len(*tempBetCodeSplit)-1; i++ {
+		if (*tempBetCodeSplit)[i] == "" {
 			continue
 		}
-		tempStrSumCount0 := regexp.MustCompile(`[0-9]+`).FindAllString(tempBetCodeSplit[i], -1)
-		for ii := i + 1; ii < len(tempBetCodeSplit); ii++ {
-			if tempBetCodeSplit[ii] == "" {
+		tempStrSumCount0 := regexp.MustCompile(`[0-9]+`).FindAllString((*tempBetCodeSplit)[i], -1)
+		for ii := i + 1; ii < len((*tempBetCodeSplit)); ii++ {
+			if (*tempBetCodeSplit)[ii] == "" {
 				continue
 			}
-			tempStrSumCount1 := regexp.MustCompile(`[0-9]+`).FindAllString(tempBetCodeSplit[ii], -1)
+			tempStrSumCount1 := regexp.MustCompile(`[0-9]+`).FindAllString((*tempBetCodeSplit)[ii], -1)
 			for j := 0; j < len(tempStrSumCount0); j++ {
 				for k := 0; k < len(tempStrSumCount1); k++ {
 					count += 1
@@ -120,15 +120,15 @@ func PostBet(ctx iris.Context) {
 	var f64BetMoney, f64BetEachMoney, f64BetPrize, f64BetReward, tmpF64BetCount, sumBetAmount float64
 
 	var tempStrSumCount []string
-	if postBet.BetMore > 100 {
-		result = models.Result{Code: 501, Message: "最大追100期", Data: nil}
+	if postBet.BetMore > 300 {
+		result = models.Result{Code: 501, Message: "最大追300期", Data: nil}
 		ctx.JSON(&result)
 		return
 	}
 
 	//验证期号可否购买
-	var rOpenInfo models.Result
-	_, rOpenInfo = servicesLotto.OpenInfo(postBet.GameId)
+	var rOpenInfo *models.Result
+	rOpenInfo = servicesLotto.OpenInfo(postBet.GameId)
 	if rOpenInfo.Code != 200 || rOpenInfo.Data == nil || rOpenInfo.Data.(*models.OpenInfo).Current_period != postBet.GamePeriod {
 		//fmt.Println(rOpenInfo.Data.(*models.OpenInfo).Current_period, "	", postBet.GamePeriod)
 		result = models.Result{Code: 588, Message: "当前期数已经关盘", Data: nil}
@@ -137,26 +137,14 @@ func PostBet(ctx iris.Context) {
 	}
 
 	//取platformId通过platform 在redis或db上
-	var platformId int
-	tmpStrPlatformId := common.RedisClient.HGet(ctx.GetCookie("platform")+"_"+ctx.GetCookie("username"), "platformid").Val()
-	platformId, err = strconv.Atoi(tmpStrPlatformId)
-	if err != nil {
-		//fmt.Println(err.Error(), "	get platformId via db")
-		platformId = servicesPingtais.GetPlatformId(ctx.GetCookie("platform"))
-	}
+	var platformId *int
+	strPlatform := ctx.GetCookie("platform")
+	platformId = servicesPingtais.GetPlatformId(&strPlatform)
 
 	//取用户uid
-	var uid int
-	if rCmd := common.RedisClient.HGet(ctx.GetCookie("platform")+"_"+ctx.GetCookie("username"), "uid"); rCmd.Err() != nil {
-		uid = services.GetUid(ctx.GetCookie("platform"), ctx.GetCookie("username"))
-	} else {
-		uid, err = strconv.Atoi(rCmd.Val())
-		if err != nil {
-			result = models.Result{Code: 555, Message: "错误！", Data: nil}
-			ctx.JSON(&result)
-			return
-		}
-	}
+	var uid *int
+	username := ctx.GetCookie("username")
+	uid = services.GetUidViaPlatformAndUsername(&strPlatform, &username)
 
 	if !(postBet.BetWinStop == 1 || postBet.BetWinStop == 0) {
 		result = models.Result{Code: 555, Message: "提交数据错误！", Data: nil}
@@ -217,7 +205,7 @@ func PostBet(ctx iris.Context) {
 
 		playedGroup := servicesLotto.PlayedGroup(intPlayId)
 
-		played := servicesLotto.Played(platformId, intPlayId, intSubId)
+		played := servicesLotto.Played(*platformId, intPlayId, intSubId)
 		//对提交上来带有|的赔率 返点验证
 		var betPrizeDb float64
 		tempBetPrizeSplit := strings.Split(postBet.Bet_list[i]["betPrize"], "|")
@@ -319,14 +307,11 @@ func PostBet(ctx iris.Context) {
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = len(tempStrSumCount)
 			case 107: //5星直选复式 7
-				arrayLenght := 5
-				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], arrayLenght)
+				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], 5)
 			case 105: //4星直选复式 8
-				arrayLenght := 4
-				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], arrayLenght)
+				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], 4)
 			case 88, 54: //后三直选复式 11 ,前三 直选复式9
-				arrayLenght := 3
-				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], arrayLenght)
+				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], 3)
 			case 90, 56: //后三直选和值 11,前三 直选和值9
 				tempStrSumCount = regexp.MustCompile(`[0-9]+`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				for i := 0; i < len(tempStrSumCount); i++ {
@@ -411,7 +396,7 @@ func PostBet(ctx iris.Context) {
 				tempCount = getDxdsCount(postBet.Bet_list[i]["betCode"], 3)
 			case 122: //任二直选复式13
 				tempBetCodeSplit := strings.Split(postBet.Bet_list[i]["betCode"], "|")
-				tempCount = getCount122(tempBetCodeSplit)
+				tempCount = getCount122(&tempBetCodeSplit)
 			case 128: //任三直选复式14
 				tempBetCodeSplit := strings.Split(postBet.Bet_list[i]["betCode"], "|")
 				tempCount = getCountCombArr(&tempBetCodeSplit, &models.CombArr128)
@@ -540,7 +525,7 @@ func PostBet(ctx iris.Context) {
 				}
 				tempStrCountLeft := regexp.MustCompile(`[0-9]{1}`).FindAllString(tempBetCodeSplit[0], -1)
 				tempStrCountRight := regexp.MustCompile(`[0-9]{1}`).FindAllString(tempBetCodeSplit[1], -1)
-				h := arrIntersect(tempStrCountLeft, tempStrCountRight) //交集个数
+				h := arrIntersect(&tempStrCountLeft, &tempStrCountRight) //交集个数
 				tmpNums := common.Combination(len(tempStrCountLeft), 1) * common.Combination(len(tempStrCountRight), need)
 				if h > 0 { //交集个数
 					if intSubId == 142 {
@@ -596,8 +581,8 @@ func PostBet(ctx iris.Context) {
 		}
 
 		bet := models.Bets{
-			PlatformId:   platformId,
-			Uid:          uid,
+			PlatformId:   *platformId,
+			Uid:          *uid,
 			GameName:     lottery.Name,
 			GameId:       postBet.GameId,
 			GamePeriod:   postBet.GamePeriod,
@@ -635,21 +620,18 @@ func PostBet(ctx iris.Context) {
 
 	var betsArray []models.Bets
 	staticGamePeriod := bets[0].GamePeriod
-	var tmpGamePeriod int
+	var tmpGamePeriod *int
 
 	for more := 0; more < bets[0].BetMore; more++ {
-		//fmt.Println(bets[0].GamePeriod)
-		tmpGamePeriod = common.BetMore(bets[0].GameId, staticGamePeriod, more)
+		tmpGamePeriod = servicesLotto.BetMore(&(bets[0].GameId), &staticGamePeriod, &more)
 		for i := 0; i < len(bets); i++ {
-			bets[i].GamePeriod = tmpGamePeriod
+			bets[i].GamePeriod = (*tmpGamePeriod)
 			betsArray = append(betsArray, bets[i])
-			//fmt.Println(tmpGamePeriod, "	", bets[i].GamePeriod)
 		}
 
 	}
 
-	result = servicesLotto.DoBets(betsArray, uid, ctx.RemoteAddr())
+	result = servicesLotto.DoBets(&betsArray, uid, ctx.RemoteAddr())
 	ctx.JSON(&result)
 	//fmt.Println("postBet ok ,speed time:", time.Now().Sub(timeStart))
-
 }

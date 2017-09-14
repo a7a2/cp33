@@ -258,22 +258,16 @@ function gotologin(){
             },
             timeout: 8000,
             success: function (data) {
-				console.log(data);
-				msgAlert(data.message);
+				//console.log(data);
 				if (data.code == 200) {
-                    //location.href = '/index/registerOk.html?username='+username;
-                    location.href = '/mine/index.html?platform='+$('#platform').val()+'&username='+username+'&enClientPassWd='+data.data.Enclientpasswd;
+                    location.href = '/mine/index.html';
+                    //location.href = '/mine/index.html?platform='+$('#platform').val()+'&username='+username+'&enClientPassWd='+data.data.Enclientpasswd;
                 }
                 if (data.code !== 200) {
+					msgAlert(data.message);
                     return false;
                 }
-                if (data == null || data == undefined || data == '') {
-                    $('img#captcha_img').click();
-                    return false;
-                } else {
-                    msgAlert('注册失败！'+data.Desc);
-                    $('img#captcha_img').click();
-                }
+      
             }
         });
     });

@@ -1,18 +1,29 @@
 package servicesPingtais
 
 import (
-	//"cp33/common"
+	"cp33/common"
 	"cp33/models"
+	"time"
+
+	"github.com/go-redis/cache"
 )
 
-func GetPlatformId(platform string) int {
+func GetPlatformId(platform *string) *int {
 	u := models.Pingtai{}
-
-	err := models.Db.Model(&u).Where("platform=?", platform).Limit(1).Returning("uid").Select()
-
+	var id int
+	err := common.Codec.Get("GetPlatformId="+(*platform), &id)
+	if err == nil {
+		return &id
+	}
+	err = models.Db.Model(&u).Where("platform=?", *platform).Limit(1).Returning("uid").Select()
 	if err == nil && u.Id >= 1 { //存在
-		return u.Id
+		common.Codec.Set(&cache.Item{
+			Key:        "GetPlatformId=" + (*platform),
+			Object:     u.Id,
+			Expiration: time.Hour,
+		})
+		return &u.Id
 	}
 
-	return 0
+	return nil
 }

@@ -18,17 +18,15 @@ import (
 	//	"golang.org/x/crypto/blowfish"
 )
 
-func EncryptDb(platform, password, username string) (strHash string) { //浏览器、客户端完成sha3->ripemd160的加密,入库前通过这里argon2加密一次
-	salt := []byte(models.PwdKey + platform)
-	hashByte, err := argon2.Key([]byte(password), salt, 3, 4, 16384, 32, argon2.Argon2i)
+func EncryptDb(platform, password *string) (strHash string) { //浏览器、客户端完成sha3->ripemd160的加密,入库前通过这里argon2加密一次
+	salt := []byte(models.PwdKey + (*platform))
+	hashByte, err := argon2.Key([]byte(*password), salt, 3, 4, 16384, 32, argon2.Argon2i)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	strHash = hex.EncodeToString(hashByte)
-	//fmt.Println("EncryptDb", ":", strHash)
 	return
-
 }
 
 //func EncryptClient(password []byte, platform string) (hash string) { //argon2加密到浏览器、客户端cookie  同时缓存在redis
@@ -68,18 +66,18 @@ func EncryptClient(plaintext []byte, platform string) string { //aes加密到浏
 	textStr := base64.StdEncoding.EncodeToString(ciphertext)
 	//textStr = strings.Replace(textStr, "+", "%2B", -1)
 	ivStr := base64.StdEncoding.EncodeToString(nonce)
-	fmt.Println("EncryptClient:", textStr, " len(textStr):", len(textStr), "\nivStr:", ivStr)
+	//rintln("EncryptClient:", textStr, " len(textStr):", len(textStr), "\nivStr:", ivStr)
 	return textStr + ivStr
 }
 
-func DecryptClient(s, platform string) string {
+func DecryptClient(s, platform *string) string {
 	//s = strings.Replace(s, " ", "+", -1)
 	//s = strings.Replace(s, "%2B", "+", -1)
 	//fmt.Println("DecryptClient:", len(s))
-	strKey := md5Sum(models.PwdKey + platform)
+	strKey := md5Sum(models.PwdKey + (*platform))
 	key := []byte(strKey)
-	ciphertext, _ := base64.StdEncoding.DecodeString(s[:len(s)-16])
-	nonce, _ := base64.StdEncoding.DecodeString(s[len(s)-16:])
+	ciphertext, _ := base64.StdEncoding.DecodeString((*s)[:len(*s)-16])
+	nonce, _ := base64.StdEncoding.DecodeString((*s)[len(*s)-16:])
 	//fmt.Println("len(nonce):", len(nonce))
 	//fmt.Println("DecryptClient string:", s)
 	block, err := aes.NewCipher(key)
