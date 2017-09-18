@@ -4,6 +4,7 @@ import (
 	"cp33/common"
 	"cp33/models"
 	"fmt"
+	"math"
 	"strconv"
 	"time"
 
@@ -45,76 +46,79 @@ func OpenData(t, o, l, issue int) *models.Data {
 func OpenInfo(t int) *models.Result { // 上一期开奖信息及当前可购买期号
 	var err error
 	var result models.Result
-	last_period := 0
-	current_period := 0
-	var delaySecond int = 10 //截止投注前n秒
+	lastPeriod := 0
+	lastOpen := "" //上一期开奖号码
+	currentPeriod := 0
+
 	var d *models.Data
 	d = OpenData(t, -1, 1, -1)
 	if d == nil {
 		fmt.Println("OpenInfo 33")
-		last_period = 0
+		lastPeriod = 0
 	} else {
-		last_period = d.Issue //数据库内有数据的期号为上一期数据 即有开奖数据的那期绝对不能投了
+		lastOpen = d.Data
+		lastPeriod = d.Issue //数据库内有数据的期号为上一期数据 即有开奖数据的那期绝对不能投了
 	}
+
+	err, lotto := GetLotteryViaGameId(t)
+	if err != nil {
+		return &models.Result{Code: 404, Message: "系统错误", Data: nil}
+	}
+	var delaySecond int = lotto.DelaySecond //截止投注前n秒
 
 	dt := models.DataTime{}
 	sTime := time.Now().Add(time.Second * time.Duration(delaySecond)).Format("15:04:05") //数据库检索时间
 
-	err = models.Db.Model(&dt).Where("type=? and action_time>?", t, sTime).Order("action_time").Limit(1).Select()
-	if err == nil && dt.Type >= 0 {
-		tmpCurrent_period, _ := strconv.Atoi(time.Now().Format("060102"))
-		tmpCurrent_period = tmpCurrent_period * 1000
-		current_period = tmpCurrent_period + dt.ActionNo
-		//fmt.Println(current_period, "ww		", dt.ActionNo, "	", dt.ActionTime, "	day:", time.Now(), "	")
-	} else {
-		result = models.Result{Code: 590, Message: "系统错误", Data: nil}
-		return &result
+	//使用时间推算当前期期号,以此为准 start
+	err = models.Db.Model(&dt).Where("type=? and action_time>?", t, sTime).Order("action_no").Limit(1).Select()
+	if !(err == nil && dt.Type >= 0) {
+		return &models.Result{Code: 404, Message: "系统错误", Data: nil}
 	}
-	var timeleft int64
+	switch t {
+	case 1, 7: //重庆时时彩、西藏时时彩
+		tmpCurrentPeriod, _ := strconv.Atoi(time.Now().Format("060102"))
+		tmpCurrentPeriod = tmpCurrentPeriod * 1000
+		currentPeriod = tmpCurrentPeriod + dt.ActionNo
+	case 9: //pk10
+		startPeriod := 640250 //2017-09-17 09:07
+		startTime, _ := time.ParseInLocation("2006-01-02 15:04:05", "2017-09-17 00:00:00", time.Local)
+		strAddPeriod := strconv.FormatFloat(math.Trunc(time.Now().Sub(startTime).Hours()/24)*179, 'g', 7, 64)
+		intAddPeriod, _ := strconv.Atoi(strAddPeriod)
+		currentPeriod = startPeriod + intAddPeriod + dt.ActionNo - 1
+	}
+	//使用时间推算当前期期号,以此为准 end
+
+	periodCount := GetCountDataTimes(&t) //每天有几期
+	lastPeriod = currentPeriod - 1
+	switch t { //防止上去出现000期
+	case 1, 7: //重庆时时彩、西藏时时彩
+		tempNum := common.FindNum(lastPeriod, 1) + common.FindNum(lastPeriod, 2)*10 + common.FindNum(lastPeriod, 3)*100
+		if tempNum == 0 {
+			tmpLastPeriod, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
+			tmpLastPeriod = tmpLastPeriod * 1000
+			lastPeriod = tmpLastPeriod + (*periodCount)
+		}
+	}
+
+	var timeleft int64 //剩余投注时间
 	var ttActionTime time.Time
 	ttActionTime, err = time.ParseInLocation("2006-01-02 15:04:05", time.Now().Format("2006-01-02")+" "+dt.ActionTime, time.Local)
 	if err != nil {
 		timeleft = 100000000
 	}
 	timeleft = ttActionTime.Unix() - time.Now().Local().Unix()
-	//fmt.Println(":::time::", ttActionTime.Unix()-time.Now().Local().Unix(), "	", time.Now().Local().Unix(), "	", time.Now().Sub(ttActionTime).String())
-	timeleft = timeleft - 10
-	tmp3Num := common.FindNum(current_period, 1) + common.FindNum(current_period, 2)*10 + common.FindNum(current_period, 3)*100
-	if last_period != 0 && last_period+1 >= current_period && tmp3Num >= 1 { //防止出现1700824000 适用重庆时时彩
-		out := (models.OpenInfo{Last_period: last_period, Last_open: d.Data, Current_period: last_period + 1, Current_period_status: "截止", Timeleft: timeleft, Type: t})
-		result = models.Result{Code: 200, Message: "ok", Data: &out}
-		return &result
-	}
 
-	last_period = current_period - 1
-	switch t {
-	case 1: //重庆时时彩
-		tempNum := common.FindNum(current_period-1, 1) + common.FindNum(current_period-1, 2)*10 + common.FindNum(current_period-1, 3)*100
-		if tempNum == 0 {
-			tmpLast_period, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
-			tmpLast_period = tmpLast_period * 1000
-			last_period = tmpLast_period + 120
-		}
-	case 7:
-		tempNum := common.FindNum(current_period-1, 1) + common.FindNum(current_period-1, 2)*10 + common.FindNum(current_period-1, 3)*100
-		if tempNum == 0 {
-			tmpLast_period, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
-			tmpLast_period = tmpLast_period * 1000
-			last_period = tmpLast_period + 96
+	if d != nil && d.Issue != lastPeriod { //d.Issue为基于开奖数据得到的期号 lastPeriod基于时间推算得到的期号 以后者为准，这个if为了减少一个数据库请求
+		d = OpenData(t, 0, 1, lastPeriod)
+		if d == nil {
+			lastOpen = ""
+		} else {
+			lastOpen = d.Data
 		}
 	}
 
-	var Last_open string
-	d = OpenData(t, 0, 1, last_period)
-	if d == nil {
-		Last_open = ""
-	} else {
-		Last_open = d.Data
-	}
-
-	out := (models.OpenInfo{Last_period: last_period, Last_open: Last_open, Current_period: current_period, Current_period_status: "截止", Timeleft: timeleft, Type: t})
+	out := (models.OpenInfo{Last_period: lastPeriod, Last_open: lastOpen, Current_period: currentPeriod, Current_period_status: "截止", Timeleft: timeleft, Type: t})
 	result = models.Result{Code: 200, Message: "ok", Data: &out}
-	//fmt.Println("22:", out)
 
 	return &result
 }

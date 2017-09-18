@@ -18,6 +18,7 @@ func init() {
 	models.App.StaticWeb("/wap/", "./templates/default/wap/")
 
 	models.App.Get("/", func(ctx iris.Context) { ctx.View("index.html") })             //首页
+	models.App.Get("/moneyInNotice", controllers.MoneyInNotice)                        //充值到账通知
 	models.App.Get("/dataInNotice/{gameID:int}/{issue:int}", controllers.DataInNotice) //采集入库后通知 存储过程太复杂 这个方法简单点，这里是开奖入口
 	models.App.Get("/apiMyself/{gameID:int}", func(ctx iris.Context) {                 //给采集客户端使用的接口，用于统一期号等数据，输出最后一期等信息
 		ctx.Params().Visit(func(name string, value string) {
