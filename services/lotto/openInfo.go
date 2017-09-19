@@ -106,7 +106,7 @@ func OpenInfo(t int) *models.Result { // 上一期开奖信息及当前可购买
 	if err != nil {
 		timeleft = 100000000
 	}
-	timeleft = ttActionTime.Unix() - time.Now().Local().Unix()
+	timeleft = ttActionTime.Unix() - time.Now().Local().Unix() - int64(delaySecond)
 
 	if d != nil && d.Issue != lastPeriod { //d.Issue为基于开奖数据得到的期号 lastPeriod基于时间推算得到的期号 以后者为准，这个if为了减少一个数据库请求
 		d = OpenData(t, 0, 1, lastPeriod)

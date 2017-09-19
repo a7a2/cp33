@@ -328,7 +328,7 @@ function setLeaveTimer(timeLeave,gameid) { //启动定时，进行倒计时。
         localTime = tmpLocalTime;*/
         timeLeave--;
         if (timeLeave < 0) {//倒计时小于0，不显示
-			w.Emit(gameid,"get");
+			w.Emit("getOpenData",gameid);
             return;
         }
 		console.log(timeLeave);

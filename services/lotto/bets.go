@@ -34,7 +34,8 @@ func BetMore(gameId, staticGamePeriod, more *int) *int { //追期
 			tmpTimeGamePeriod = tmpTimeGamePeriod * 1000 //如:170909*1000
 			tmpGamePeriod = tmpTimeGamePeriod + tmpGamePeriod3
 		}
-
+	case 9: //pk10
+		tmpGamePeriod = (*more) + (*staticGamePeriod)
 	}
 	return &tmpGamePeriod
 }
@@ -152,7 +153,7 @@ func EndLottery(gameId, period int, strIp string) { //结算
 		fmt.Println("EndLottery 98")
 		return
 	}
-	fmt.Println(d.Data, "	", d.Issue)
+	fmt.Println(d.Type, " ", d.Data, "	", d.Issue)
 
 	var bets []models.Bets
 	var err error
@@ -163,7 +164,7 @@ func EndLottery(gameId, period int, strIp string) { //结算
 	}
 	_, err = tx.Query(&bets, fmt.Sprintf("select \"id\",\"uid\",\"game_id\",\"bet_each_money\",\"bet_pos\",\"bet_prize\",\"bet_money\",\"play_id\",\"sub_id\",\"bet_code\",\"bet_more\",\"label\",\"ctime\",\"bet_win_stop\" from bets where game_id=%v and game_period=%v and open_num='' and is_delete=false and status=0 for update", gameId, period))
 	if err != nil || len(bets) == 0 {
-		fmt.Println("services EndLottery 113 len(bets)=", len(bets))
+		fmt.Println("没有投注单需要结算.services EndLottery 113 len(bets)=", len(bets))
 		tx.Rollback()
 		return
 	}
@@ -196,7 +197,7 @@ func (endBets *endBets) betClose1() {
 	timeStart := time.Now()
 	for i := 0; i < len(*endBets.bets); i++ {
 		betRewardMoney = endBets.getWinAmount(&i) //获取中奖金额、返回返点金额
-		//fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
+		fmt.Println(" 游戏编号：", (*endBets.bets)[i].SubId, (*endBets.bets)[i].GroupName, (*endBets.bets)[i].SubName, " 单号：", (*endBets.bets)[i].Id, "	 win:", (*endBets.bets)[i].WinAmount, "投注金额：", (*endBets.bets)[i].BetMoney)
 
 		if betRewardMoney > 0 { //返点
 			endBets.addMoney(&betRewardMoney, &i, 2, "返点")

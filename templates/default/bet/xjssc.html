@@ -103,7 +103,7 @@
                 <div class="lot-tip">
                     <div class="lot-time">
                         <p><span id="last_period"></span>期</p>
-                        <div class="wait-lot"><i class="time-ico"></i><span id="last_open" style="font-size: 16px; color: #eb2b2a;">等待开奖</span></div>
+                        <div class="wait-lot"><span id="last_open" style="font-size: 16px; color: #eb2b2a;">等待开奖</span></div>
                     </div>
                     <div class="dat-time">
                         <p>距<span id="current_period"></span>期<span id="current_period_status"></span></p>
@@ -454,16 +454,6 @@ $(function () {
     loadBetList();
 })
 
-var hiddenProperty = 'hidden' in document ? 'hidden' :    
-    'webkitHidden' in document ? 'webkitHidden' :    
-    'mozHidden' in document ? 'mozHidden' :    
-    null;
-var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
-var onVisibilityChange = function(){
-	console.log("onVisibilityChange");
-		w.Emit("7","get");
-}
-document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 //$('span#username').text(username); 
 	$(function () {
 	w = new Ws("ws://" + host + "/my_endpoint");
@@ -477,14 +467,14 @@ document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 
 	w.On("validate", function (message) {
 		if (message=="ok"){
-			w.Emit("7","get");
+			w.Emit("getOpenData","7");
 		}else{
 			//w.Emit("balance","get");
 			location.href = '/index/login.html?platform='+platform;
 		}
 	});
 	
-	w.On("7", function (message) {
+	w.On("getOpenData", function (message) {
 		console.log(message);
 		var obj = JSON.parse(message);  
 		if (obj.code!==200){
@@ -496,7 +486,18 @@ document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 		$('span#current_period').text(obj.data.current_period);
 		$('span#current_period_status').text(obj.data.current_period_status);
 		//$('span#time_m1').text('3'); 
-		setLeaveTimer(obj.data.timeleft,"1");
+		setLeaveTimer(obj.data.timeleft,"7");
 	});
+	
+	var hiddenProperty = 'hidden' in document ? 'hidden' :    
+    'webkitHidden' in document ? 'webkitHidden' :    
+    'mozHidden' in document ? 'mozHidden' :    
+    null;
+var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+var onVisibilityChange = function(){
+	console.log("onVisibilityChange");
+		w.Emit("getOpenData","7");
+}
+document.addEventListener(visibilityChangeEvent, onVisibilityChange);
 })
 </script>

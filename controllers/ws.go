@@ -7,6 +7,7 @@ import (
 	"cp33/services/user"
 	"fmt"
 	"regexp"
+	"strconv"
 
 	"github.com/kataras/iris/websocket"
 )
@@ -94,26 +95,18 @@ func WsMain(c websocket.Connection) {
 		}
 	})
 
-	c.On("1", func(message string) { //重庆时时彩
+	c.On("getOpenData", func(message string) {
 		if c.GetValue(c.ID()) == nil {
 			return
 		}
-		c.Leave("1")
-		c.Join("1")
-
-		result := servicesLotto.OpenInfo(1)
-		c.Emit("1", &result)
-	})
-
-	c.On("7", func(message string) { //新疆时时彩
-		if c.GetValue(c.ID()) == nil {
+		c.Leave(message)
+		c.Join(message)
+		intMessage, err := strconv.Atoi(message)
+		if err != nil {
 			return
 		}
-		c.Leave("7")
-		c.Join("7")
-
-		result := servicesLotto.OpenInfo(7)
-		c.Emit("7", &result)
+		result := servicesLotto.OpenInfo(intMessage)
+		c.Emit("getOpenData", &result)
 	})
 
 	c.On("logout", func(message string) {
@@ -131,8 +124,8 @@ func WsMain(c websocket.Connection) {
 	})
 }
 
-func BroadcastSame(Conn *map[websocket.Connection]bool, room, gate *int, m interface{}) {
+func BroadcastSame(Conn *map[websocket.Connection]bool, room *int, gate string, m interface{}) {
 	for c := range *Conn {
-		c.To(string(*room)).Emit(string(*gate), m)
+		c.To(string(*room)).Emit(gate, m)
 	}
 }

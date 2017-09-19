@@ -317,7 +317,7 @@ body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-y:visible!important;ov
 .lot-time,.dat-time { width:50%; background: #fff; border-right:1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; float: left; height:60px; text-align: center; padding:5px; box-sizing: border-box; font-size:80%; overflow: hidden; }
 
 .time-ico { background: url(../images/betting/touzhu_pic_18.png) no-repeat center; margin-left: -15px; height: 16px; width:16px; background-size:16px 16px; padding:0px 25px 0 0;}
-.wait-lot {  font-size:120%; margin-top: 8px;}
+.wait-lot {  font-size:120%; margin-top: 0px;}
 .wait-lot10 { margin-top: 8px;   }
 .wait-lot11 { margin-top: 0px; text-align: left; }
 .lot-tip { overflow: hidden; }

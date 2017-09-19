@@ -11,7 +11,7 @@ func DataInNotice(ctx iris.Context) {
 	issue, _ := ctx.Params().GetInt("issue")
 	gameId, _ := ctx.Params().GetInt("gameID")
 	result := servicesLotto.OpenInfo(gameId)
-	BroadcastSame(&models.WsConn, &gameId, &gameId, &result)
+	BroadcastSame(&models.WsConn, &gameId, "getOpenData", &result)
 	//fmt.Println("DataInNotice  gameId:", gameId, "	issue:", issue)
 	servicesLotto.EndLottery(gameId, issue, ctx.RemoteAddr())
 

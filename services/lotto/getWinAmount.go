@@ -13,7 +13,7 @@ import (
 func (endBets *endBets) dingWeiDan37(i *int, dbBetPrize *float64) {
 	var intBetCount int //中奖注数
 	tmpBetCodeSplit := strings.Split((*endBets.bets)[*i].BetCode, "|")
-	for j := 0; len(tmpBetCodeSplit) == len(endBets.dataSplit) && j < len(tmpBetCodeSplit); j++ {
+	for j := 0; j < len(tmpBetCodeSplit); j++ {
 		tmpBetCodeOne := regexp.MustCompile(`([0-9]+)`).FindAllString(tmpBetCodeSplit[j], '&')
 		for ii := 0; ii < len(tmpBetCodeOne); ii++ {
 			if tmpBetCodeOne[ii] == endBets.dataSplit[j] {
@@ -29,7 +29,7 @@ func (endBets *endBets) zhiXuanFuShi(i *int, dbBetPrize *float64, start, end int
 	tempBetCodeSplit := strings.Split((*endBets.bets)[*i].BetCode, "|")
 	arrayCount := make([][]string, end)
 	for k := start; k < end; k++ {
-		arrayCount[k-start] = regexp.MustCompile(`[0-9]{1}`).FindAllString(tempBetCodeSplit[k-start], -1)
+		arrayCount[k-start] = regexp.MustCompile(`[0-9]+`).FindAllString(tempBetCodeSplit[k-start], -1)
 		for j := 0; j < len(arrayCount[k-start]); j++ {
 			if endBets.dataSplit[k] == arrayCount[k-start][j] {
 				if k == end-1 { //中了
@@ -320,8 +320,8 @@ func (endBets *endBets) renYiZuXuanFuShi(i *int, dbBetPrize *float64, combArr *m
 			(*endBets.bets)[*i].WinAmount += common.Round(*dbBetPrize) * common.Round((*endBets.bets)[*i].BetEachMoney)
 		}
 	}
-
 }
+
 func (endBets *endBets) re4ZuXuan(i *int, dbBetPrize *float64, combArr *map[int][]int, left, right string, leftMatch, rightMatch int) {
 	leftSplit := strings.Split(left, "&")
 	rightSplit := strings.Split(right, "&")
@@ -567,8 +567,11 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 	betRewardMoney = common.Round((*endBets.bets)[*i].BetMoney * (*endBets.bets)[*i].BetReward)
 
 	switch (*endBets.bets)[*i].PlayId {
-	case 1, 7, 8, 11, 9, 12, 4, 2, 13, 14, 15:
+	case 1, 7, 8, 11, 9, 12, 4, 2, 13, 14, 15, 16, 17:
 		switch (*endBets.bets)[*i].SubId {
+		case 222, 227: //pk10 前1 定位胆
+			endBets.dingWeiDan37(i, &dbBetPrize)
+			return
 		case 37:
 			endBets.dingWeiDan37(i, &dbBetPrize)
 			return
@@ -641,11 +644,17 @@ func (endBets *endBets) getWinAmount(i *int) (betRewardMoney float64) { //获取
 				endBets.houSanZuSanFuShi(i, &dbBetPrize, 0, 3)
 			}
 			return
-		case 46: //前2 组选复式
+		case 46, 223: //前2 组选复式  pk10前二
 			if endBets.dataSplit[0] == endBets.dataSplit[1] {
 				return
 			}
 			endBets.zuXuanFuShi(i, &dbBetPrize, 0, 2)
+			return
+		case 225: //前3 pk10
+			if endBets.dataSplit[0] == endBets.dataSplit[1] || endBets.dataSplit[0] == endBets.dataSplit[2] || endBets.dataSplit[1] == endBets.dataSplit[2] {
+				return
+			}
+			endBets.zuXuanFuShi(i, &dbBetPrize, 0, 3)
 			return
 		case 97: //后三 组选和值 ，和值3 开奖号码：后三位 003 中第一个赔率，012中第二个赔率
 			if endBets.dataSplit[2] == endBets.dataSplit[3] && endBets.dataSplit[3] == endBets.dataSplit[4] && endBets.dataSplit[2] == endBets.dataSplit[4] {

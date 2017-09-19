@@ -86,6 +86,58 @@ func getDxdsCount(betCode string, arrayLenght int) int { //大小单双
 	return count
 }
 
+func getCount223(betCode string, arrayLenght int) int {
+	tempBetCodeSplit := strings.Split(betCode, "|")
+	if len(tempBetCodeSplit) != arrayLenght {
+		return 0
+	}
+	arrayCount := make([][]string, arrayLenght)
+	for iCount := 0; iCount < arrayLenght; iCount++ {
+		arrayCount[iCount] = regexp.MustCompile(`[0-9]+`).FindAllString(tempBetCodeSplit[iCount], -1)
+	}
+	count := 1
+	for iCount := 0; iCount < arrayLenght; iCount++ {
+		count = len(arrayCount[iCount]) * count
+	}
+
+	for j := 0; j < len(arrayCount[0]); j++ {
+		for k := 0; k < len(arrayCount[1]); k++ {
+			if arrayCount[0][j] == arrayCount[1][k] {
+				count -= 1
+				break
+			}
+		}
+	}
+
+	return count
+}
+
+func getCount225(betCode string, arrayLenght int) int {
+	tempBetCodeSplit := strings.Split(betCode, "|")
+	if len(tempBetCodeSplit) != arrayLenght {
+		return 0
+	}
+	arrayCount := make([][]string, arrayLenght)
+	for iCount := 0; iCount < arrayLenght; iCount++ {
+		arrayCount[iCount] = regexp.MustCompile(`[0-9]+`).FindAllString(tempBetCodeSplit[iCount], -1)
+	}
+	count := 1
+	for iCount := 0; iCount < arrayLenght; iCount++ {
+		count = len(arrayCount[iCount]) * count
+	}
+	for i := 0; i < len(arrayCount[0]); i++ {
+		for j := 0; j < len(arrayCount[1]); j++ {
+			for k := 0; k < len(arrayCount[2]); k++ {
+				if arrayCount[0][i] == arrayCount[1][j] || arrayCount[0][i] == arrayCount[2][k] || arrayCount[1][j] == arrayCount[2][k] {
+					count--
+				}
+			}
+		}
+	}
+
+	return count
+}
+
 func getNumCount(betCode string, arrayLenght int) int {
 	tempBetCodeSplit := strings.Split(betCode, "|")
 	arrayCount := make([][]string, arrayLenght)
@@ -301,15 +353,22 @@ func PostBet(ctx iris.Context) {
 		tmpF64BetCount, _ = strconv.ParseFloat(strconv.Itoa(intBetCount), 3) //post上来的下注数
 		var tempCount int                                                    //统计投注号码得到的总注数
 		switch intPlayId {                                                   //intPlayId为玩法组
-		case 1, 7, 8, 11, 9, 12, 4, 2, 13, 14: //定位胆,五星,四星,后三,前三,前二,不定位,大小单双,任二,任三
+		case 1, 7, 8, 11, 9, 12, 4, 2, 13, 14, 16, 17: //定位胆,五星,四星,后三,前三,前二,不定位,大小单双,任二,任三
 			switch intSubId {
-			case 37, 101, 67, 113, 115: //定位胆 1, 后三、前三和值尾数 11、9,前三、后三一码不定位4
-				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
+			case 37, 101, 67, 113, 115, 227: //定位胆 1, 后三、前三和值尾数 11、9,前三、后三一码不定位4
+				tempStrSumCount = regexp.MustCompile(`[0-9]+`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
+				tempCount = len(tempStrSumCount)
+			case 222: //北京pk10 直选复式
+				tempStrSumCount = regexp.MustCompile(`[0-9]{2}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = len(tempStrSumCount)
 			case 107: //5星直选复式 7
 				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], 5)
 			case 105: //4星直选复式 8
 				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], 4)
+			case 223: //北京pk10 前二直选复式
+				tempCount = getCount223(postBet.Bet_list[i]["betCode"], 2)
+			case 225: //北京pk10 前三直选复式
+				tempCount = getCount225(postBet.Bet_list[i]["betCode"], 3)
 			case 88, 54: //后三直选复式 11 ,前三 直选复式9
 				tempCount = getNumCount(postBet.Bet_list[i]["betCode"], 3)
 			case 90, 56: //后三直选和值 11,前三 直选和值9
@@ -332,7 +391,7 @@ func PostBet(ctx iris.Context) {
 				}
 				tempCount2 := len(tempStrSumCount[1]) * len(tempStrSumCount[2])
 				tempCount = tempCount + tempCount2 + len(tempStrSumCount[2])
-				fmt.Println(tempCount)
+				//fmt.Println(tempCount)
 			case 93, 59: //后三、前三组三复式11、9
 				tempStrSumCount = regexp.MustCompile(`[0-9]{1}`).FindAllString(postBet.Bet_list[i]["betCode"], -1)
 				tempCount = len(tempStrSumCount) * (len(tempStrSumCount) - 1)
