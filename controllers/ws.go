@@ -48,7 +48,6 @@ func checkIsLogin(l *models.LoginCookie) bool {
 
 func WsMain(c websocket.Connection) {
 	c.On("validate", func(message string) {
-		//Println(message)
 		//权限检查开始。。。start
 		if c.GetValue(c.ID()) == nil {
 			arrayStr := regexp.MustCompile(`(platform=)([a-z0-9]{8})((\-[a-z0-9]{4}){3})(\-[a-z0-9]{12})(&username=)(.*)(&enclientpasswd=)(.*)`).FindStringSubmatch(message)
@@ -118,7 +117,6 @@ func WsMain(c websocket.Connection) {
 
 	c.OnDisconnect(func() {
 		models.WsMutex.Lock()
-		//c.SetValue(c.ID(), nil)
 		delete(models.WsConn, c)
 		models.WsMutex.Unlock()
 	})

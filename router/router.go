@@ -60,7 +60,8 @@ func init() {
 	helpParty.Get("/promotion.html", func(ctx iris.Context) { ctx.View("help/promotion.html") }) //优惠信息页面
 
 	betParty := models.App.Party("/bet")                                               //彩票信息展示及选号页面相关
-	betParty.Get("/pk10.html", func(ctx iris.Context) { ctx.View("bet/pk10.html") })   //重庆时时彩投注页面
+	betParty.Get("/pk10.html", func(ctx iris.Context) { ctx.View("bet/pk10.html") })   //北京pk10投注页面
+	betParty.Get("/tjssc.html", func(ctx iris.Context) { ctx.View("bet/tjssc.html") }) //天津时时彩投注页面
 	betParty.Get("/cqssc.html", func(ctx iris.Context) { ctx.View("bet/cqssc.html") }) //重庆时时彩投注页面
 	betParty.Get("/xjssc.html", func(ctx iris.Context) { ctx.View("bet/xjssc.html") }) //新疆时时彩投注页面
 

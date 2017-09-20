@@ -53,7 +53,7 @@ func OpenInfo(t int) *models.Result { // 上一期开奖信息及当前可购买
 	var d *models.Data
 	d = OpenData(t, -1, 1, -1)
 	if d == nil {
-		fmt.Println("OpenInfo 33")
+		fmt.Println("OpenInfo 56")
 		lastPeriod = 0
 	} else {
 		lastOpen = d.Data
@@ -75,7 +75,7 @@ func OpenInfo(t int) *models.Result { // 上一期开奖信息及当前可购买
 		return &models.Result{Code: 404, Message: "系统错误", Data: nil}
 	}
 	switch t {
-	case 1, 7: //重庆时时彩、西藏时时彩
+	case 1, 7, 4: //重庆时时彩、西藏时时彩、天津时时彩
 		tmpCurrentPeriod, _ := strconv.Atoi(time.Now().Format("060102"))
 		tmpCurrentPeriod = tmpCurrentPeriod * 1000
 		currentPeriod = tmpCurrentPeriod + dt.ActionNo
@@ -91,7 +91,7 @@ func OpenInfo(t int) *models.Result { // 上一期开奖信息及当前可购买
 	periodCount := GetCountDataTimes(&t) //每天有几期
 	lastPeriod = currentPeriod - 1
 	switch t { //防止上去出现000期
-	case 1, 7: //重庆时时彩、西藏时时彩
+	case 1, 7, 4: //重庆时时彩、西藏时时彩、天津时时彩
 		tempNum := common.FindNum(lastPeriod, 1) + common.FindNum(lastPeriod, 2)*10 + common.FindNum(lastPeriod, 3)*100
 		if tempNum == 0 {
 			tmpLastPeriod, _ := strconv.Atoi(time.Now().AddDate(0, 0, -1).Format("060102"))
