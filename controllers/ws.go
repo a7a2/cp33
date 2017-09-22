@@ -6,7 +6,7 @@ import (
 	"cp33/services/lotto"
 	"cp33/services/user"
 	"fmt"
-	"regexp"
+	//	"regexp"
 	"strconv"
 
 	"github.com/kataras/iris/websocket"
@@ -50,20 +50,16 @@ func WsMain(c websocket.Connection) {
 	c.On("validate", func(message string) {
 		//权限检查开始。。。start
 		if c.GetValue(c.ID()) == nil {
-			arrayStr := regexp.MustCompile(`(platform=)([a-z0-9]{8})((\-[a-z0-9]{4}){3})(\-[a-z0-9]{12})(&username=)(.*)(&enclientpasswd=)(.*)`).FindStringSubmatch(message)
-			var l models.LoginCookie
-			//fmt.Println(len(arrayStr), "	  ", len(arrayStr[9]))
-			if len(arrayStr) == 10 && len(arrayStr[9]) >= 100 {
-				l.Platform = arrayStr[2] + arrayStr[3] + arrayStr[5]
-				l.Username = arrayStr[7]
-				l.Enclientpasswd = arrayStr[9]
-				if checkIsLogin(&l) == true {
-					//fmt.Println("ws 过验证")
-					c.SetValue(c.ID(), l)    //通过
-					c.Emit("validate", "ok") //通过
-					return
-
-				}
+			//arrayStr := regexp.MustCompile(`(platform=)([a-z0-9]{8})((\-[a-z0-9]{4}){3})(\-[a-z0-9]{12})(&username=)(.*)(&enclientpasswd=)(.*)`).FindStringSubmatch(message)
+			l := models.LoginCookie{
+				Platform:       c.Context().GetCookie("platform"),
+				Username:       c.Context().GetCookie("username"),
+				Enclientpasswd: c.Context().GetCookie("enclientpasswd"),
+			}
+			if checkIsLogin(&l) == true {
+				c.SetValue(c.ID(), l)    //通过
+				c.Emit("validate", "ok") //通过
+				return
 			}
 			//fmt.Println("ws 未通过验证")
 			c.Emit("validate", "no ok!")
@@ -71,7 +67,6 @@ func WsMain(c websocket.Connection) {
 		}
 		//权限检查结束。。。end
 		//fmt.Println("ws 通过验证")
-
 		c.Emit("validate", "ok")
 		return
 	})

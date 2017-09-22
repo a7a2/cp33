@@ -454,9 +454,7 @@ $(function () {
     loadBetList();
 })
 
-//$('span#username').text(username); 
 	$(function () {
-	w = new Ws("ws://" + host + "/my_endpoint");
 	w.OnConnect(function () {
 		w.Emit("validate", uvData);
 	});
@@ -475,7 +473,7 @@ $(function () {
 	});
 	
 	w.On("getOpenData", function (message) {
-		console.log(message);
+		//console.log(message);
 		var obj = JSON.parse(message);  
 		if (obj.code!==200){
 			 	msgAlert(obj.message);
@@ -495,7 +493,6 @@ $(function () {
     null;
 var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
 var onVisibilityChange = function(){
-	console.log("onVisibilityChange");
 		w.Emit("getOpenData","7");
 }
 document.addEventListener(visibilityChangeEvent, onVisibilityChange);

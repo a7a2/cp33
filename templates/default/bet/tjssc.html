@@ -454,9 +454,8 @@ function showStep(step) {
 $(function () {
     loadBetList();
 })
-//$('span#username').text(username); 
+
 	$(function () {
-	w = new Ws("ws://" + host + "/my_endpoint");
 	w.OnConnect(function () {
 		w.Emit("validate", uvData);
 	});

@@ -265,34 +265,26 @@ var cval=getCookie(name);
 if(cval!=null)
 document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 }
-//$('span#username').text(username); 
-	$(function () {
-	w = new Ws("ws://" + host + "/my_endpoint");
+
+$(function () {
 	w.OnConnect(function () {
 		w.Emit("validate", uvData);
-		//console.log("Websocket connection established");
-	});
-
-	w.OnDisconnect(function () {
-		setTimeout(function(){top.document.location.reload();},5000);  
 	});
 
 	w.On("validate", function (message) {
 		if (message=="ok"){
 			$('span#username').text(username); 
 			w.Emit("balance","get");
-		}else{
-			//w.Emit("balance","get");           
+		}else{           
 			location.href = '/index/login.html?platform='+getCookie("platform");
-			//location.href = '/index/login.html?platform='+platform;
 		}
 	});
 	
 	w.On("balance", function (message) {
-		console.log(message);
 		$('span#balance').text(message);
 	});
 })
+
     $('#indexlog_out').click(function() {
         msgConfirm("您确定退出登录么？");
     });
@@ -305,7 +297,6 @@ document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 	}
 
     $('a.mine-refresh1').click(function() {
-		//$('span#balance').text("0");
 		w.Emit("balance","get");
     });
 

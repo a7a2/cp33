@@ -9,6 +9,7 @@ var websocketMessageSeparatorLen = websocketMessageSeparator.length;
 var websocketMessagePrefixAndSepIdx = websocketMessagePrefixLen + websocketMessageSeparatorLen - 1;
 var websocketMessagePrefixIdx = websocketMessagePrefixLen - 1;
 var websocketMessageSeparatorIdx = websocketMessageSeparatorLen - 1;
+
 function getCookie(c_name)
 {
 if (document.cookie.length>0)
@@ -24,6 +25,7 @@ if (document.cookie.length>0)
   }
 return ""
 }
+
 var username=getCookie("username");
 var platform=getCookie("platform");
 var	enclientpasswd=getCookie("enclientpasswd");
@@ -233,3 +235,7 @@ var Ws = (function () {
     };
     return Ws;
 }());
+w = new Ws("ws://" + host + "/my_endpoint");
+w.OnDisconnect(function () {
+		setTimeout(function(){top.document.location.reload();},5000);  
+});

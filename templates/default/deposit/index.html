@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name=apple-mobile-web-app-capable content=yes />
+    <link rel="stylesheet" href="/wap/statics/css/jquery-ui.min.css?ver=5.0_10" type="text/css">
+    <link rel="stylesheet" href="/wap/statics/css/global.css?ver=5.0_10" type="text/css">
+    <script src="/wap/statics/js/jquery.min.js?ver=5.0_10"></script>
+    <script src="/wap/statics/js/jquery-ui.min.js?ver=5.0_10"></script>
+    <script src="/wap/statics/js/iscro-lot.js?ver=5.0_10"></script>
+	<script src="/wap/statics/js/iris-ws.js" type="text/javascript"></script>
+    <script>
+        isLogin = true;
+    </script>
+    <script>
+    	$(function(){
+    		var _padding = function()
+    		{
+    			try{
+	    			var l = $("body>.header").height();
+		    		if($("body>.lott-menu").length>0)
+		    		{
+		    			l += $("body>.lott-menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingTop",l+"px");
+	    		}catch(e){}
+	    		try{
+		    		if($("body>.menu").length>0)
+		    		{
+		    			var l = $("body>.menu").height();
+		    		}
+		    		$("#wrapper_1").css("paddingBottom",l+"px");
+	    		}catch(e){}
+    		};
+    		(function(){
+    			_padding();
+    		})();
+    		$(window).bind("load",_padding);
+    		
+    	});
+    </script>
+    <!-- hide address bar -->
+    <title>充值</title>
+</head>
+<body class="login-bg" onload='loaded()'>
+<div class="header">
+    <div class="headerTop">
+        <div class="ui-toolbar-left">
+            <button id="reveal-left">reveal</button>
+        </div>
+        <h1 class="ui-toolbar-title">充值</h1>
+        <div class="ui-bett-right">
+            <a class="bett-head" href="javascript:;"></a>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper_1" class="scorllmain-content scorll-order nobottom_bar">
+    <div class="sub_ScorllCont">
+        <div class="rech-top">
+            <div class="rech-top-left">用户名：<span class="red">admin0</span></div>
+            <div class="rech-top-right"><a class="fr" href="javascript: getBalance();"><img src="/wap/statics/images/cz_img_03.png"></a>账户余额：<span class="red" id="balance"></span>元</div>
+        </div>
+        <div class="rech-money">
+            <!--<button>10</button>
+            <button>100</button>
+            <button>200</button>
+            <button class="on">500</button>-->
+            <span class="fl">请输入充值金额：</span>
+            <input type="tel" inputmode="numeric" pattern="[0-9]" placeholder="请输入充值金额" id="money" value="1"/>
+            <span class="fl">&nbsp;元</span>
+        </div>
+        <div class="rech-tit">选择充值方式</div>
+        <div class="rech-box">
+            <div class="rech-title">
+                <a class="on" href="javascript:;" data-type="wechat">微信</a>
+                <a href="javascript:;" data-type="alipay">支付宝</a>
+                <a href="javascript:;" data-type="online">在线支付</a>
+                <a href="javascript:;" data-type="bank">银行转账</a>
+            </div>
+            <div class="rech_cont rech_wechat">
+                <!-- 微信充值 -->
+                <ul class="wechat-box">
+                </ul>
+            </div>
+            <div class="rech_cont rech_alipay" style="display: none;">
+                <!-- 支付宝充值 -->
+                <ul class="wechat-box">
+                </ul>
+            </div>
+            <div class="rech_cont rech_online" style="display: none;">
+                <!-- 在线充值 -->
+                <ul class="wechat-box">
+                </ul>
+            </div>
+            <div class="rech_cont rech-bank" id="bank" style="display: none; ">
+                <!-- 银行转账充值 -->
+               <!-- <select id="bank" style="display:none; width: 100%;">
+                </select> -->
+            </div>
+            <div id="pay_list_maint" class="wechat-important" style="display: none;">
+                <img src="/wap/statics/images/cz_img_14.png">
+                <div class="pay-sorry">该充值方式正在维护中，给您带来不便，敬请谅解！<br>
+                我们将尽快恢复服务，您可以选择其他支付方式，谢谢。
+                </div>
+            </div>
+            <div id="pay_list_stop" class="wechat-important" style="display: none;">
+                <img src="/wap/statics/images/cz_img_14.png">
+                <div class="pay-sorry">
+                该支付方式未设置，给您带来不便，敬请谅解！<br>
+                您可以选择其他支付方式，谢谢！
+                </div>
+            </div>
+        </div>
+
+        <button id="next_btn_1" class="charge-btn">下一步</button>
+        <div id="next_btn_2" style="background:#fff; display: none; position: fixed; z-index: 999; left: 0px; right: 0px; bottom: 0px; padding:0 0 20px"><button class="charge-btn">下一步</button></div>
+        <div class="charge">
+            <div class="charge-tips">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 菜单右侧tips -->
+<div class="beet-rig" style="height: 85px;" hidden="">
+    <ul>
+        <li><a href="/mine/depositList.html">充值记录</a></li>
+        <li><a href="http://www.cp33kf.com/" target="_blank">在线客服</a></li>
+    </ul>
+</div>
+
+<!-- 加载中 -->
+<div class="loading" style="display: none"></div>
+<div class="loading-bg" style="display: none"></div>
+
+<script>
+    function loadingShow(tips,bg) {
+        if(tips == ""||typeof(tips) == "undefined"){
+            $(".loading").css("left","50%");
+            $(".loading").css("margin-left","-2em");
+            $(".loading").html("加载中...");
+        }else{
+            $(".loading").html(tips);
+            $(".loading").css("left",Math.ceil(($(document).width() - $(".loading").width())/2));
+            $(".loading").css("margin-left",0);
+        }
+
+        bg   = (bg == ""||typeof(bg) == "undefined")?1:0;
+        if (bg == 1){
+            $(".loading-bg").show();
+        }else{
+            $(".loading-bg").hide();
+        }
+        $(".loading").show();
+    }
+    function loadingHide() {
+        $(".loading").hide();
+        $(".loading-bg").hide();
+    }
+</script>
+
+<style>
+    .center {text-align: center}
+</style>
+
+<div class="beet-odds-tips round" id="tip_pop" style="display: none; height:130px;">
+    <div class="beet-odds-info f100">
+        <div class="beet-money" id="tip_pop_content" style="font-size: 120%; margin-top: 15px; color:#666;">
+            号码选择有误
+        </div>
+    </div>
+    <div class="beet-odds-info text-center">
+        <button class="btn-que" style="width: 100%;" onclick="tipOk()"><span>确定</span></button>
+    </div>
+</div>
+
+<div id="tip_bg" class="tips-bg" style="display: none;"></div>
+
+<script>
+    var func;
+    function tipOk() {
+        $('#tip_pop').hide();
+        $('#tip_bg').hide();
+        if (/系统维护/g.test($('div#tip_pop_content').html())) {
+            location.href = '/index/index.html';
+            return;
+        }
+        if (typeof(func) == "function"){
+            func();
+            func = "";
+        }else{
+            if (typeof(doTipOk) == "function") {
+                doTipOk();
+            }
+        }
+    }
+    function msgAlert (msg,funcParm) {
+        $('div#tip_pop_content').html(msg);
+        $('div#tip_pop').show();
+        $('div#tip_bg').show();
+        func = (funcParm == ""||typeof(funcParm) != "function")?'':funcParm;
+    }
+</script>
+
+</body>
+</html>
+
+<script>
+    //获得焦点
+    $('#money').focus(function() {
+        if ($(this).val() == 1) {
+            $(this).val('');
+        }
+    });
+    //失去焦点
+    $('#money').blur(function() {
+        if ($(this).val().trim() == '' || $(this).val().trim() == 0) {
+            $(this).val(1);
+        }
+    });
+    //正确输入金额
+    $('#money').keyup(function() {
+        var arr = /^([0-9]{0,8})[0-9]{0,}$/g.exec($(this).val());
+        var tmp = '';
+        if (/^[0-9]{0,}$/g.test($(this).val())) {
+            tmp = (arr[1] != null && arr[1] != undefined) ? arr[1] : '';
+        }
+        var arr = /^[0]([0-9][0-9\.]*)$/g.exec(tmp);
+        if (/^[0][0-9][0-9\.]*$/g.test(tmp)) {//处理前面的数字0
+            tmp = arr[1];
+        }
+        $(this).val(tmp);
+    });
+</script>
+
+<script>
+    $('div.rech-title a').click(function() {
+        $('div.rech-title a').removeClass('on');
+        $(this).addClass('on');
+        payType = $(this).data('type');
+        $('div.rech_cont').hide();
+        $('div.rech_'+payType).show();
+        //
+        $('#pay_list_maint').hide();
+        $('#pay_list_stop').hide();
+        nextStep();
+        getPayList();
+    });
+</script>
+
+<script>
+    $('button.charge-btn').click(function() {
+        if ($('#money').val() == '' || $('#money').val() == 0) {
+            msgAlert('请输入金额！');
+            return;
+        }
+        var rechType = $('div.rech-title a.on').data('type');
+        if (rechType == 'bank') {//公司入款
+
+            var money   = $('#money').val();
+            var key     = $('i.choose-green').data('key');
+            var bank    = $('div.charge-bank i.choose-green').parent().find('span.rec_bank').text();
+            var name    = $('div.charge-bank i.choose-green').parent().find('span.rec_name').text();
+            var account = $('div.charge-bank i.choose-green').parent().find('span.rec_account').text();
+            var addr    = $('div.charge-bank i.choose-green').parent().find('span.rec_addr').text();
+            var oid     = $('div.charge-bank i.choose-green').parent().find('span.rec_oid').text();
+            //参数用来显示在充值确认页面
+            var param = 'money='+money+'&key='+key+'&bank='+bank+'&name='
+                +name+'&account='+account+'&addr='+addr+'&oid='+oid;
+            location.href = '/deposit/bankConfirm.html?'+param;
+        } else if (rechType == 'wechat') {
+            getPayMoney();
+        } else if (rechType == 'alipay') {
+            getPayMoney();
+        } else if (rechType == 'online') {
+            var url = '/deposit/online.html?code='+payid+'&payid='+payidol+'&money='+$('#money').val();
+            getTarget(url);
+        }
+    });
+</script>
+
+<script>
+    var nowTime = '1506060808';
+    //判断金额是否超出范围。微信、支付宝
+    function getPayMoney() {
+        nowTime = new Date().getTime() + 0;
+        loadingShow();
+        $.ajax({
+            url: '/deposit/ajaxPayMoney.html',
+            type: 'POST',
+            async:false,
+            dataType: 'json',
+            data: {//默认微信
+                'paytype' : payType,
+                'money' : $('#money').val(),
+                'payid' : payid,
+                'payflag' : payflag,
+                'time' : nowTime
+            },
+            timeout: 30000,
+            success: function (data) {
+                loadingHide();
+                if (data.Result == false) {
+                    msgAlert(data.Desc);
+                    return;
+                }
+                //var txtChk = (data.iPayID.toString().indexOf('WEIXIN_') > -1 || data.iPayID.toString().indexOf('ALIPAY_') > -1) ? '0' : '1';
+                var payUrl = data.sPayUrl.replace(/#/g, '_at_');
+                payUrl = encodeURIComponent(data.sPayUrl);
+                var txtChk = (payflag == 1 || payflag == 3) ? '0' : '1';
+                var param = 'paytype='+payType+'&payid='+data.iPayID+'&payflag='+payflag+'&needchk='+txtChk+'&payurl='+payUrl+'&oid='+data.sOrderId+'&money='+data.fAmount+'&time='+nowTime;
+                var direct = 0;
+                var directtype = 1;
+                if (data.iDirect == 1 || payflag == 3) {//可以微信/支付宝支付
+                    direct = 1;
+                    directtype = data.iDirectType;
+                    //立即跳转
+                    //getTarget(data.sPayUrl.replace(/_and_/g, '&'));
+                    //return;
+                }
+                param += '&direct='+direct+'&directtype='+directtype;
+                var url = '';
+                if (payType == 'wechat') {
+                    url = '/deposit/wechat.html?'+'wechatname='+data.sWechatName+'&'+param;
+                } else if (payType == 'alipay') {
+                    url = '/deposit/alipay.html?'+param;
+                }
+                //url = encodeURIComponent(url);
+                if (direct == 1) {//打开新窗口
+                    getTarget(url);
+                    return;
+                } else {
+                    location.href = url;
+                }
+            }
+        });
+    }
+</script>
+
+<script>
+    resUrl = '/wap/statics';
+    payType = 'wechat';
+    //获得支付列表
+    function getPayList() {
+        loadingShow();
+        $.ajax({
+            url: '/deposit/ajaxPayList.html',
+            type: 'POST',
+            dataType: 'json',
+            data: {//默认微信
+                'paytype' : payType
+            },
+            timeout: 30000,
+            success: function (data) {
+                loadingHide();
+                /*if (data.Result == false) {
+                    msgAlert(data.Desc);
+                    reLogin(data.Desc);
+                    return;
+                }*/
+                $('#pay_list_maint').hide();
+                $('#pay_list_stop').hide();
+                if (data.Enabled == 0 || data.Result == false) {
+                    $('#pay_list_maint').show();
+                    $('div.charge-tips').html('');
+                    $('div.rech_cont ul').hide();
+                    $('div.rech_cont select').hide();
+                    $('button.charge-btn').hide();
+                    loaded();
+                    reLogin(data.Desc);
+                    return;
+                } else if (data.RecordCount == 0 || data.RecordCount == undefined) {
+                    $('#pay_list_stop').show();
+                    $('div.charge-tips').html('');
+                    $('div.rech_cont ul').hide();
+                    $('div.rech_cont select').hide();
+                    $('button.charge-btn').hide();
+                    loaded();
+                    return;
+                }
+                $('div.rech_cont ul').show();
+                $('div.rech_cont select').show();
+                $('button.charge-btn').show();
+                if (payType == 'wechat' || payType == 'alipay') {
+                    var txtHtml = '';
+                    var txtSelDisplay = 'block';
+                    var txtNotSelDisplay = 'none';
+                    var txtChk = '';
+                    for (var i = 0; i < data.RecordCount; i++) {
+                        var tmpTip = (data.Records[i].sPayDesc == '') ? '<br>' : '<p>' + data.Records[i].sPayDesc + '</p>';
+                        //txtChk = (data.Records[i].sPayName.indexOf('实时到账') > -1) ? '0' : '1';
+                        txtChk = (data.Records[i].iPayID.indexOf('WEIXIN_') > -1 || data.Records[i].iPayID.indexOf('ALIPAY_') > -1) ? '0' : '1';
+                        txtHtml += '<li data-payid="' + data.Records[i].iPayID + '" data-payflag="'+ data.Records[i].iFlag +'" data-needchk="'+ txtChk +'">'
+                            + '<a class="fr" href="javascript:;"><img class="imgsel" style="display: '+ txtSelDisplay +';" src="' + resUrl + '/images/cz_02.png"><img class="imgnotsel" style="display: '+ txtNotSelDisplay +';" src="' + resUrl + '/images/cz_01.png"></a>'
+                            + '<div class="rech-list-t">' + data.Records[i].sPayName + '</div>'
+                            + '<p>' + tmpTip + '</p>'
+                            + '</li>';
+                        if (i == 0) {//设置默认值
+                            payid = data.Records[i].iPayID;
+                            payflag = data.Records[i].iFlag;
+                            needchk = txtChk;
+                            txtSelDisplay = 'none';
+                            txtNotSelDisplay = 'block';
+                        }
+                    }
+                    var jq = 'ul.wechat-box';
+                    if (payType == 'alipay') {
+                        jq = 'ul.wechat-box';
+                    }
+                    $(jq).html(txtHtml);
+                    bindPayList();
+                } else if (payType == 'online') {
+                    var txtHtml = '';
+                    var txtSelDisplay = 'block';
+                    var txtNotSelDisplay = 'none';
+                    for (var i = 0; i < data.RecordCount; i++) {
+                        var tmpTip = '<br>';
+                        txtHtml += '<li data-payid="' + data.Records[i].sBankCode + '">'
+                            + '<a class="fr" href="javascript:;"><img class="imgsel" style="display: '+ txtSelDisplay +';" src="' + resUrl + '/images/cz_02.png"><img class="imgnotsel" style="display: '+ txtNotSelDisplay +';" src="' + resUrl + '/images/cz_01.png"></a>'
+                            + '<div class="rech-list-t">' + data.Records[i].sBankName + '</div>'
+                            + '<p>' + tmpTip + '</p>'
+                            + '</li>';
+                        if (i == 0) {//设置默认值
+                            payid = data.Records[i].sBankCode;
+                            txtSelDisplay = 'none';
+                            txtNotSelDisplay = 'block';
+                        }
+                    }
+                    payidol = data.iPayID;
+                    $('div.rech_online ul.wechat-box').html(txtHtml);
+                    bindPayList();
+                } else if (payType == 'bank' ) {
+                    var txtHtml = '';
+                    var chooseClass = '';
+                    for (var i = 0; i < data.RecordCount; i++) {
+                        if(i == 0){
+                            chooseClass = 'choose-green';
+                        }else{
+                            chooseClass = '';
+                        }
+                        txtHtml += '<div class="charge-bank">'
+                            +'<i data-key="'+data.Records[i].sBankPayKey+'" class="choose-ture '+chooseClass+'"></i>'
+                            +'<ul>'
+                            +'<li><span class="left">银行</span><span class="rec_bank">'+data.Records[i].sBankName+'</span></li>'
+                            +'<li><span class="left">收款人</span><span class="rec_name">'+data.Records[i].sReceiptsHuman+'</span></li>'
+                            +'<li><span class="left">汇款资讯</span><span class="rec_addr">'+data.Records[i].sBankAddr+'&nbsp;&nbsp;</span>'
+                            +'<span class="rec_account">'+data.Records[i].sBankNum+'</span>'
+                            +'<span class="rec_oid" style="display: none;">'+data.sOrderId+'</span>'
+                            +'</li>'
+                            +'</ul>'
+                            +'</div>';
+                    }
+                    $('#bank').show();
+                    $('#bank').html(txtHtml);
+                    bindPayList();
+                }
+                //$('div.charge-tips').html(data.Hint.replace(/\r\n/g,'<br>').replace('24小时提款', '24小时存款'));
+                nextStep();
+                loaded();
+            }
+        });
+    }
+</script>
+
+<script>
+    /*$(".rech_cont").on('click', 'ul.wechat-box li', function() {
+        $('ul.wechat-box li img.imgsel').hide();
+        $('ul.wechat-box li img.imgnotsel').show();
+        $(this).find('img.imgnotsel').hide();
+        $(this).find('img.imgsel').show();
+        payid = $(this).data('payid');
+        needchk = $(this).data('needchk');
+    });*/
+</script>
+
+<script>
+    payidol = '';
+    function bindPayList() {
+        //$(".rech_cont").on('click', 'ul.wechat-box li', function() {
+        $('ul.wechat-box li').bind('touchend', function () {
+            //event.preventDefault();
+            $('ul.wechat-box li img.imgsel').hide();
+            $('ul.wechat-box li img.imgnotsel').show();
+            $(this).find('img.imgnotsel').hide();
+            $(this).find('img.imgsel').show();
+            payid = $(this).data('payid');
+            payflag = $(this).data('payflag');
+            needchk = $(this).data('needchk');
+        });
+        $('div#bank div.charge-bank').bind('touchend', function () {
+            //event.preventDefault();
+            $(this).parent().find('i').removeClass('choose-green');
+            $(this).find('i').addClass('choose-green');
+        });
+    }
+</script>
+
+<script>
+    //累计投注总额，最近出款总额
+    function getBalance() {
+        $.ajax({
+            url: '/mine/ajaxCurBalance.html',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+            },
+            timeout: 30000,
+            success: function (data) {
+                if (data.Result == false) {
+                    msgAlert(data.Desc);
+                    return;
+                } else if (data.Result) {
+                    $('span#balance').text(data.fBalance);
+                    //$('span#wintotal').text(data.fWinTotal);
+                    //$('span#latewithdraw').text(data.fLatelyWithdraw);
+                }
+            }
+        });
+    }
+</script>
+
+<script>
+  //  $(function() {
+  //      getBalance();
+ //       getPayList();
+ //   });
+$(function () {
+	w.OnConnect(function () {
+		w.Emit("validate", uvData);
+	});
+
+	w.On("validate", function (message) {
+		if (message=="ok"){
+			w.Emit("balance","get");
+		}else{
+			location.href = '/index/login.html?platform='+platform;
+		}
+	});
+	
+	w.OnDisconnect(function () {
+		setTimeout(function(){top.document.location.reload();},5000);  
+	});
+
+	w.On("balance", function (message) {
+		$('#balance').text(message); 
+	});
+});
+</script>
+
+<script>
+    $(window).scroll(function() {
+        nextStep();
+    });
+    function nextStep() {
+        var winTop = $(window).scrollTop();
+        var btn1Top = $('#next_btn_1').offset().top;
+        var btn2Top = $('#next_btn_2').offset().top;
+        var winHeight = $(window).height();
+        if (winTop < (btn1Top - winHeight)) {//超出底部
+            $('#next_btn_2').show();
+        } else {
+            $('#next_btn_2').hide();
+        }
+        /*if (btn1Top > btn2Top && btn2Top > 0) {
+            if ($('button#next_btn_2').is(':hidden')) {
+                $('button#next_btn_2').show();
+            }
+        }*/
+    }
+    $(document).on('click', 'div.charge-bank', function() {
+        $('div.charge-bank i').removeClass('choose-green');
+        $(this).children('i').addClass('choose-green');
+    });
+</script>
+
+<script>
+    function getTarget(url) {
+        var el = document.createElement("a");
+        document.body.appendChild(el);
+        el.href = url;
+        el.target = '_blank';
+        el.click();
+        document.body.removeChild(el);
+    }
+</script>

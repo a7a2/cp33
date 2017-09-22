@@ -45,6 +45,9 @@ func init() {
 	indexParty.Get("/login.html", func(ctx iris.Context) { ctx.View("index/login.html") })       //登陆页面
 	indexParty.Get("/register.html", func(ctx iris.Context) { ctx.View("index/register.html") }) //注册页面
 
+	depositParty := models.App.Party("/deposit")                                               //存款
+	depositParty.Get("/index.html", func(ctx iris.Context) { ctx.View("deposit/index.html") }) //存款页面
+
 	mineParty := models.App.Party("/mine")                                                               //我的
 	mineParty.Get("/index.html", func(ctx iris.Context) { ctx.View("mine/index.html") })                 //个人中心
 	mineParty.Get("/betDetail.html", func(ctx iris.Context) { ctx.View("mine/betDetail.html") })         //投注记录详细
