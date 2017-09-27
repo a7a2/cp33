@@ -691,7 +691,7 @@ body,#wrapper_1{-webkit-overflow-scrolling:touch;overflow-y:visible!important;ov
 .rech-money span { font-size:80%}
 .rech-money button { height:32px; line-height: 32px; padding:0 10px; background: #f6f6f6; border:1px solid #ddd; float: left; margin-right:5px; outline: none; }
 .rech-money button.on { color: #fff; background: #ec2829; border:1px solid #d71617; }
-.rech-money input { height: 32px; line-height: 16px; padding-left: 5px; border:1px solid #ddd; width: 100px; float: left; font-size: 80%; }
+.rech-money input { height: 32px; line-height: 16px; padding-left: 5px; margin-right: auto; border:1px solid #ddd; float: left; font-size: 80%; }
 
 .rech-tit { height:40px; line-height: 40px; padding-left: 10px; }
 .rech-box { background: #fff; border:1px solid #ddd; border-width: 1px 0; border-bottom: none; }

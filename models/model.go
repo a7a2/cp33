@@ -275,30 +275,25 @@ type CoinLog struct {
 	Info       string    `sql:"type:character varying"`   //备注
 }
 
-type SessionRedis interface { //session
-	Load(string) interface{}
-	Update(string, map[string]interface{})
-}
-
 type BaseInfo struct { //基础信息
 	Platform string `form:"platform";json:"platform"`
 	Uuid     string `form:"uuid";json:"uuid"`
 }
 
-type Dept struct {
-	Name string
-	Data interface{}
+type PostMoneyIn struct { //post
+	Channel    int     `form:"channel";json:"channel"`
+	Money      float64 `form:"money";json:"money"`
+	PayAccount string  `form:"pay_account";json:"pay_account"`
 }
 
-var Ss map[string]interface{}
-
-func (self Dept) Update() {
-	Ss = make(map[string]interface{})
-	Ss[self.Name] = self.Data
-}
-
-func (self Dept) Load() interface{} {
-	//	Ss = make(map[string]interface{})
-	//	Ss[self.Name] = self.Data
-	return Ss[self.Name]
+type MoneyIn struct { //数据库
+	Id         int64     `sql:",pk,type:bigint"`
+	Uid        int       `sql:"type:integer"`
+	Channel    int       `sql:"type:smallint"`
+	Money      float64   `sql:"type:money"`
+	PayAccount string    `sql:"type:character varying"`
+	IsDelete   bool      `sql:"type:boolean"`
+	Success    bool      `sql:"type:boolean"`
+	Ctime      time.Time `sql:"type:time with time zone"`
+	Etime      time.Time `sql:"type:time with time zone"`
 }

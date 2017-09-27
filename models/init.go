@@ -45,6 +45,5 @@ func dodb() {
 }
 
 func init() {
-	Ss = make(map[string]interface{}) //session
 	dodb()
 }

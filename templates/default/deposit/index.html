@@ -65,22 +65,29 @@
             <div class="rech-top-left">用户名：<span class="red">admin0</span></div>
             <div class="rech-top-right"><a class="fr" href="javascript: getBalance();"><img src="/wap/statics/images/cz_img_03.png"></a>账户余额：<span class="red" id="balance"></span>元</div>
         </div>
+		<div class="rech-money">
+            <span class="fl">你的支付宝账号：</span>
+            <input type="text" inputmode="latin text" pattern="[\.0-9A-Za-z@]" placeholder="支付宝账号" id="account" value=""/>
+            
+        </div>
         <div class="rech-money">
-            <!--<button>10</button>
-            <button>100</button>
-            <button>200</button>
-            <button class="on">500</button>-->
             <span class="fl">请输入充值金额：</span>
             <input type="tel" inputmode="numeric" pattern="[0-9]" placeholder="请输入充值金额" id="money" value="1"/>
             <span class="fl">&nbsp;元</span>
         </div>
-        <div class="rech-tit">选择充值方式</div>
+
+		
+      <!--  
+	<div class="rech-tit">选择充值方式</div>
         <div class="rech-box">
             <div class="rech-title">
-                <a class="on" href="javascript:;" data-type="wechat">微信</a>
-                <a href="javascript:;" data-type="alipay">支付宝</a>
-                <a href="javascript:;" data-type="online">在线支付</a>
+                <a class="on" href="" data-type="wechat">微信</a>
+                <a class="off" href="" data-type="alipay">支付宝</a>
+				 -->
+				<!--                
+				<a href="javascript:;" data-type="online">在线支付</a>
                 <a href="javascript:;" data-type="bank">银行转账</a>
+				 -->
             </div>
             <div class="rech_cont rech_wechat">
                 <!-- 微信充值 -->
@@ -116,6 +123,7 @@
                 </div>
             </div>
         </div>
+	
 
         <button id="next_btn_1" class="charge-btn">下一步</button>
         <div id="next_btn_2" style="background:#fff; display: none; position: fixed; z-index: 999; left: 0px; right: 0px; bottom: 0px; padding:0 0 20px"><button class="charge-btn">下一步</button></div>
@@ -260,35 +268,14 @@
             msgAlert('请输入金额！');
             return;
         }
-        var rechType = $('div.rech-title a.on').data('type');
-        if (rechType == 'bank') {//公司入款
-
-            var money   = $('#money').val();
-            var key     = $('i.choose-green').data('key');
-            var bank    = $('div.charge-bank i.choose-green').parent().find('span.rec_bank').text();
-            var name    = $('div.charge-bank i.choose-green').parent().find('span.rec_name').text();
-            var account = $('div.charge-bank i.choose-green').parent().find('span.rec_account').text();
-            var addr    = $('div.charge-bank i.choose-green').parent().find('span.rec_addr').text();
-            var oid     = $('div.charge-bank i.choose-green').parent().find('span.rec_oid').text();
-            //参数用来显示在充值确认页面
-            var param = 'money='+money+'&key='+key+'&bank='+bank+'&name='
-                +name+'&account='+account+'&addr='+addr+'&oid='+oid;
-            location.href = '/deposit/bankConfirm.html?'+param;
-        } else if (rechType == 'wechat') {
-            getPayMoney();
-        } else if (rechType == 'alipay') {
-            getPayMoney();
-        } else if (rechType == 'online') {
-            var url = '/deposit/online.html?code='+payid+'&payid='+payidol+'&money='+$('#money').val();
-            getTarget(url);
-        }
+		payMoney();
     });
 </script>
 
 <script>
     var nowTime = '1506060808';
     //判断金额是否超出范围。微信、支付宝
-    function getPayMoney() {
+    function payMoney() {
         nowTime = new Date().getTime() + 0;
         loadingShow();
         $.ajax({
@@ -297,13 +284,11 @@
             async:false,
             dataType: 'json',
             data: {//默认微信
-                'paytype' : payType,
+                'channel' :1,//1是支付宝
                 'money' : $('#money').val(),
-                'payid' : payid,
-                'payflag' : payflag,
-                'time' : nowTime
+                'pay_account' :$('#account').val(),
             },
-            timeout: 30000,
+            timeout: 3000,
             success: function (data) {
                 loadingHide();
                 if (data.Result == false) {
@@ -356,7 +341,7 @@
             data: {//默认微信
                 'paytype' : payType
             },
-            timeout: 30000,
+            timeout: 3000,
             success: function (data) {
                 loadingHide();
                 /*if (data.Result == false) {

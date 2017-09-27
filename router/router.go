@@ -18,7 +18,7 @@ func init() {
 	models.App.StaticWeb("/wap/", "./templates/default/wap/")
 
 	models.App.Get("/", func(ctx iris.Context) { ctx.View("index.html") })             //首页
-	models.App.Get("/moneyInNotice", controllers.MoneyInNotice)                        //充值到账通知
+	models.App.Get("/moneyInNotice", controllers.MoneyInNotice)                        //充值到账通知 接收第三方支付系统的到账通知
 	models.App.Get("/dataInNotice/{gameID:int}/{issue:int}", controllers.DataInNotice) //采集入库后通知 存储过程太复杂 这个方法简单点，这里是开奖入口
 	models.App.Get("/apiMyself/{gameID:int}", func(ctx iris.Context) {                 //给采集客户端使用的接口，用于统一期号等数据，输出最后一期等信息
 		ctx.Params().Visit(func(name string, value string) {
@@ -47,6 +47,7 @@ func init() {
 
 	depositParty := models.App.Party("/deposit")                                               //存款
 	depositParty.Get("/index.html", func(ctx iris.Context) { ctx.View("deposit/index.html") }) //存款页面
+	depositParty.Post("/ajaxPayMoney.html", controllers.PostMoneyIn)                           //post提交支付信息
 
 	mineParty := models.App.Party("/mine")                                                               //我的
 	mineParty.Get("/index.html", func(ctx iris.Context) { ctx.View("mine/index.html") })                 //个人中心
