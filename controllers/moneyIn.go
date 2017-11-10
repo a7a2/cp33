@@ -13,7 +13,7 @@ func MoneyInNotice(ctx iris.Context) {
 
 }
 
-func PostMoneyIn(ctx iris.Context) {
+func PostMoneyIn(ctx iris.Context) { //POST提交的充值请求
 	b := Base{ctx}
 	if b.CheckIsLogin() == false {
 		ctx.JSON(models.Result{Code: 503, Message: "未登陆！", Data: nil})
@@ -33,11 +33,13 @@ func PostMoneyIn(ctx iris.Context) {
 	uid := services.GetUidViaPlatformAndUsername(&strPlatform, &username)
 	var result models.Result
 	result = services.PostMoneyIn(uid, &pmi)
+	fmt.Println(result)
 	if result.Code != 200 {
 		ctx.JSON(&result)
 		return
 	}
-	uri := fmt.Sprintf("%d/%s/%.3f", result.Data.(models.MoneyIn).Channel, result.Data.(models.MoneyIn).PayAccount, result.Data.(models.MoneyIn).Money)
+	uri := fmt.Sprintf("%s/%d/%s/%.3f", models.GateWayMoneyUrl, result.Data.(*models.MoneyIns).Channel, result.Data.(*models.MoneyIns).PayAccount, result.Data.(*models.MoneyIns).Money)
+	fmt.Println(uri)
 	common.HttpClient4Pay(&uri)
 	ctx.JSON(&result)
 }

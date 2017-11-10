@@ -14,8 +14,9 @@ import (
 var App *iris.Application
 
 const (
-	PwdKey  string = "(i0dj2A#;ll01"
-	AseSalt string = "#^UVBN_+~vTbz,.q"
+	GateWayMoneyUrl string = "http://127.0.0.1:8081"
+	PwdKey          string = "(i0dj2A#;ll01"
+	AseSalt         string = "#^UVBN_+~vTbz,.q"
 )
 
 var (
@@ -282,18 +283,18 @@ type BaseInfo struct { //基础信息
 
 type PostMoneyIn struct { //post
 	Channel    int     `form:"channel";json:"channel"`
-	Money      float64 `form:"money";json:"money"`
+	Money      float64 `form:"money";json:"numeric"`
 	PayAccount string  `form:"pay_account";json:"pay_account"`
 }
 
-type MoneyIn struct { //数据库
+type MoneyIns struct { //数据库
 	Id         int64     `sql:",pk,type:bigint"`
 	Uid        int       `sql:"type:integer"`
 	Channel    int       `sql:"type:smallint"`
-	Money      float64   `sql:"type:money"`
+	Money      float64   `sql:"type:numeric"`
 	PayAccount string    `sql:"type:character varying"`
 	IsDelete   bool      `sql:"type:boolean"`
 	Success    bool      `sql:"type:boolean"`
-	Ctime      time.Time `sql:"type:time with time zone"`
-	Etime      time.Time `sql:"type:time with time zone"`
+	Ctime      time.Time `sql:"type:timestamp with time zone"`
+	Etime      time.Time `sql:"type:timestamp with time zone"`
 }
