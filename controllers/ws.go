@@ -13,6 +13,9 @@ import (
 )
 
 func checkIsLogin(l *models.LoginCookie) bool {
+	if (*l).Username == "" || (*l).Platform == "" {
+		return false
+	}
 	passwdDb := common.DecryptClient(&(l.Enclientpasswd), &(l.Platform))
 
 	//从redis验证

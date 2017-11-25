@@ -76,6 +76,9 @@ func DecryptClient(s, platform *string) string {
 	//fmt.Println("DecryptClient:", len(s))
 	strKey := md5Sum(models.PwdKey + (*platform))
 	key := []byte(strKey)
+	if len(*s) < 17 {
+		return "1"
+	}
 	ciphertext, _ := base64.StdEncoding.DecodeString((*s)[:len(*s)-16])
 	nonce, _ := base64.StdEncoding.DecodeString((*s)[len(*s)-16:])
 	//fmt.Println("len(nonce):", len(nonce))
