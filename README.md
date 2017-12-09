@@ -1,7 +1,9 @@
 # lottery
 一个类似淘宝可无限开店...可无限开彩票平台的彩票系统
 
-go1.9及更新、postgresql、redis! 
+go1.9以上版本、postgresql、redis! 
+
+iris v8.5.7
 
 数据采集端在https://github.com/a7a2/cp33client
 
