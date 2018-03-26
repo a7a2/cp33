@@ -13,8 +13,9 @@ import (
 func (endBets *endBets) dingWeiDan37(i *int, dbBetPrize *float64) {
 	var intBetCount int //中奖注数
 	tmpBetCodeSplit := strings.Split((*endBets.bets)[*i].BetCode, "|")
+	re := regexp.MustCompile(`([0-9]+)`)
 	for j := 0; j < len(tmpBetCodeSplit); j++ {
-		tmpBetCodeOne := regexp.MustCompile(`([0-9]+)`).FindAllString(tmpBetCodeSplit[j], '&')
+		tmpBetCodeOne := re.FindAllString(tmpBetCodeSplit[j], '&')
 		for ii := 0; ii < len(tmpBetCodeOne); ii++ {
 			if tmpBetCodeOne[ii] == endBets.dataSplit[j] {
 				intBetCount = intBetCount + 1

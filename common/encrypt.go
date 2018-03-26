@@ -2,6 +2,7 @@ package common
 
 import (
 	"cp33/models"
+	"strings"
 	//	"strings"
 	//	"crypto/cipher"
 	"crypto/aes"
@@ -71,8 +72,9 @@ func EncryptClient(plaintext []byte, platform string) string { //aes加密到浏
 }
 
 func DecryptClient(s, platform *string) string {
-	//s = strings.Replace(s, " ", "+", -1)
-	//s = strings.Replace(s, "%2B", "+", -1)
+	*s = strings.Replace(*s, " ", "+", -1)
+	*s = strings.Replace(*s, "%2B", "+", -1)
+
 	//fmt.Println("DecryptClient:", len(s))
 	strKey := md5Sum(models.PwdKey + (*platform))
 	key := []byte(strKey)
